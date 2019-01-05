@@ -9,22 +9,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.PrintWriter;
 
-/** @Author: Marcus @Date: 2018/12/21 10:18 @Version 1.0 */
-//@Configuration
+/**
+ * @Author: Marcus
+ * @Date: 2018/12/21 10:18
+ * @Version 1.0 */
+// @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf()
-        .disable()
-            .authorizeRequests()
-            .anyRequest().fullyAuthenticated()
-            .and()
-            .formLogin();
+    http.csrf().disable().authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin();
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("admin").password(new BCryptPasswordEncoder().encode("123456")).roles("users");
+    auth.inMemoryAuthentication()
+        .withUser("admin")
+        .password(new BCryptPasswordEncoder().encode("123456"))
+        .roles("users");
   }
 }
