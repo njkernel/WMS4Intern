@@ -65,29 +65,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="t_user" domainObjectName="User"
-               enableInsert="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" enableCountByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true">
-        </table>
-
-        <table tableName="t_out_repo" domainObjectName="OutRepertory"
-               enableInsert="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" enableCountByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true">
-        </table>
-
-        <table tableName="t_in_repo" domainObjectName="InRepertory"
-               enableInsert="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" enableCountByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true">
-        </table>
-        <table tableName="t_goods" domainObjectName="Good"
-               enableInsert="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" enableCountByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true">
-        </table>
-        <table tableName="t_express_company" domainObjectName="ExpressCompany"
+        <table tableName="t_in_repo_items" domainObjectName="InRepertoryDetail"
                enableInsert="true" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true" enableCountByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true">

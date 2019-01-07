@@ -7,29 +7,102 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
+/**
+ * @Author: Marcus
+ * @Date: 2018/12/21 10:18
+ * @Version 1.0 */
 @Mapper
 @Repository
 public interface InRepertoryMapper {
-    long countByExample(InRepertoryExample example);
+  /**
+   * countByExample
+   *
+   * @param example InRepertoryExample
+   * @return Total number of Example
+   */
+  long countByExample(InRepertoryExample example);
 
-    int deleteByExample(InRepertoryExample example);
+  /**
+   * deleteByExample
+   *
+   * @param example InRepertoryExample
+   * @return if return >0 true
+   */
+  int deleteByExample(InRepertoryExample example);
 
-    int deleteByPrimaryKey(Integer id);
+  /**
+   * deleteByPrimaryKey
+   *
+   * @param id InRepertoryExample's id
+   * @return if return >0 true
+   */
+  int deleteByPrimaryKey(Integer id);
 
-    int insert(InRepertory record);
+  /**
+   * insert a InRepertory
+   *
+   * @param record the InRepertory
+   * @return affect rows
+   */
+  int insert(InRepertory record);
 
-    int insertSelective(InRepertory record);
+  /**
+   * insertSelective
+   *
+   * @param record the InRepertory
+   * @return affect rows
+   */
+  int insertSelective(InRepertory record);
 
-    List<InRepertory> selectByExample(InRepertoryExample example);
+  /**
+   * selectByExample
+   *
+   * @param example InRepertoryExample
+   * @return a list of InRepertory
+   */
+  List<InRepertory> selectByExample(InRepertoryExample example);
 
-    InRepertory selectByPrimaryKey(Integer id);
+  /**
+   * select all by page
+   * @param start start
+   * @param size page size
+   * @return a page of InRepertory
+   */
+  List<InRepertory> getPage(int start,int size);
 
-    int updateByExampleSelective(@Param("record") InRepertory record, @Param("example") InRepertoryExample example);
+  /** selectByPrimaryKey
+   * @param id InRepertoryExample's id
+   * @return the InRepertory
+   */
+  InRepertory selectByPrimaryKey(Integer id);
 
-    int updateByExample(@Param("record") InRepertory record, @Param("example") InRepertoryExample example);
+  /**
+   * updateByExampleSelective
+   * @param record InRepertory
+   * @param example InRepertoryExample
+   * @return affect rows
+   */
+  int updateByExampleSelective(
+      @Param("record") InRepertory record, @Param("example") InRepertoryExample example);
 
-    int updateByPrimaryKeySelective(InRepertory record);
+  /** updateByExample
+   * @param record InRepertory
+   * @param example InRepertoryExample
+   * @return affect rows
+   */
+  int updateByExample(
+      @Param("record") InRepertory record, @Param("example") InRepertoryExample example);
 
-    int updateByPrimaryKey(InRepertory record);
+  /**
+   * updateByPrimaryKeySelective
+   * @param record InRepertory
+   * @return affect rows
+   */
+  int updateByPrimaryKeySelective(InRepertory record);
+
+  /** updateByPrimaryKey
+   * @param record InRepertory
+   * @return affect rows
+   */
+  int updateByPrimaryKey(InRepertory record);
 }
