@@ -20,7 +20,12 @@ public class InRepertoryDetail {
     private String goodsName;
 
     private Integer goodsNum;
-
+    public InRepertoryDetail(Integer inRepoId, Integer goodsId, String goodsName, Integer goodsNum) {
+        this.inRepoId = inRepoId;
+        this.goodsId = goodsId;
+        this.goodsName = goodsName;
+        this.goodsNum = goodsNum;
+    }
     public InRepertoryDetail(Integer id, Integer inRepoId, Integer goodsId, String goodsName, Integer goodsNum) {
         this.id = id;
         this.inRepoId = inRepoId;

@@ -37,7 +37,19 @@ public class InRepertory {
     private Date reviseTime;
 
     private List<InRepertoryDetail> repertoryDetails;
-
+    public InRepertory(String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime) {
+        this.inRepoId = inRepoId;
+        this.orderId = orderId;
+        this.channelId = channelId;
+        this.expressId = expressId;
+        this.expressCompany = expressCompany;
+        this.inRepoStatus = inRepoStatus;
+        this.syncStatus = syncStatus;
+        this.receivingRepo = receivingRepo;
+        this.createTime = createTime;
+        this.reviser = reviser;
+        this.reviseTime = reviseTime;
+    }
     public InRepertory(Integer id, String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime) {
         this.id = id;
         this.inRepoId = inRepoId;
