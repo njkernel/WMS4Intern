@@ -1,6 +1,13 @@
 package com.connext.wms.entity;
+/**
+ *
+ */
 
-public class Good {
+import lombok.Data;
+import lombok.ToString;
+
+@ToString
+public class Goods {
     private Integer id;
 
     private String sku;
@@ -9,14 +16,14 @@ public class Good {
 
     private Float goodsPrice;
 
-    public Good(Integer id, String sku, String goodsName, Float goodsPrice) {
+    public Goods(Integer id, String sku, String goodsName, Float goodsPrice) {
         this.id = id;
         this.sku = sku;
         this.goodsName = goodsName;
         this.goodsPrice = goodsPrice;
     }
 
-    public Good() {
+    public Goods() {
         super();
     }
 

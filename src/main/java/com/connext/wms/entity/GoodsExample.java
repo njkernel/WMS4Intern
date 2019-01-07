@@ -3,14 +3,14 @@ package com.connext.wms.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodExample {
+public class GoodsExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public GoodExample() {
+    public GoodsExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

@@ -1,7 +1,9 @@
 package com.connext.wms.entity;
 
-import java.util.Date;
+import lombok.ToString;
 
+import java.util.Date;
+@ToString
 public class OutRepertory {
     private Integer id;
 

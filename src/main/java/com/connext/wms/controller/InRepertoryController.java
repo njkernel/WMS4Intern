@@ -5,5 +5,5 @@ package com.connext.wms.controller;
  * @Date: 2019/1/2 11:23
  * @Version 1.0
  */
-public class CancelOrderController {
+public class InRepertoryController {
 }

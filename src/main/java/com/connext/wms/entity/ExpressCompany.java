@@ -1,5 +1,8 @@
 package com.connext.wms.entity;
 
+import lombok.ToString;
+
+@ToString
 public class ExpressCompany {
     private Integer id;
 
