@@ -25,11 +25,11 @@ import java.util.Date;
 @SpringBootTest
 public class TestSomething {
     @Autowired
-    InRepertoryMapper inRepertoryMapper;
+    InRepertoryService inRepertoryService;
     InRepertory inRepertory = new InRepertory();
 
     @Test
     public void test() {
-        inRepertoryMapper.getPage(0,5).forEach(System.out::print);
+        inRepertoryService.findAllLike("%1%").forEach(System.out::println);
     }
 }

@@ -9,6 +9,7 @@ import com.connext.wms.service.InRepertoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 public class InRepertoryServiceImpl implements InRepertoryService {
     private final InRepertoryMapper inRepertoryMapper;
     private final InRepertoryDetailMapper inRepertoryDetailMapper;
-    private final String STATUS ="待收货";
+    private final String STATUS = "待收货";
 
     @Autowired
     public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper) {
@@ -34,6 +35,16 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     public List<InRepertory> findAll() {
         return inRepertoryMapper.selectByExample(new InRepertoryExample());
+    }
+
+    @Override
+    public List<InRepertory> findAllLike(String like) {
+        InRepertoryExample example = new InRepertoryExample();
+        InRepertoryExample.Criteria likeSth = example.createCriteria();
+        example.or(likeSth.andInRepoIdLike(like));
+        example.or(likeSth.andOrderIdLike(like));
+        example.or(likeSth.andExpressIdLike(like));
+        return inRepertoryMapper.selectByExample(example);
     }
 
     @Override
@@ -55,7 +66,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     public List<InRepertory> checkInRepertoryExpired(List<InRepertory> inRepertories) {
         List<InRepertory> expires = new ArrayList<>();
         inRepertories.forEach(i -> {
-            if (STATUS.equals(i.getInRepoStatus()) &&isExpired(i)) {
+            if (STATUS.equals(i.getInRepoStatus()) && isExpired(i)) {
                 expires.add(i);
             }
         });

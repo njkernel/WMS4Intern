@@ -19,6 +19,13 @@ public interface InRepertoryService {
     List<InRepertory> findAll();
 
     /**
+     * find some InRepertory
+     * @param value like
+     * @return list of InRepertory
+     */
+    List<InRepertory> findAllLike(String value);
+
+    /**
      * find Detail for one InRepertory
      *
      * @param id id of InRepertory
