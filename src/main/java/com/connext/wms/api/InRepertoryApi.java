@@ -44,15 +44,14 @@ public class InRepertoryApi {
                                  @RequestParam List<InRepertoryDetailDTO> repertoryDetailDTOS
     ) {
         List<InRepertoryDetail> inRepertoryDetails = new ArrayList<>();
-        repertoryDetailDTOS.forEach(
-                u -> {
+        repertoryDetailDTOS.forEach(u -> {
                     //尚未实装
                     Goods goods = goodsService.getGoodsBySku(u.getSku());
                     inRepertoryDetails.add(new InRepertoryDetail(Integer.parseInt(inRepoId), goods.getId(), goods.getGoodsName(), u.getGoodsNum()));
-                }
-        );
+                });
         Date nowTime = new Date();
         InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, INREPOSTATES, SYNCSTATES, RECEIVINGREPO, nowTime, REVISER, nowTime);
+        inRepertory.setRepertoryDetails(inRepertoryDetails);
         inRepertoryService.initInRepertory(inRepertory);
     }
 }
