@@ -30,6 +30,6 @@ public class TestSomething {
 
     @Test
     public void test() {
-        inRepertoryService.findAllLike("%1%").forEach(System.out::println);
+        inRepertoryService.findAllLike("%123%").forEach(System.out::println);
     }
 }

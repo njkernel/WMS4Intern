@@ -18,7 +18,9 @@ package com.connext.wms.config;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import com.connext.wms.entity.InRepertory;
 import com.connext.wms.service.InRepertoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +48,7 @@ public class ScheduledTasks {
      */
     @Scheduled(cron = "0 0/10 10 ? * *")
     public void reportCurrentTime() {
-        inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll()).forEach(System.out::println);
+        List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll());
         //推送通知
         log.info("收货超时检查");
     }
