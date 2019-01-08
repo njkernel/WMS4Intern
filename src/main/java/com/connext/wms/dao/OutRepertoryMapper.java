@@ -21,7 +21,15 @@ public interface OutRepertoryMapper {
 
     int insertSelective(OutRepertory record);
 
+    //查询所有的异常订单；关键字查询相关异常的订单
     List<OutRepertory> selectByExample(OutRepertoryExample example);
+
+    //分页查询所有异常订单信息
+    List<OutRepertory> selectByPage(Integer start,Integer size);
+
+    //通过订单条件查看订单详情
+    OutRepertory selectByExample(String condition);
+
 
     OutRepertory selectByPrimaryKey(Integer id);
 

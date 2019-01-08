@@ -6,3 +6,9 @@ spring:
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
+
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  helper-dialect: mysql
