@@ -40,16 +40,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     public List<InRepertory> findAllLike(String like) {
         InRepertoryExample example = new InRepertoryExample();
-        example.or().andInRepoIdLike(like);
-        example.or().andOrderIdLike(like);
-        example.or().andExpressIdLike(like);
+        example.or()
+                .andInRepoIdLike(like)
+                .andOrderIdLike(like)
+                .andExpressIdLike(like);
         return inRepertoryMapper.selectByExample(example);
     }
 
     @Override
     public List<InRepertory> findPage(Integer start, Integer size) {
-        int pageStart=(start-1)*size;
-        return inRepertoryMapper.getPage(pageStart,size);
+        int pageStart = (start - 1) * size;
+        return inRepertoryMapper.getPage(pageStart, size);
     }
 
     @Override
