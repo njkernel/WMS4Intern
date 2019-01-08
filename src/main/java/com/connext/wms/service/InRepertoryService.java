@@ -20,10 +20,20 @@ public interface InRepertoryService {
 
     /**
      * find some InRepertory
+     *
      * @param value like
      * @return list of InRepertory
      */
     List<InRepertory> findAllLike(String value);
+
+    /**
+     * find Detail for one InRepertory
+     *
+     * @param start page
+     * @param size page size
+     * @return page
+     */
+    List<InRepertory> findPage(Integer start,Integer size);
 
     /**
      * find Detail for one InRepertory
@@ -42,6 +52,7 @@ public interface InRepertoryService {
 
     /**
      * checkRepertoryState
+     *
      * @param inRepertories some InRepertory
      * @return list of InRepertory which over 15 days and sync_status is false
      */

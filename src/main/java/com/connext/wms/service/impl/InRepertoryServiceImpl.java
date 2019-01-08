@@ -47,6 +47,12 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
+    public List<InRepertory> findPage(Integer start, Integer size) {
+        int pageStart=(start-1)*size;
+        return inRepertoryMapper.getPage(pageStart,size);
+    }
+
+    @Override
     public InRepertory findOne(Integer id) {
         InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
         detailExample.createCriteria().andInRepoIdEqualTo(id);
