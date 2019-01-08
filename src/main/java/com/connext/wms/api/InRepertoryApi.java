@@ -25,6 +25,7 @@ public class InRepertoryApi {
     private final String SYNCSTATES = "false";
     private final String RECEIVINGREPO = "南京仓";
     private final String REVISER = "Marcus";
+    private final String TOKENS = "PkQMUE1T9ydEDpsU";
     private final InRepertoryService inRepertoryService;
     private final GoodsService goodsService;
 
@@ -35,13 +36,17 @@ public class InRepertoryApi {
     }
 
     @PostMapping("/inRepertoryOrder")
-    public void inRepertoryOrder(@RequestParam String inRepoId,
-                                 @RequestParam String orderId,
-                                 @RequestParam String channelId,
-                                 @RequestParam String expressId,
-                                 @RequestParam String expressCompany,
-                                 @RequestParam(required = false) List<InRepertoryDetailDTO>  repertoryDetailDTOS
+    public String inRepertoryOrder(@RequestParam String tokens,
+                                   @RequestParam String inRepoId,
+                                   @RequestParam String orderId,
+                                   @RequestParam String channelId,
+                                   @RequestParam String expressId,
+                                   @RequestParam String expressCompany,
+                                   @RequestParam(required = false) List<InRepertoryDetailDTO> repertoryDetailDTOS
     ) {
+        if (!TOKENS.equals(tokens)) {
+            return "Tokens error!";
+        }
         List<InRepertoryDetail> inRepertoryDetails = new ArrayList<>();
 //        repertoryDetailDTOS.forEach(u -> {
 //                    //尚未实装
@@ -52,5 +57,6 @@ public class InRepertoryApi {
         InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, INREPOSTATES, SYNCSTATES, RECEIVINGREPO, nowTime, REVISER, nowTime);
         inRepertory.setRepertoryDetails(inRepertoryDetails);
         inRepertoryService.initInRepertory(inRepertory);
+        return "Success";
     }
 }

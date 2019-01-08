@@ -49,6 +49,7 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 0/10 10 ? * *")
     public void reportCurrentTime() {
         List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll());
+        inRepertories.forEach(u->inRepertoryService.changeInRepertoryStatus(u.getId(),"超十五天未收货"));
         //推送通知
         log.info("收货超时检查");
     }

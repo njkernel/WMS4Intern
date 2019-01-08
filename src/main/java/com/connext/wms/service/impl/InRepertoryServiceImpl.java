@@ -99,7 +99,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
      * @return boolean
      */
     boolean isExpired(InRepertory inRepertory) {
-        long days = 1296000000;
+        double days = 1.296E9;
         long creatTime = inRepertory.getCreateTime().getTime();
         long now = System.currentTimeMillis();
         return now - creatTime > days;

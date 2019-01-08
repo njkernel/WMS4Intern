@@ -14,6 +14,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class InRepertoryDTO extends ToMap {
+    private String tokens;
     private String inRepoId;
     private String orderId;
     private String channelId;
