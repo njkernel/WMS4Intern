@@ -29,7 +29,16 @@ public interface InRepertoryService {
     /**
      * find Detail for one InRepertory
      *
-     * @param start page
+     * @param start all page
+     * @param size page size
+     * @return page
+     */
+    List<InRepertory> findAllPage(Integer start,Integer size);
+
+    /**
+     * find Detail for one InRepertory
+     *
+     * @param start wait page
      * @param size page size
      * @return page
      */

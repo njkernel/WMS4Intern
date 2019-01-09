@@ -68,6 +68,14 @@ public interface InRepertoryMapper {
    * @param size page size
    * @return a page of InRepertory
    */
+  List<InRepertory> getAllPage(int start,int size);
+
+  /**
+   * select all by page
+   * @param start start
+   * @param size page size
+   * @return a page of InRepertory
+   */
   List<InRepertory> getPage(int start,int size);
 
   /** selectByPrimaryKey

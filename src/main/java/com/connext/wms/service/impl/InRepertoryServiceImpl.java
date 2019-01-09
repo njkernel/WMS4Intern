@@ -51,8 +51,14 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
+    public List<InRepertory> findAllPage(Integer start, Integer size) {
+        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
+        return inRepertoryMapper.getAllPage(pageStart, size);
+    }
+
+    @Override
     public List<InRepertory> findPage(Integer start, Integer size) {
-        int pageStart = (start - 1) * size;
+        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
         return inRepertoryMapper.getPage(pageStart, size);
     }
 
@@ -89,6 +95,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setId(id);
         inRepertory.setReviseTime(new Date());
         inRepertory.setInRepoStatus(status);
+        inRepertory.setSyncStatus(constant.getSYNC_TRUE_STATES());
         inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
     }
 

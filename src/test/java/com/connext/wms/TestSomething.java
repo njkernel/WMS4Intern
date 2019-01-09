@@ -26,6 +26,8 @@ public class TestSomething {
 
     @Test
     public void t() {
+        inRepertoryService.findPage(0,5).forEach(System.out::println);
+        inRepertoryService.findAllPage(0,5).forEach(System.out::println);
     }
 
     @Test
