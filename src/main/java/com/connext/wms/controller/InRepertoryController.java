@@ -20,19 +20,29 @@ public class InRepertoryController {
     public InRepertoryController(InRepertoryService inRepertoryService) {
         this.inRepertoryService = inRepertoryService;
     }
-    @GetMapping("/{page}/list")
+
+    @GetMapping("/{page}")
     public String list(@PathVariable Integer page, Model model) {
-        model.addAttribute("list", inRepertoryService.findPage(page, 5));
-        return "";
-    }
-    @GetMapping("/{page}/all")
-    public String allList(@PathVariable Integer page, Model model) {
         model.addAttribute("list", inRepertoryService.findPage(page, 5));
         return "in_repertory";
     }
+
+    @GetMapping("/{page}/all")
+    public String allList(@PathVariable Integer page, Model model) {
+        model.addAttribute("list", inRepertoryService.findAllPage(page, 5));
+        return "in_repertory";
+    }
+
+    @GetMapping("/search/{like}")
+    public String search(@PathVariable String like, Model model){
+        String likeSth="%"+like+"%";
+        model.addAttribute("list",inRepertoryService.findAllLike(likeSth));
+        return "in_repertory";
+    }
+
     @PostMapping("/")
-    public String finish(@RequestParam Integer id,@RequestParam String status,@RequestParam String list){
-        inRepertoryService.changeInRepertoryStatus(id,status);
+    public String finish(@RequestParam Integer id, @RequestParam String status, @RequestParam String list) {
+        inRepertoryService.changeInRepertoryStatus(id, status);
         return "";
     }
 }

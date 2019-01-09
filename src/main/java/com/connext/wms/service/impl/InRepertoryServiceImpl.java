@@ -43,10 +43,9 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     public List<InRepertory> findAllLike(String like) {
         InRepertoryExample example = new InRepertoryExample();
-        example.or()
-                .andInRepoIdLike(like)
-                .andOrderIdLike(like)
-                .andExpressIdLike(like);
+        example.or().andInRepoIdLike(like);
+        example.or().andOrderIdLike(like);
+        example.or().andExpressIdLike(like);
         return inRepertoryMapper.selectByExample(example);
     }
 
