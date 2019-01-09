@@ -76,6 +76,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
                 expires.add(i);
             }
         });
+        expires.forEach(u->changeInRepertoryStatus(u.getId(),"超十五天未收货"));
         return expires;
     }
 

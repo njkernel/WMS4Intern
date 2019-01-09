@@ -26,10 +26,13 @@ import java.util.Date;
 public class TestSomething {
     @Autowired
     InRepertoryService inRepertoryService;
-    InRepertory inRepertory = new InRepertory();
 
     @Test
     public void test() {
-        inRepertoryService.findPage(3,5).forEach(System.out::println);
+        InRepertory inRepertory=inRepertoryService.findOne(5);
+        double days = 1.296E9;
+        long creatTime = inRepertory.getCreateTime().getTime();
+        long now = System.currentTimeMillis();
+        log.info(String.valueOf(now-creatTime>days));
     }
 }
