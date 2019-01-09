@@ -28,7 +28,7 @@ public class InRepertoryController {
     @GetMapping("/{page}/all")
     public String allList(@PathVariable Integer page, Model model) {
         model.addAttribute("list", inRepertoryService.findPage(page, 5));
-        return "";
+        return "in_repertory";
     }
     @PostMapping("/")
     public String finish(@RequestParam Integer id,@RequestParam String status,@RequestParam String list){
