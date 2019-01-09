@@ -2,6 +2,7 @@ package com.connext.wms.service.impl;
 
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.util.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class InRepertoryServiceImplTest {
     @Autowired
     InRepertoryService inRepertoryService;
+    @Autowired
+    Constant constant;
     InRepertory inRepertory=new InRepertory(null,"123456","1234567","12345678","1234569","顺丰速运","","","南京",new Date(),"Marcus",new Date());
 
     @Test
@@ -53,7 +56,7 @@ class InRepertoryServiceImplTest {
 
     @Test
     void changeInRepertoryStatus() {
-        inRepertoryService.changeInRepertoryStatus(4,"收货成功");
+        inRepertoryService.changeInRepertoryStatus(4,constant.getSUCCESS_STATUS());
     }
 
     @Test

@@ -6,12 +6,18 @@ import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetail;
 import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.util.AES;
+import com.connext.wms.util.Constant;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: Marcus
@@ -21,42 +27,41 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class InRepertoryApi {
-    private final String INREPOSTATES = "待收货";
-    private final String SYNCSTATES = "false";
-    private final String RECEIVINGREPO = "南京仓";
-    private final String REVISER = "Marcus";
-    private final String TOKENS = "PkQMUE1T9ydEDpsU";
     private final InRepertoryService inRepertoryService;
     private final GoodsService goodsService;
+    private final Constant constant;
+    private ObjectMapper objectMapper;
 
     @Autowired
-    public InRepertoryApi(InRepertoryService inRepertoryService, GoodsService goodsService) {
+    public InRepertoryApi(InRepertoryService inRepertoryService, GoodsService goodsService, Constant constant, ObjectMapper objectMapper) {
         this.inRepertoryService = inRepertoryService;
         this.goodsService = goodsService;
+        this.constant = constant;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/inRepertoryOrder")
-    public String inRepertoryOrder(@RequestParam String tokens,
-                                   @RequestParam String inRepoId,
-                                   @RequestParam String orderId,
-                                   @RequestParam String channelId,
-                                   @RequestParam String expressId,
-                                   @RequestParam String expressCompany,
-                                   @RequestParam(required = false) List<InRepertoryDetailDTO> repertoryDetailDTOS
-    ) {
-        if (!TOKENS.equals(tokens)) {
-            return "Tokens error!";
+    public void inRepertoryOrder(@RequestParam String tokens,
+                                 @RequestParam String inRepoId,
+                                 @RequestParam String orderId,
+                                 @RequestParam String channelId,
+                                 @RequestParam String expressId,
+                                 @RequestParam String expressCompany,
+                                 @RequestParam String detailDTOS
+    ) throws IOException {
+        //token校验
+        if (Objects.equals(AES.AESDncode(constant.getTOKENS(), tokens), inRepoId)) {
+            List<InRepertoryDetailDTO> repertoryDetailDTOS = objectMapper.readValue(detailDTOS, new TypeReference<List<InRepertoryDetailDTO>>() {
+            });
+            List<InRepertoryDetail> inRepertoryDetails = new ArrayList<>();
+            repertoryDetailDTOS.forEach(u -> {
+                Goods goods = goodsService.getGoodsBySku(u.getSku());
+                inRepertoryDetails.add(new InRepertoryDetail(Integer.parseInt(inRepoId), goods.getId(), goods.getGoodsName(), u.getGoodsNum()));
+            });
+            Date nowTime = new Date();
+            InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, constant.getINIT_STATUS(), constant.getSYNC_FALSE_STATES(), constant.getRECEIVING_REPERTORY(), nowTime, constant.getREVISER(), nowTime);
+            inRepertory.setRepertoryDetails(inRepertoryDetails);
+            inRepertoryService.initInRepertory(inRepertory);
         }
-        List<InRepertoryDetail> inRepertoryDetails = new ArrayList<>();
-//        repertoryDetailDTOS.forEach(u -> {
-//                    //尚未实装
-//                    Goods goods = goodsService.getGoodsBySku(u.getSku());
-//                    inRepertoryDetails.add(new InRepertoryDetail(Integer.parseInt(inRepoId), goods.getId(), goods.getGoodsName(), u.getGoodsNum()));
-//                });
-        Date nowTime = new Date();
-        InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, INREPOSTATES, SYNCSTATES, RECEIVINGREPO, nowTime, REVISER, nowTime);
-        inRepertory.setRepertoryDetails(inRepertoryDetails);
-        inRepertoryService.initInRepertory(inRepertory);
-        return "Success";
     }
 }

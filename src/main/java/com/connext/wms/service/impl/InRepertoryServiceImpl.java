@@ -6,6 +6,7 @@ import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +25,14 @@ import java.util.List;
 public class InRepertoryServiceImpl implements InRepertoryService {
     private final InRepertoryMapper inRepertoryMapper;
     private final InRepertoryDetailMapper inRepertoryDetailMapper;
-    private final String STATUS = "待收货";
+    private final Constant constant;
+
 
     @Autowired
-    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper) {
+    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, Constant constant) {
         this.inRepertoryMapper = inRepertoryMapper;
         this.inRepertoryDetailMapper = inRepertoryDetailMapper;
+        this.constant = constant;
     }
 
     @Override
@@ -72,11 +75,11 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     public List<InRepertory> checkInRepertoryExpired(List<InRepertory> inRepertories) {
         List<InRepertory> expires = new ArrayList<>();
         inRepertories.forEach(i -> {
-            if (STATUS.equals(i.getInRepoStatus()) && isExpired(i)) {
+            if (constant.getINIT_STATUS().equals(i.getInRepoStatus()) && isExpired(i)) {
                 expires.add(i);
             }
         });
-        expires.forEach(u->changeInRepertoryStatus(u.getId(),"超十五天未收货"));
+        expires.forEach(u -> changeInRepertoryStatus(u.getId(), constant.getOVER_STATUS()));
         return expires;
     }
 
