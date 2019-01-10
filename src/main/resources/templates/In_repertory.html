@@ -81,9 +81,20 @@
             <td th:text="${obj.orderId}"></td>
             <td></td>
             <td th:text="${obj.id}"></td>
-            <td th:text="${obj.inRepoStatus}"></td>
+            <div th:switch="${obj.inRepoStatus}">
+                <td th:case="wait">待收货</td>
+                <td th:case="over">超15天未收货</td>
+                <td th:case="fail">收货失败</td>
+                <td th:case="success">收货成功</td>
+            </div>
             <td th:text="${obj.syncStatus}"></td>
-            <td th:text="${obj.receivingRepo}"></td>
+            <div th:switch="${obj.syncStatus}">
+                <td th:case="true">已同步</td>
+                <td th:case="false">未同步</td>
+            </div>
+            <div th:switch="${obj.receivingRepo}">
+                <td th:case="nanjing">南京仓</td>
+            </div>
             <td th:text="${obj.createTime}"></td>
             <td th:text="${obj.reviseTime}"></td>
             <td th:text="${obj.reviser}"></td>
