@@ -1,5 +1,8 @@
 package com.connext.wms;
 
+import com.connext.wms.dao.InRepertoryDetailMapper;
+import com.connext.wms.dao.InRepertoryMapper;
+import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.util.AES;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.service.InRepertoryService;
@@ -23,11 +26,18 @@ import java.util.Date;
 public class TestSomething {
     @Autowired
     InRepertoryService inRepertoryService;
+    @Autowired
+    InRepertoryMapper inRepertoryMapper;
+    @Autowired
+    InRepertoryDetailMapper inRepertoryDetailMapper;
 
     @Test
     public void t() {
-        inRepertoryService.findPage(0,5).forEach(System.out::println);
-        inRepertoryService.findAllPage(0,5).forEach(System.out::println);
+        InRepertory inRepertory = inRepertoryMapper.selectByPrimaryKey(4);
+        InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
+        Integer id=Integer.valueOf(inRepertory.getInRepoId());
+        detailExample.or().andInRepoIdEqualTo(id);
+        inRepertoryDetailMapper.selectByExample(detailExample).forEach(System.out::println);
     }
 
     @Test

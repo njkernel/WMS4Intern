@@ -63,9 +63,9 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public InRepertory findOne(Integer id) {
-        InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
-        detailExample.createCriteria().andInRepoIdEqualTo(id);
         InRepertory inRepertory = inRepertoryMapper.selectByPrimaryKey(id);
+        InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
+        detailExample.or().andInRepoIdEqualTo(Integer.valueOf(inRepertory.getInRepoId()));
         inRepertory.setRepertoryDetails(inRepertoryDetailMapper.selectByExample(detailExample));
         return inRepertory;
     }
