@@ -20,12 +20,13 @@ public class ExceptionController {
     @Autowired
     private ExceptionService exceptionService;
 
+
     //查询所有异常的订单返回到列表
     @RequestMapping("/findList")
     public String findList(Model model,int start, int size){
         List<OutRepertory> list = exceptionService.selectByPage(start,size);
         model.addAttribute("list",list);
-        return "List";
+        return "test";
     }
 
     //按关键字查找相关异常的订单
@@ -45,18 +46,12 @@ public class ExceptionController {
     }
 
     //对异常订单进行再次发货
-    @RequestMapping("/deliver")
+    @RequestMapping("/feedback")
     public String toDeliver(){
-        //调用出库service中的发货方法，对在异常列表的订单进行再次发货
-        return "发货";
+        //调用出库service中的反馈发货信息方法，对在异常列表的订单进行再次信息反馈
+        return "发货信息";
     }
 
-    //对异常订单进行取消操作
-    @RequestMapping("/cancel")
-    public String toCancel(){
-        //调用service中的取消方法，对在异常列表中的订单进行取消操作
-        return "";
-    }
 
 
 }
