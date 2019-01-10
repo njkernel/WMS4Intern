@@ -20,5 +20,5 @@ public class InputFeedback extends ToMap {
     private String tokens;
     private int orderId;
     private String inputState;
-    private List<InRepertoryDetailDTO> goodDetails;
+    private List<InputFeedbackDetail> goodDetails;
 }

@@ -66,7 +66,8 @@ class InRepertoryServiceImplTest {
 
     @Test
     void pushInRepertoryState() {
-        InRepertory inRepertory = inRepertoryService.findOne(37);
+        inRepertoryService.changeInRepertoryStatus(39,"收货成功");
+        InRepertory inRepertory = inRepertoryService.findOne(39);
         assertTrue(inRepertoryService.pushInRepertoryState(inRepertory));
     }
 }

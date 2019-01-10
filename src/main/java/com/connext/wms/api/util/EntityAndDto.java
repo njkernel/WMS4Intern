@@ -1,6 +1,7 @@
 package com.connext.wms.api.util;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
+import com.connext.wms.api.dto.InputFeedbackDetail;
 import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetail;
@@ -34,11 +35,11 @@ public class EntityAndDto {
         return inRepertoryDetails;
     }
 
-    public List<InRepertoryDetailDTO> toDTO(InRepertory inRepertory) {
-        List<InRepertoryDetailDTO> list = new ArrayList<>();
+    public List<InputFeedbackDetail> toDTO(InRepertory inRepertory) {
+        List<InputFeedbackDetail> list = new ArrayList<>();
         inRepertory.getRepertoryDetails().forEach(u -> {
             Goods goods = goodsService.getGoodsById(u.getGoodsId());
-            list.add(new InRepertoryDetailDTO(goods.getSku(),u.getGoodsNum()));
+            list.add(new InputFeedbackDetail(goods.getSku(),String.valueOf(u.getGoodsNum())));
         });
         return list;
     }

@@ -2,6 +2,7 @@ package com.connext.wms.service.impl;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.dto.InputFeedback;
+import com.connext.wms.api.dto.InputFeedbackDetail;
 import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
@@ -112,7 +113,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public boolean pushInRepertoryState(InRepertory inRepertory) {
-        List<InRepertoryDetailDTO> list = entityAndDto.toDTO(inRepertory);
+        List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
         InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.getTOKENS(), inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
         try {
             restTemplate.postForObject("http://10.129.100.65:8502/Api/getExchangeInputFeedback", inputFeedback.toMap(), String.class);

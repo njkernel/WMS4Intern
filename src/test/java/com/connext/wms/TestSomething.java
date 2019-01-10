@@ -2,6 +2,7 @@ package com.connext.wms;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.dto.InputFeedback;
+import com.connext.wms.api.dto.InputFeedbackDetail;
 import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
@@ -46,9 +47,9 @@ public class TestSomething {
     @Test
     public void push() {
         RestTemplate restTemplate = new RestTemplate();
-        Integer id = 36;
+        Integer id = 37;
         InRepertory inRepertory = inRepertoryService.findOne(id);
-        List<InRepertoryDetailDTO> list = entityAndDto.toDTO(inRepertory);
+        List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
         InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.getTOKENS(), inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), "收货失败", list);
         log.info(restTemplate.postForObject("http://10.129.100.65:8502/Api/getExchangeInputFeedback", inputFeedback.toMap(), String.class));
 }
