@@ -48,6 +48,7 @@ public class InRepertoryController {
     @PostMapping("/")
     public String finish(@RequestParam Integer id, @RequestParam String status, @RequestParam String list) {
         inRepertoryService.changeInRepertoryStatus(id, status);
+        inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(id));
         return "";
     }
 }

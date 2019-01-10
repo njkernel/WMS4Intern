@@ -1,15 +1,20 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.api.dto.InRepertoryDetailDTO;
+import com.connext.wms.api.dto.InputFeedback;
+import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,13 +31,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final InRepertoryMapper inRepertoryMapper;
     private final InRepertoryDetailMapper inRepertoryDetailMapper;
     private final Constant constant;
+    private final EntityAndDto entityAndDto;
+    private final RestTemplate restTemplate;
 
 
     @Autowired
-    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, Constant constant) {
+    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, Constant constant, EntityAndDto entityAndDto, RestTemplate restTemplate) {
         this.inRepertoryMapper = inRepertoryMapper;
         this.inRepertoryDetailMapper = inRepertoryDetailMapper;
         this.constant = constant;
+        this.entityAndDto = entityAndDto;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -96,15 +105,21 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setInRepoStatus(status);
         inRepertory.setSyncStatus(constant.getSYNC_TRUE_STATES());
         inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
-        InRepertory repertory=findOne(id);
+        InRepertory repertory = findOne(id);
         //发送通知
         repertory.getRepertoryDetails();
     }
 
     @Override
-    public boolean pushInRepertoryState(InRepertory inRepertory, String remark) {
-        //推送
-        return true;
+    public boolean pushInRepertoryState(InRepertory inRepertory) {
+        List<InRepertoryDetailDTO> list = entityAndDto.toDTO(inRepertory);
+        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.getTOKENS(), inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
+        try {
+            restTemplate.postForObject("http://10.129.100.65:8502/Api/getExchangeInputFeedback", inputFeedback.toMap(), String.class);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
