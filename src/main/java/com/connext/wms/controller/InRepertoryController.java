@@ -20,14 +20,19 @@ public class InRepertoryController {
     public InRepertoryController(InRepertoryService inRepertoryService) {
         this.inRepertoryService = inRepertoryService;
     }
+    @GetMapping("detail/{id}")
+    public String detail(@PathVariable Integer id, Model model){
+        model.addAttribute("detail", inRepertoryService.findOne(id));
+        return "in_repertory";
+    }
 
-    @GetMapping("/{page}")
+    @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model) {
         model.addAttribute("list", inRepertoryService.findPage(page, 5));
         return "in_repertory";
     }
 
-    @GetMapping("/{page}/all")
+    @GetMapping("page/{page}/all")
     public String allList(@PathVariable Integer page, Model model) {
         model.addAttribute("list", inRepertoryService.findAllPage(page, 5));
         return "in_repertory";

@@ -96,10 +96,14 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setInRepoStatus(status);
         inRepertory.setSyncStatus(constant.getSYNC_TRUE_STATES());
         inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
+        InRepertory repertory=findOne(id);
+        //发送通知
+        repertory.getRepertoryDetails();
     }
 
     @Override
     public boolean pushInRepertoryState(InRepertory inRepertory, String remark) {
+        //推送
         return true;
     }
 

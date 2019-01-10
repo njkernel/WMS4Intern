@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-public  class Constant {
+public class Constant {
     private final String INIT_STATUS = "wait";
     private final String OVER_STATUS = "over";
     private final String FAIL_STATUS = "fail";
