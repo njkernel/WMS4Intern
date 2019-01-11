@@ -3,6 +3,9 @@ spring:
     url: jdbc:mysql://120.77.45.136:3306/wms?characterEncoding=UTF-8&nullCatalogMeansCurrent=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: anymre
     password: c1234567
+  messages:
+    fallback-to-system-locale: false
+    basename: messages
 
   mvc:
     view:
