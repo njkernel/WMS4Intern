@@ -40,4 +40,8 @@ public interface OutRepertoryMapper {
     int updateByPrimaryKeySelective(OutRepertory record);
 
     int updateByPrimaryKey(OutRepertory record);
+
+    OutRepertory selectByOutRepoOrderNo(String outRepoOrderNo);
+
+    List<OutRepertory> selectByPage(Integer start,Integer size);
 }

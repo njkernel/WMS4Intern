@@ -1,9 +1,10 @@
 package com.connext.wms.entity;
 
-import lombok.ToString;
-
+import org.springframework.stereotype.Repository;
 import java.util.Date;
-@ToString
+import java.util.List;
+
+@Repository
 public class OutRepertory {
     private Integer id;
 
@@ -31,8 +32,25 @@ public class OutRepertory {
 
     private Date reviseTime;
 
-    public OutRepertory(Integer id, String outRepoId, String orderId, String channelId, String receiverName, String receiverAddress, String expressId, String expressCompany, String outRepoStatus, String syncStatus, Date createTime, String reviser, Date reviseTime) {
-        this.id = id;
+    private List<OutRepertoryDetail> outRepertoryDetailList;
+
+    public OutRepertory(Integer id,String outRepoId, String orderId, String channelId, String receiverName, String receiverAddress, String expressId, String expressCompany, String outRepoStatus, String syncStatus, Date createTime, String reviser, Date reviseTime) {
+        this.id=id;
+        this.outRepoId = outRepoId;
+        this.orderId = orderId;
+        this.channelId = channelId;
+        this.receiverName = receiverName;
+        this.receiverAddress = receiverAddress;
+        this.expressId = expressId;
+        this.expressCompany = expressCompany;
+        this.outRepoStatus = outRepoStatus;
+        this.syncStatus = syncStatus;
+        this.createTime = createTime;
+        this.reviser = reviser;
+        this.reviseTime = reviseTime;
+    }
+
+    public OutRepertory(String outRepoId, String orderId, String channelId, String receiverName, String receiverAddress, String expressCompany) {
         this.outRepoId = outRepoId;
         this.orderId = orderId;
         this.channelId = channelId;
@@ -153,5 +171,33 @@ public class OutRepertory {
 
     public void setReviseTime(Date reviseTime) {
         this.reviseTime = reviseTime;
+    }
+
+    public List<OutRepertoryDetail> getOutRepertoryDetailList() {
+        return outRepertoryDetailList;
+    }
+
+    public void setOutRepertoryDetailList(List<OutRepertoryDetail> outRepertoryDetailList) {
+        this.outRepertoryDetailList = outRepertoryDetailList;
+    }
+
+    @Override
+    public String toString() {
+        return "OutRepertory{" +
+                "id=" + id +
+                ", outRepoId='" + outRepoId + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", channelId='" + channelId + '\'' +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverAddress='" + receiverAddress + '\'' +
+                ", expressId='" + expressId + '\'' +
+                ", expressCompany='" + expressCompany + '\'' +
+                ", outRepoStatus='" + outRepoStatus + '\'' +
+                ", syncStatus='" + syncStatus + '\'' +
+                ", createTime=" + createTime +
+                ", reviser='" + reviser + '\'' +
+                ", reviseTime=" + reviseTime +
+                ", outRepertoryDetailList=" + outRepertoryDetailList +
+                '}';
     }
 }
