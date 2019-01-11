@@ -21,13 +21,13 @@ public interface OutRepertoryMapper {
 
     int insertSelective(OutRepertory record);
 
-    //å…³é”®å­—æŸ¥è¯¢ç›¸å…³å¼‚å¸¸çš„è®¢å•
+    //¹Ø¼ü×Ö²éÑ¯Ïà¹ØÒì³£µÄ¶©µ¥
     List<OutRepertory> selectByExample(OutRepertoryExample example);
 
-    //åˆ†é¡µæŸ¥è¯¢æ‰€æœ‰å¼‚å¸¸è®¢å•ä¿¡æ¯
+    //·ÖÒ³²éÑ¯ËùÓĞÒì³£¶©µ¥ĞÅÏ¢
     List<OutRepertory> selectByPage(Integer start,Integer size);
 
-    //é€šè¿‡è®¢å•æ¡ä»¶æŸ¥çœ‹è®¢å•è¯¦æƒ…
+    //Í¨¹ı¶©µ¥Ìõ¼ş²é¿´¶©µ¥ÏêÇé
     OutRepertory selectByExample(String condition);
 
 
@@ -43,5 +43,5 @@ public interface OutRepertoryMapper {
 
     OutRepertory selectByOutRepoOrderNo(String outRepoOrderNo);
 
-    List<OutRepertory> selectByPage(Integer start,Integer size);
+    List<OutRepertory> selectOutRepoByPage(Integer start,Integer size);
 }

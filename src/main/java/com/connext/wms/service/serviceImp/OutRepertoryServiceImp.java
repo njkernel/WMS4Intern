@@ -8,7 +8,7 @@ import com.connext.wms.entity.OutRepertoryDetailExample;
 import com.connext.wms.entity.OutRepertoryExample;
 import com.connext.wms.service.OutRepertoryService;
 import com.connext.wms.util.Page;
-import com.github.pagehelper.PageHelper;
+//import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,7 +33,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
     @Autowired
     private RestTemplate restTemplate;
 
-    //分页查询出库单
+    /*//分页查询出库单
     @Override
     public Page outRepoOrderList(Integer currPage, OutRepertoryExample example) {
         Page page = new Page();
@@ -44,12 +44,12 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         PageHelper.startPage(currPage, Page.PAGE_SIZE);
         page.setData(this.outRepertoryMapper.selectByExample(example));
         return page;
-    }
+    }*/
 
     //分页查询2
     @Override
     public List<OutRepertory> outRepoOrderListByPage(Integer start, Integer size) {
-        return this.outRepertoryMapper.selectByPage(start,size);
+        return this.outRepertoryMapper.selectOutRepoByPage(start,size);
     }
 
     //批量更新出库单状态

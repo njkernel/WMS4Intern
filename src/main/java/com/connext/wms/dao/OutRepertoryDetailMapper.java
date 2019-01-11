@@ -3,9 +3,11 @@ package com.connext.wms.dao;
 import com.connext.wms.entity.OutRepertoryDetail;
 import com.connext.wms.entity.OutRepertoryDetailExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
+@Mapper
 @Repository
 public interface OutRepertoryDetailMapper {
     long countByExample(OutRepertoryDetailExample example);
