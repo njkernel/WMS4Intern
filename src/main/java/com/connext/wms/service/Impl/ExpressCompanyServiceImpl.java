@@ -1,4 +1,4 @@
-package com.connext.wms.service.Impl;
+package com.connext.wms.service.impl;
 
 import com.connext.wms.dao.ExpressCompanyMapper;
 import com.connext.wms.entity.ExpressCompany;
