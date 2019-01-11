@@ -2,22 +2,37 @@ package com.connext.wms.dao;
 
 import com.connext.wms.entity.User;
 import com.connext.wms.entity.UserExample;
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 @Repository
 public interface UserMapper {
+
+    //删除用户
+    void deleteByPrimaryKey(Integer id);
+    //注册
+    void insert(User user);
+    //登陆
+    User login(Map<String, String> map);
+    //用户列表
+    List<User> queryAll();
+    //修改权限
+    void modifyRole(User user);
+    //修改用户信息
+    void updateByPrimaryKey(User record);
+    //忘记密码
+    void forget(User user);
+    //重复注册
+    int checkRegister(@Param("telephone") String telephone);
+
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(User record);
 
     int insertSelective(User record);
 
@@ -31,5 +46,4 @@ public interface UserMapper {
 
     int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
 }

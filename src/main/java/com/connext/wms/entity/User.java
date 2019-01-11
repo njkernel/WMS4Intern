@@ -10,10 +10,16 @@ public class User {
 
     private String password;
 
-    public User(Integer id, String userName, String password) {
+    private String telephone;
+
+    private  String role;
+
+    public User(Integer id, String userName, String password, String telephone, String role) {
         this.id = id;
         this.userName = userName;
         this.password = password;
+        this.telephone = telephone;
+        this.role=role;
     }
 
     public User() {
@@ -42,5 +48,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
