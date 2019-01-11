@@ -43,4 +43,13 @@ public class ExpressCompany {
     public void setContactWay(String contactWay) {
         this.contactWay = contactWay == null ? null : contactWay.trim();
     }
+
+    @Override
+    public String toString() {
+        return "ExpressCompany{" +
+                "id=" + id +
+                ", expressCompanyName='" + expressCompanyName + '\'' +
+                ", contactWay='" + contactWay + '\'' +
+                '}';
+    }
 }
