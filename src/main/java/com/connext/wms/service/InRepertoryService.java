@@ -79,7 +79,8 @@ public interface InRepertoryService {
      * pushInRepertoryState
      *
      * @param inRepertory the inRepertory
+     * @param remark      Remark
      * @return true or false
      */
-    boolean pushInRepertoryState(InRepertory inRepertory);
+    boolean pushInRepertoryState(InRepertory inRepertory, String remark);
 }

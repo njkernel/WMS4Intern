@@ -31,8 +31,7 @@ public class InRepertory {
 
 <<<<<<< HEAD
     private List<InRepertoryDetail> repertoryDetails;
-
-    public InRepertory(String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime, List<InRepertoryDetail> repertoryDetails) {
+    public InRepertory(String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime) {
         this.inRepoId = inRepoId;
         this.orderId = orderId;
         this.channelId = channelId;
@@ -44,11 +43,13 @@ public class InRepertory {
         this.createTime = createTime;
         this.reviser = reviser;
         this.reviseTime = reviseTime;
-        this.repertoryDetails = repertoryDetails;
     }
+<<<<<<< HEAD
 
 =======
 >>>>>>> parent of 3575d3e... 1.0 DAO、SERVICE层基本完成
+=======
+>>>>>>> parent of 7aa2b13... Merge pull request #2 from njkernel/Marcus
     public InRepertory(Integer id, String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime) {
         this.id = id;
         this.inRepoId = inRepoId;

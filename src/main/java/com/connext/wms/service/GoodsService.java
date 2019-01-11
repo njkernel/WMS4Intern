@@ -10,5 +10,4 @@ import org.springframework.stereotype.Service;
  */
 public interface GoodsService {
     Goods getGoodsBySku(String sku);
-    Goods getGoodsById(Integer id);
 }
