@@ -106,7 +106,6 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setInRepoStatus(status);
         inRepertory.setSyncStatus(constant.getSYNC_TRUE_STATES());
         inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
-        InRepertory repertory = findOne(id);
     }
 
     @Override

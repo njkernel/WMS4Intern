@@ -3,7 +3,11 @@ package com.connext.wms.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * @Author: Marcus
+ * @Date: 2019/1/7 10:02
+ * @Version 1.0
+ */
 public class InRepertoryExample {
     protected String orderByClause;
 
