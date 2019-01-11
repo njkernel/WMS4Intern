@@ -50,9 +50,9 @@ public class WmsApplicationTests {
 //    goodsMapper.insert(new Goods(2, "2", "2", 1F));
         // GoodsExample goodsExample = new GoodsExample();
         //System.out.println(goodsMapper.countByExample(goodsExample));
-       // repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
+        repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
         //repertoryRegulationService.cancelDelivery(1,2);
-      //  repertoryRegulationService.deliveryGoodsAfterDelivery(1,1);
+        repertoryRegulationService.deliveryGoodsAfterDelivery(1,1);
         //repertoryRegulationService.rejectedGoodsSuccess(1,1);
         //System.out.println(repertoryRegulationMapper.summaryLockedRepertory());
         //System.out.println(repertoryRegulationMapper.summaryAvailableRepertory());
@@ -102,7 +102,7 @@ public class WmsApplicationTests {
         //List<CodeTotalStockDTO> list = goodsRepertoryMapper.getCodeTotalStockDTO();
         // System.out.println(list.toString());
         //String list1 = list.toString();
-        goodsRepertoryService.updateGoodsRepertory();
+        //goodsRepertoryService.updateGoodsRepertory();
         //String res = restTemplate.postForObject("http://10.129.100.52:8502/updateTotalStock", list, String.class);
         //System.out.println(res);
         //String jiba =objectMapper.readTree(res).get("message").asText();
