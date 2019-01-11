@@ -21,13 +21,13 @@ public interface OutRepertoryMapper {
 
     int insertSelective(OutRepertory record);
 
-    //¹Ø¼ü×Ö²éÑ¯Ïà¹ØÒì³£µÄ¶©µ¥
+    //å…³é”®å­—æŸ¥è¯¢ç›¸å…³å¼‚å¸¸çš„è®¢å•
     List<OutRepertory> selectByExample(OutRepertoryExample example);
 
-    //·ÖÒ³²éÑ¯ËùÓĞÒì³£¶©µ¥ĞÅÏ¢
+    //åˆ†é¡µæŸ¥è¯¢æ‰€æœ‰å¼‚å¸¸è®¢å•ä¿¡æ¯
     List<OutRepertory> selectByPage(Integer start,Integer size);
 
-    //Í¨¹ı¶©µ¥Ìõ¼ş²é¿´¶©µ¥ÏêÇé
+    //é€šè¿‡è®¢å•æ¡ä»¶æŸ¥çœ‹è®¢å•è¯¦æƒ…
     OutRepertory selectByExample(String condition);
 
 
