@@ -3,13 +3,6 @@ package com.connext.wms.entity;
 import lombok.ToString;
 
 import java.util.Date;
-import java.util.List;
-
-/**
- * @Author: Marcus
- * @Date: 2019/1/7 10:02
- * @Version 1.0
- */
 @ToString
 public class InRepertory {
     private Integer id;
@@ -36,6 +29,7 @@ public class InRepertory {
 
     private Date reviseTime;
 
+<<<<<<< HEAD
     private List<InRepertoryDetail> repertoryDetails;
 
     public InRepertory(String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime, List<InRepertoryDetail> repertoryDetails) {
@@ -53,6 +47,8 @@ public class InRepertory {
         this.repertoryDetails = repertoryDetails;
     }
 
+=======
+>>>>>>> parent of 3575d3e... 1.0 DAO、SERVICE层基本完成
     public InRepertory(Integer id, String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String inRepoStatus, String syncStatus, String receivingRepo, Date createTime, String reviser, Date reviseTime) {
         this.id = id;
         this.inRepoId = inRepoId;
@@ -166,13 +162,5 @@ public class InRepertory {
 
     public void setReviseTime(Date reviseTime) {
         this.reviseTime = reviseTime;
-    }
-
-    public void setRepertoryDetails(List<InRepertoryDetail> repertoryDetails) {
-        this.repertoryDetails = repertoryDetails;
-    }
-
-    public List<InRepertoryDetail> getRepertoryDetails() {
-        return repertoryDetails;
     }
 }
