@@ -1,5 +1,6 @@
 package com.connext.wms.controller;
 
+<<<<<<< HEAD
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.dto.InputSth;
 import com.connext.wms.api.util.EntityAndDto;
@@ -15,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
 
+=======
+>>>>>>> parent of 3575d3e... 1.0 DAO、SERVICE层基本完成
 /**
  * @Author: Marcus
  * @Date: 2019/1/2 11:23
  * @Version 1.0
  */
-@Controller
-@RequestMapping("/inRepertory")
 public class InRepertoryController {
     private final InRepertoryService inRepertoryService;
     private final ObjectMapper objectMapper;
