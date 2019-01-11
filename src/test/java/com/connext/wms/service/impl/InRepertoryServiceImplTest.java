@@ -30,7 +30,7 @@ class InRepertoryServiceImplTest {
     InRepertoryService inRepertoryService;
     @Autowired
     Constant constant;
-    InRepertory inRepertory=new InRepertory(null,"123456","1234567","12345678","1234569","顺丰速运","","","南京",new Date(),"Marcus",new Date());
+    InRepertory inRepertory = new InRepertory(null, "123456", "1234567", "12345678", "1234569", "顺丰速运", "", "", "南京", new Date(), "Marcus", new Date());
 
     @Test
     void findAll() {
@@ -50,20 +50,24 @@ class InRepertoryServiceImplTest {
 
     @Test
     void checkInRepertoryExpired() {
-        List<InRepertory> inRepertories= inRepertoryService.findAll();
+        List<InRepertory> inRepertories = inRepertoryService.findAll();
         inRepertoryService.checkInRepertoryExpired(inRepertories).forEach(System.out::print);
     }
 
     @Test
     void changeInRepertoryStatus() {
-        inRepertoryService.changeInRepertoryStatus(4,constant.getSUCCESS_STATUS());
+        inRepertoryService.changeInRepertoryStatus(4, constant.getSUCCESS_STATUS());
+    }
+
+    @Test
+    void findAllLike() {
+        inRepertoryService.findAllLike("%1234569%").forEach(System.out::println);
     }
 
     @Test
     void pushInRepertoryState() {
-    }
-    @Test
-    void findAllLike() {
-        inRepertoryService.findAllLike("%1234569%").forEach(System.out::println);
+        inRepertoryService.changeInRepertoryStatus(39,"收货成功");
+        InRepertory inRepertory = inRepertoryService.findOne(39);
+        assertTrue(inRepertoryService.pushInRepertoryState(inRepertory));
     }
 }

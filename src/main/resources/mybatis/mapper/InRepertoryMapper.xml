@@ -99,7 +99,6 @@
     from t_in_repo
     where id = #{id,jdbcType=INTEGER}
   </select>
-<<<<<<< HEAD
   <select id="getAllPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -111,8 +110,6 @@
     from t_in_repo
     where sync_status='false' limit #{start},#{size}
   </select>
-=======
->>>>>>> parent of 3575d3e... 1.0 DAO、SERVICE层基本完成
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_in_repo
     where id = #{id,jdbcType=INTEGER}

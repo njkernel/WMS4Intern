@@ -22,4 +22,9 @@ public class GoodsServiceImpl implements GoodsService {
         example.createCriteria().andSkuEqualTo(sku);
         return goodsMapper.selectByExample(example).get(0);
     }
+
+    @Override
+    public Goods getGoodsById(Integer id) {
+        return goodsMapper.selectByPrimaryKey(id);
+    }
 }
