@@ -360,10 +360,21 @@
         where out_repo_id=#{outRepoId,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectOutRepoByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_out_repo limit
              #{start},#{size}
+    </select>
+
+    <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, out_repo_id, order_id,
+               channel_id, receiver_name, receiver_address,
+               express_id, express_company, out_repo_status,
+               sync_status, create_time, reviser,
+               revise_time
+        from t_out_repo
+        where out_repo_status like '%异常%'
+            limit #{start},#{size}
     </select>
 </mapper>
