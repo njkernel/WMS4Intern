@@ -28,7 +28,9 @@ public class ExceptionServiceImpl implements ExceptionService {
     public List<OutRepertory> selectByExampleToKey(String key){
         String newKey = "%" + key + "%";
         OutRepertoryExample example = new OutRepertoryExample();
-        example.createCriteria().andOutRepoStatusLike(newKey);
+        example.or().andOutRepoStatusLike(newKey);
+        example.or().andExpressCompanyLike(newKey);
+        example.or().andOutRepoIdLike(newKey);
         return outRepertoryMapper.selectByExample(example);
     }
 

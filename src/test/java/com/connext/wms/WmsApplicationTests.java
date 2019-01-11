@@ -15,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @RunWith(SpringRunner.class)
@@ -34,9 +31,6 @@ public class WmsApplicationTests {
   public void insert(){
     String expressCompanyName = "天天快递";
     String contactWay = "3333333333";
-/*    ExpressCompany expressCompany = new ExpressCompany();
-    expressCompany.setExpressCompanyName(expressCompanyName);
-    expressCompany.setContactWay(contactWay);*/
     expressCompanyService.insert(expressCompanyName,contactWay);
     System.out.println("添加成功");
   }
@@ -75,7 +69,7 @@ public class WmsApplicationTests {
   @Test
   //根据关键字查询
   public void selectByExample1(){
-    String key = "%" + "顺丰" + "%";
+    String key = "%" + "圆通" + "%";
     ExpressCompanyExample example = new ExpressCompanyExample();
     example.createCriteria().andExpressCompanyNameLike(key);
     System.out.println(expressCompanyMapper.selectByExample(example));
@@ -84,9 +78,9 @@ public class WmsApplicationTests {
   @Test
   //查找所有异常订单
   public void selectByExample2(){
-    String Key = "%异常%";
+    String Key = "%快递%";
     OutRepertoryExample example = new OutRepertoryExample();
-    example.createCriteria().andOutRepoStatusLike(Key);
+    example.createCriteria().andExpressCompanyLike(Key);
     System.out.println(outRepertoryMapper.selectByExample(example));
   }
 
@@ -103,15 +97,11 @@ public class WmsApplicationTests {
     System.out.println(exceptionService.selectByPage(1,5));
   }
 
-  //状态映射
   @Test
-  public void test1(){
-    String exception = "ssssexception";
-    Map map = new HashMap<String,String>();
-    map.put(exception,"出库异常");
-    System.out.println(map.get(exception));
-
+  public void test2(){
+    System.out.println(exceptionService.selectByExampleToKey("快递"));
   }
+
 
 }
 
