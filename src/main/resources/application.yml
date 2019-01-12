@@ -5,10 +5,7 @@ spring:
     password: c1234567
   messages:
     fallback-to-system-locale: false
-    basename: messages
-
-  mvc:
-    view:
+  thymeleaf:
       prefix: classpath:/templates/
       suffix: .html
 

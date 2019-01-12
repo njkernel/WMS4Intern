@@ -60,15 +60,15 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public List<InRepertory> findAllPage(Integer start, Integer size) {
-        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
-        return inRepertoryMapper.getAllPage(pageStart, size);
-    }
-
-    @Override
     public List<InRepertory> findPage(Integer start, Integer size) {
         int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
         return inRepertoryMapper.getPage(pageStart, size);
+    }
+
+    @Override
+    public List<InRepertory> findPageBy(String status, Integer start, Integer size) {
+        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
+        return inRepertoryMapper.getPageBy(status,pageStart, size);
     }
 
     @Override

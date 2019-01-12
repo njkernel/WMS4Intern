@@ -42,21 +42,20 @@ public class InRepertoryController {
 
     @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model) {
-        model.addAttribute("list", inRepertoryService.findPage(page, 5));
-        return "in_repertory";
+        model.addAttribute("list", inRepertoryService.findPage(page, 10));
+        return "warehouse-in-list.html";
+    }
+    @GetMapping("page/{page}/{status}")
+    public String listBy(@PathVariable Integer page,@PathVariable String status, Model model) {
+        model.addAttribute("list", inRepertoryService.findPageBy(status,page,10));
+        return "warehouse-in-list.html";
     }
 
-    @GetMapping("page/{page}/all")
-    public String allList(@PathVariable Integer page, Model model) {
-        model.addAttribute("list", inRepertoryService.findAllPage(page, 5));
-        return "in_repertory";
-    }
-
-    @GetMapping("/search/{like}")
-    public String search(@PathVariable String like, Model model) {
+    @GetMapping("/search")
+    public String search(@RequestParam String like, Model model) {
         String likeSth = "%" + like + "%";
         model.addAttribute("list", inRepertoryService.findAllLike(likeSth));
-        return "in_repertory";
+        return "warehouse-in-list.html";
     }
 
     @PostMapping("/")

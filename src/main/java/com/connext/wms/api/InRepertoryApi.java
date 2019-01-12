@@ -3,7 +3,6 @@ package com.connext.wms.api;
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.entity.InRepertory;
-import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
