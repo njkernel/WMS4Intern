@@ -36,8 +36,8 @@ public class InRepertoryController {
 
     @GetMapping("detail/{id}")
     public String detail(@PathVariable Integer id, Model model) {
-        model.addAttribute("detail", inRepertoryService.findOne(id));
-        return "in_repertory";
+        model.addAttribute("one", inRepertoryService.findOne(id));
+        return "detail";
     }
 
     @GetMapping("page/{page}")
