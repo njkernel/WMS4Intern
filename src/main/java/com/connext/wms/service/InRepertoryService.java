@@ -69,12 +69,13 @@ public interface InRepertoryService {
     List<InRepertory> checkInRepertoryExpired(List<InRepertory> inRepertories);
 
     /**
-     * change the  Status of InRepertory
+     * change the  Status of InRepertory which not complete
      *
      * @param id     InRepertory id
      * @param status InRepertory status
+     * @return true or false
      */
-    void changeInRepertoryStatus(Integer id, String status);
+    boolean changeInRepertoryStatus(Integer id, String status);
 
     /**
      * pushInRepertoryState

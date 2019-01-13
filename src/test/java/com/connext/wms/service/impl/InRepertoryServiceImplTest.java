@@ -55,6 +55,8 @@ class InRepertoryServiceImplTest {
 
     @Test
     void changeInRepertoryStatus() {
+        inRepertoryService.changeInRepertoryStatus(47,"success");
+        inRepertoryService.changeInRepertoryStatus(50,"success");
     }
 
     @Test
