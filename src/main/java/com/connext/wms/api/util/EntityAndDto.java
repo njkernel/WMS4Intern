@@ -2,12 +2,16 @@ package com.connext.wms.api.util;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.dto.InputFeedbackDetail;
+import com.connext.wms.dao.InRepertoryMapper;
 import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetail;
+import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.GoodsService;
+import com.connext.wms.service.InRepertoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,7 @@ public class EntityAndDto {
     private final GoodsService goodsService;
 
     @Autowired
-    public EntityAndDto(GoodsService goodsService) {
+    public EntityAndDto(GoodsService goodsService, InRepertoryMapper inRepertoryMapper) {
         this.goodsService = goodsService;
     }
 
@@ -39,10 +43,11 @@ public class EntityAndDto {
         List<InputFeedbackDetail> list = new ArrayList<>();
         inRepertory.getRepertoryDetails().forEach(u -> {
             Goods goods = goodsService.getGoodsById(u.getGoodsId());
-            list.add(new InputFeedbackDetail(goods.getSku(),String.valueOf(u.getGoodsNum())));
+            list.add(new InputFeedbackDetail(goods.getSku(), String.valueOf(u.getGoodsNum())));
         });
         return list;
     }
+
     public List<InRepertoryDetail> idToEntity(String inRepoId, List<InRepertoryDetailDTO> repertoryDetailDTOS) {
         List<InRepertoryDetail> inRepertoryDetails = new ArrayList<>();
         repertoryDetailDTOS.forEach(u -> {

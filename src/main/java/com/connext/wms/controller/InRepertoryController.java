@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -43,24 +44,16 @@ public class InRepertoryController {
         return "/specific/in-detail";
     }
 
-    @GetMapping("/action/exception")
-    public String detailAction(@PathVariable Integer id, Model model) {
-        model.addAttribute("one", inRepertoryService.findOne(id));
-        return "/specific/in-detail-action";
-    }
-
     @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model, @RequestParam(required = false, defaultValue = "") String status) {
         List<InRepertory> inRepertories = inRepertoryService.findPage(page, SIZE);
-        model.addAttribute("list", inRepertories);
-        return "warehouse-in-list";
+        return inRepertoryService.getPageInfo(model, page, inRepertories, status);
     }
 
     @GetMapping("page/{page}/{status}")
     public String listBy(@PathVariable Integer page, @PathVariable String status, Model model) {
         List<InRepertory> inRepertories = inRepertoryService.findPageBy(status, page, SIZE);
-        model.addAttribute("list", inRepertories);
-        return "warehouse-in-list";
+        return inRepertoryService.getPageInfo(model, page, inRepertories, status);
     }
 
     @GetMapping("/search")
@@ -70,10 +63,17 @@ public class InRepertoryController {
         return "warehouse-in-list";
     }
 
+    @GetMapping("/action/exception")
+    public String detailAction(@PathVariable Integer id, Model model) {
+        model.addAttribute("one", inRepertoryService.findOne(id));
+        return "/specific/in-detail-action";
+    }
+
     @PostMapping("/action/exception")
     @ResponseBody
     public boolean finish(@RequestParam Integer id, @RequestParam String list) throws IOException {
-        List<InRepertoryDetailDTO> inRepertoryDetailDTOS = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetailDTO>>() {});
+        List<InRepertoryDetailDTO> inRepertoryDetailDTOS = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetailDTO>>() {
+        });
         InRepertory inRepertory = inRepertoryService.findOne(id);
         inRepertory.setRepertoryDetails(entityAndDto.idToEntity(String.valueOf(id), inRepertoryDetailDTOS));
         boolean result = inRepertoryService.changeInRepertoryStatus(id, constant.SUCCESS_STATUS);
@@ -98,4 +98,10 @@ public class InRepertoryController {
         return true;
     }
 
+
+    public static void main(String[] args) {
+        float i = 14F;
+        int j = 10;
+        System.out.println(Math.ceil(i / j));
+    }
 }

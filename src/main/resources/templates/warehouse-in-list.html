@@ -10,12 +10,14 @@
     <script src="/js/popup/popup.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
+    <link rel="stylesheet" href="/css/pager.css">
+    <script src="/js/pager.js"></script>
     <script type="text/javascript">
         $(function () {
             $('.action').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
                 $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
-                $('#demoModal .modal-footer #getStatus').attr("value",$(this).attr('id'));
+                $('#demoModal .modal-footer #getStatus').attr("value", $(this).attr('id'));
                 $('#demoModal').modal();
             });
         });
@@ -28,13 +30,13 @@
             $('.btn-xs').on("click", function () {
                 console.log($(this).attr('id'));
                 //document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id');
-                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id')+"/action";
+                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id') + "/action";
             });
         });
 
         function action() {
             $('#demoModal')
-            var status=$('#getStatus').val()
+            var status = $('#getStatus').val()
             var ids = [];
             $('input:checkbox:checked').each(function () {
                 ids.push(parseInt($(this).val()));
@@ -66,6 +68,8 @@
         </form>
     </div>
 </div>
+<!--/*@thymesVar id="list" type="java.util.ArrayList"*/-->
+<!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
 <div>
     <table class="table table-condensed">
         <thead>
@@ -83,8 +87,6 @@
         </tr>
         </thead>
         <tbody>
-        <!--/*@thymesVar id="list" type="java.util.ArrayList"*/-->
-        <!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
         <tr th:each="obj,i:${list}">
             <td th:text="${i.count}"></td>
             <td><input type="checkbox" th:value="${obj.id}"></td>
@@ -121,6 +123,24 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<div id="pagination" class="pagination"></div>
+<script th:inline="javascript">
+    window.onload = function () {
+        new Page({
+            id: 'pagination',
+            pageTotal: [[${pageNum}]], //必填,总页数
+            pageAmount: 10,  //每页多少条
+            dataTotal: [[${count}]], //总共多少条数据
+            curPage: [[${page}]], //初始页码,不填默认为1
+            pageSize: 5, //分页个数,不填默认为5
+            showPageTotalFlag:true,
+            getPage: function (page) {
+                //获取当前页数
+                window.location.replace("/inRepertory/page/"+page+[[${status}]])
+            }
+        })
+    }
+</script>
 <div id="popup" class="popup">
     <div class="title">
         <p>入库单详情</p>

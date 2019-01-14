@@ -14,6 +14,7 @@ import com.connext.wms.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final Constant constant;
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
-    private final String PUSH_URL="http://10.129.100.65:8502/Api/getExchangeInputFeedback";
+    private final String PUSH_URL = "http://10.129.100.65:8502/Api/getExchangeInputFeedback";
 
 
     @Autowired
@@ -122,6 +123,26 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public String getPageInfo(Model model, Integer page, List<InRepertory> inRepertoryList, String status) {
+        int total = 0;
+        InRepertoryExample example = new InRepertoryExample();
+        if (!status.equals("")) {
+            example.or().andInRepoStatusEqualTo(status);
+        }
+        total = (int) inRepertoryMapper.countByExample(example);
+        model.addAttribute("count", total);
+        model.addAttribute("page", page);
+        model.addAttribute("status", status);
+        model.addAttribute("list", inRepertoryList);
+        int pageNum = total / 10;
+        if (total % 10 > 0) {
+            pageNum += 1;
+        }
+        model.addAttribute("pageNum", pageNum);
+        return "warehouse-in-list";
     }
 
     /**
