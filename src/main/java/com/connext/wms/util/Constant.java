@@ -8,16 +8,15 @@ import org.springframework.stereotype.Component;
  * @Date: 2019/1/9 10:36
  * @Version 1.0
  */
-@Data
 @Component
 public class Constant {
-    private final String INIT_STATUS = "wait";
-    private final String OVER_STATUS = "over";
-    private final String FAIL_STATUS = "fail";
-    private final String SUCCESS_STATUS = "success";
-    private final String SYNC_FALSE_STATES = "false";
-    private final String SYNC_TRUE_STATES = "true";
-    private final String RECEIVING_REPERTORY = "nanjing";
-    private final String REVISER="Marcus";
-    private final String TOKENS="yonyong";
+    public final String INIT_STATUS = "wait";
+    public final String OVER_STATUS = "over";
+    public final String FAIL_STATUS = "fail";
+    public final String SUCCESS_STATUS = "success";
+    public final String SYNC_FALSE_STATES = "false";
+    public final String SYNC_TRUE_STATES = "true";
+    public final String RECEIVING_REPERTORY = "nanjing";
+    public final String REVISER="Marcus";
+    public final String TOKENS="yonyong";
 }

@@ -1,6 +1,8 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.dao.InRepertoryMapper;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.util.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +25,25 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+//@Transactional
 class InRepertoryServiceImplTest {
     @Autowired
     InRepertoryService inRepertoryService;
+    @Autowired
+    Constant constant;
+    @Autowired
+    InRepertoryMapper inRepertoryMapper;
+
+    @Test
+    public void init() {
+        inRepertoryService.findAll().forEach(
+                u ->{
+                    u.setSyncStatus(constant.SYNC_FALSE_STATES);
+                    u.setInRepoStatus(constant.INIT_STATUS);
+                    inRepertoryMapper.updateByPrimaryKeySelective(u);
+                }
+        );
+    }
 
     @Test
     void findAll() {
@@ -42,11 +59,12 @@ class InRepertoryServiceImplTest {
 
     @Test
     void findPageBy() {
-        inRepertoryService.findPageBy("success",0,5).forEach(System.out::println);
+        inRepertoryService.findPageBy("success", 0, 5).forEach(System.out::println);
     }
 
     @Test
     void findOne() {
+        inRepertoryService.findAll().forEach(System.out::println);
     }
 
     @Test
@@ -59,8 +77,8 @@ class InRepertoryServiceImplTest {
 
     @Test
     void changeInRepertoryStatus() {
-        inRepertoryService.changeInRepertoryStatus(47,"success");
-        inRepertoryService.changeInRepertoryStatus(50,"success");
+        inRepertoryService.changeInRepertoryStatus(47, "success");
+        inRepertoryService.changeInRepertoryStatus(50, "success");
     }
 
     @Test
