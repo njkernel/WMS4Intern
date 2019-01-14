@@ -60,15 +60,15 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public List<InRepertory> findAllPage(Integer start, Integer size) {
-        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
-        return inRepertoryMapper.getAllPage(pageStart, size);
-    }
-
-    @Override
     public List<InRepertory> findPage(Integer start, Integer size) {
         int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
         return inRepertoryMapper.getPage(pageStart, size);
+    }
+
+    @Override
+    public List<InRepertory> findPageBy(String status, Integer start, Integer size) {
+        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
+        return inRepertoryMapper.getPageBy(status, pageStart, size);
     }
 
     @Override
@@ -99,13 +99,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public void changeInRepertoryStatus(Integer id, String status) {
+    public boolean changeInRepertoryStatus(Integer id, String status) {
         InRepertory inRepertory = new InRepertory();
         inRepertory.setId(id);
         inRepertory.setReviseTime(new Date());
         inRepertory.setInRepoStatus(status);
         inRepertory.setSyncStatus(constant.getSYNC_TRUE_STATES());
-        inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
+        if (constant.getINIT_STATUS().equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
+            inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
+            return true;
+        }
+        return false;
     }
 
     @Override
