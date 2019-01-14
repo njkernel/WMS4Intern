@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表格</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/assets/styles/search.css">
+</head>
+<body style="overflow-x:hidden;background:#f3f3f3;">
+    <div class="btn-div clearfix">
+        <button type="button" class="btn btn-primary">添加</button>
+        <button type="button" class="btn btn-primary">修改</button>
+        <button type="button" class="btn btn-primary">功能一</button>
+        <div class="search-box">
+            <form action="/expressCompany/findByKey" method="get">
+                <input  name="key" type="text">
+                <button type="submit"  class="btn btn-success">搜索</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>快递公司</th>
+                    <th>联系方式</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--/*@thymesVar id="express" type="java.util.ArrayList"*/-->
+                <!--/*@thymesVar id="obj" type="com.connext.wms.entity.ExpressCompany"*/-->
+                <tr th:each="obj,i:${express}">
+                    <td th:text="${i.count}"></td>
+                    <td id="expressCompanyName" th:text="${obj.expressCompanyName}"></td>
+                    <td id="contactWay" th:text="${obj.contactWay}"></td>
+                    <td>
+                        <a type="button" class="btn btn-default btn-xs" th:href="@{/expressCompany/Delete(expressCompanyName=${obj.expressCompanyName})}">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 弹出框 -->
+    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">title</h4>
+                </div>
+                <div class="modal-body">提示内容</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="footer-pager">
+        <span>共<span>5</span>页，当前第<span>1</span>页</span>
+        <ul class="pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li class="disabled"><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="/js/key.js"></script>
+</html>

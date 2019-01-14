@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单详情</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/styles/specific/order-detail.css"/>
+</head>
+<body style="overflow-x:hidden;">
+        <div class="container">
+                <!-- 上面部分 -->
+                <!-- <div class="top">  
+                    <span style="color:black;position:absolute;margin-left:25px;font-size: 20px;margin-top: 20px">订单详情</span>
+                </div> -->
+                <!-- 下面部分 -->
+                    <div class="main-body">
+                        <div class="main-content1">
+                            <div class="title"><text>基本信息</text></div>
+                            <div class="title-content">
+                                <div class="title-content1">
+                                    <div class="title-content1-top1">订单号：<input disabled="disabled"></div>
+                                    <div class="title-content1-top2">渠道订单号：<input disabled="disabled"></div>
+                                    <div class="title-content1-top3">订单状态：<input disabled="disabled"></div>
+                                </div>
+                                <div class="title-content2">
+                                    <div class="title-content1-top1">订单来源：<input disabled="disabled"></div>
+                                    <div class="title-content1-top2">买家ID：<input disabled="disabled"></div>
+                                    <div class="title-content1-top3">下单时间：<input disabled="disabled"></div>
+                                </div>
+                                <div class="title-content3">
+                                    <div class="title-content1-top1">基本状态：<input disabled="disabled"></div>
+                                    <div class="title-content1-top2">修改人：<input disabled="disabled"></div>
+                                    <div class="title-content1-top3">修改时间：<input disabled="disabled"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="main-content2">
+                                <div class="title"><text>支付信息</text></div>
+                                <div class="title-content">
+                                    <div class="title-content1">
+                                        <div class="title-content1-top1">支付状态：<span></span></div>
+                                        <div class="title-content1-top2">付款方式：<span></span></div>
+                                        <div class="title-content1-top3">付款时间：<span></span></div>
+                                    </div>
+                                    <div class="title-content2">
+                                        <div class="title-content1-top1">商品总价：<span></span></div>
+                                        <div class="title-content1-top2">订单折扣：<span></span></div>
+                                        <div class="title-content1-top3">订单总价：<span></span></div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="main-content3">
+                                <div class="title"><text>配送信息</text></div>
+                                <div class="title-content">
+                                    <div class="title-content1">
+                                        <div class="title-content1-top1">发货仓库：<span></span></div>
+                                        <div class="title-content1-top2">物流信息：<span></span></div>
+                                        <div class="title-content1-top3">物流单号：<span></span></div>
+                                    </div>
+                                    <div class="title-content2">
+                                        <div class="title-content1-top1">配送时间：<span></span></div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="main-content4">
+                            <div class="title"><text>收货人信息</text></div>
+                            <button class="btn1" id="button_show">编辑</button>
+                            <button class="btn2">取消编辑</button>
+                            <button class="btn3">保存</button>
+                            <div class="address-information">  
+                                <div class="address-tel">
+                                    <text>收货人:</text>
+                                    <input type="text" disabled="disabled"/>
+                                    <text>&nbsp;&nbsp;&nbsp;&nbsp;联系电话:</text>
+                                    <input type="text" disabled="disabled"/>
+                                </div>
+                                <br>
+                                <div class="address-city">
+                                    <text>省:</text>
+                                    <select>
+                                        <option>江苏省</option>
+                                        <option>湖南省</option>
+                                        <option>安徽省</option>
+                                        <option>河南省</option>
+                                        <option>湖北省</option>
+                                        <option>河北省</option>
+                                    </select>
+                                    <text>&nbsp;&nbsp;&nbsp;&nbsp;市:</text>
+                                    <select>
+                                        <option>扬州市</option>
+                                        <option>南通市</option>
+                                        <option>南京市</option>
+                                        <option>苏州市</option>
+                                        <option>南京市</option>
+                                        <option>常州市</option>
+                                    </select>
+                                    <text>&nbsp;&nbsp;区:</text>
+                                    <select>
+                                        <option>通州区</option>
+                                        <option>朝阳区</option>
+                                        <option>丰县区</option>
+                                        <option>大型区</option>
+                                        <option>平谷区</option>
+                                        <option>西城区</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="address-detail">
+                                    <text>详细地址</text>
+                                    <input type="text" class="input4" id="detail-input" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+  
+                         <div class="main-content5">
+                            <div class="main-content5-title"><text style="font-size:20px;">商品信息</text></div>
+                            <table border="0" cellspacing="0" cellpadding="0" class="tab">
+                                <tr class="tr-title">
+                                    <th>商品编码</th>
+                                    <th>商品名称</th>
+                                    <th>商品单价</th>
+                                    <th>商品数量</th>
+                                    <th>商品总价</th>
+                                    <th>商品备注</th>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td> 
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td> 
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>  
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr> 
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="ttdd">12345</td>
+                                    <td>矿泉水</td>
+                                    <td>2</td>
+                                    <td>200</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 15px;"><strong>总计</strong></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>4005</td>
+                                    <td>1000</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div> 
+                    </div>
+            </div>
+</body>
+</html>

@@ -11,6 +11,8 @@ spring:
     view:
       prefix: classpath:/templates/
       suffix: .html
+  thymeleaf:
+    cache: false
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
