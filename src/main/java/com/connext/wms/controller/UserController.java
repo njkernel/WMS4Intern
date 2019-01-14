@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,11 +29,11 @@ public class UserController {
     private UserService userService;
 
     //登陆
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public String login(HttpServletRequest req, HttpSession httpSession, Model model) {
         String password = new BCryptPasswordEncoder().encode(req.getParameter("password"));
         Map<String, String> usermap = new HashMap<String, String>();
-        usermap.put("user_name", req.getParameter("user_name"));
+        usermap.put("telephone", req.getParameter("telephone"));
         usermap.put("password", password);
         User user = userService.login(usermap);
         if (user != null) {
@@ -48,21 +47,22 @@ public class UserController {
     }
 
     //跳转注册
-    @RequestMapping("toRegister")
+    @RequestMapping("/toRegister")
     public String toRegister() {
         return "register";
     }
 
     //注册
     @RequestMapping("/register")
-    public String register(@RequestParam(value = "telephone") String telephone, @RequestParam(value = "user_name") String user_name, @RequestParam(value = "password") String password, HttpServletRequest req) {
+    public String register(@RequestParam(value = "telephone") String telephone, @RequestParam(value = "user_name") String username, @RequestParam(value = "password") String password,@RequestParam(value = "role") String role, HttpServletRequest req) {
         User user = new User();
         password = new BCryptPasswordEncoder().encode(req.getParameter("password"));
         user.setTelephone(telephone);
         user.setPassword(password);
-        user.setUserName(user_name);
+        user.setUserName(username);
+        user.setRole(role);
         userService.register(user);
-        return "login";
+        return "details/user/administrator";
     }
 
     //验证注册
@@ -88,11 +88,10 @@ public class UserController {
 
     //用户列表
     @RequestMapping("/queryAll")
-    public ModelAndView queryAll() {
-        ModelAndView mv = new ModelAndView("userlist");
+    public String queryAll(Model model) {
         List<User> userList = this.userService.queryAll();
-        mv.addObject("userList", userList);
-        return mv;
+        model.addAttribute("users",userList);
+        return "details/user/administrator";
     }
 
     //删除用户
@@ -110,12 +109,12 @@ public class UserController {
     }
 
     //修改用户
-    @RequestMapping("updateByPrimaryKey")
+    @RequestMapping("/updateByPrimaryKey")
     @ResponseBody
-    public String updateByPrimaryKey(@RequestParam(value = "id", required = false) Integer id, @RequestParam(value = "userName", required = false) String userName, @RequestParam(value = "password", required = false) String password,@RequestParam(value = "telephone", required = false) String telephone, @RequestParam(value = "role", required = false) String role) {
+    public String updateByPrimaryKey(@RequestParam(value = "id", required = false) Integer id, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "password", required = false) String password,@RequestParam(value = "telephone", required = false) String telephone, @RequestParam(value = "role", required = false) String role) {
         final User user = new User();
         user.setId(id);
-        user.setUserName(userName);
+        user.setUserName(username);
         user.setPassword(password);
         user.setTelephone(telephone);
         user.setRole(role);

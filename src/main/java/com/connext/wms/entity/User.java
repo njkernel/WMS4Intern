@@ -6,7 +6,7 @@ import lombok.ToString;
 public class User {
     private Integer id;
 
-    private String userName;
+    private String username;
 
     private String password;
 
@@ -14,9 +14,9 @@ public class User {
 
     private  String role;
 
-    public User(Integer id, String userName, String password, String telephone, String role) {
+    public User(Integer id, String username, String password, String telephone,String role) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.telephone = telephone;
         this.role=role;
@@ -35,11 +35,11 @@ public class User {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+    public void setUserName(String username) {
+        this.username = username == null ? null : username.trim();
     }
 
     public String getPassword() {

@@ -12,9 +12,9 @@ public interface UserService {
     //注册
     void register(User user);
     //注册验证
-    public int checkRegister(@Param("telephone") String telephone);
+    int checkRegister(@Param("telephone") String telephone);
     //登陆
-    public User login(Map<String, String> map);
+    User login(Map<String, String> map);
     //删除用户
     void delete(Integer id);
     //修改用户信息

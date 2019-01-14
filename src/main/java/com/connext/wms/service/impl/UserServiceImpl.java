@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         user.setUserName(user.getUserName());
         user.setTelephone(user.getTelephone());
+        user.setRole(user.getRole());
         userMapper.insert(user);
     }
 

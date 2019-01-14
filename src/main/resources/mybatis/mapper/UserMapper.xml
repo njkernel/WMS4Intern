@@ -4,32 +4,32 @@
     <resultMap id="BaseResultMap" type="com.connext.wms.entity.User">
         <constructor>
             <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="telephone" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="role" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
 
-    <!--注册-->
+    <!--新增-->
     <insert id="insert" parameterType="com.connext.wms.entity.User">
-        insert into t_user (id, user_name, password, telephone)
-        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{telephone,jdbcType=VARCHAR})
+        insert into t_user (username, password, telephone, role)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{telephone,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
     </insert>
 
     <!--注册验证-->
     <select id="checkRegister" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(telephone)
         from
-            user
+            t_user
         where telephone = #{telephone}
     </select>
 
     <!--用户登录-->
     <select id="login" parameterType="java.util.Map" resultType="com.connext.wms.entity.User">
         select *
-        from user
+        from t_user
         where telephone = #{telephone}
           and
             password = #{password}
@@ -45,7 +45,7 @@
     <!--修改用户信息-->
     <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.User">
         update t_user
-        set user_name = #{userName,jdbcType=VARCHAR},
+        set user_name = #{username,jdbcType=VARCHAR},
             password  = #{password,jdbcType=VARCHAR},
             telephone = #{telephone,jdbcType=VARCHAR},
             role=#{role,jdbcType=VARCHAR}
@@ -53,28 +53,28 @@
     </update>
 
     <!--用户列表-->
-    <select id="queryAll" resultMap="Map">
+    <select id="queryAll" resultMap="BaseResultMap">
         select *
-        from user
+        from t_user
     </select>
 
     <!--查询用户信息-->
-    <select id="findUser" resultMap="Map">
+    <select id="findUser" resultMap="BaseResultMap">
         select *
-        from user
-        where user_name like "%"#{userName}"%"
+        from t_user
+        where username like "%"#{username}"%"
     </select>
 
     <!--修改用户权限-->
     <update id="modifyRole" parameterType="com.connext.wms.entity.User">
-        update user
+        update t_user
         set role=#{role}
         where id = #{id}
     </update>
 
     <!--忘记密码-->
     <update id="forget" parameterType="com.connext.wms.entity.User">
-        update uesr
+        update t_user
         set password=#{password}
         where telephone = #{telephone}
     </update>
