@@ -1,0 +1,652 @@
+body{
+
+   width:100%;
+
+   height:900px;
+
+   margin:0;
+
+   padding:0;
+
+}
+a{
+
+   text-decoration: none; 
+}
+/* 网易注册页面的最上面的部分 */
+.header{
+
+    width:1000px;
+
+    height:80px;
+  
+    margin:0 auto;
+
+}
+.header .header-left{
+
+    width:280px;
+
+    height:100%;
+
+    float:left;
+
+}
+.header .header-left .header-01{
+
+    width:136px;
+
+    height:100%;
+
+}
+.header .header-left .header-01 img{
+
+    width:136px;
+
+    height:52px;
+   
+    margin-top:9px;
+
+}
+.header .header-left .header-left-01{
+
+    width:2px;
+
+    height:25px;
+
+    background-color:#aaa;
+
+    margin:-32px 0px 0px 150px;
+
+}
+.header .header-left .header-left-02{
+
+    width:157px;
+
+    height:28px;
+
+    font-size:15px;
+
+    text-align:center;
+
+    line-height:28px;
+
+    margin: -28px 0px 0px 145px;
+
+    color:#aaa;
+}
+.header .header-right{
+
+    float:right;
+
+    width:550px;
+
+    height:30px;
+
+    top:33px;
+
+    left:60px;
+
+    position: relative;
+
+}
+.header .header-right a{
+
+    font-size:13px;
+
+    color:#aaa;
+
+    height:30px;
+
+    text-decoration: none;
+
+}
+/* 网易注册页面的中间部分 */
+.main{
+
+    width:100%;
+
+    height:700px;
+}
+.main .main-inner{
+
+    width:1000px;
+
+    height:700px;
+
+    margin:0 auto;
+
+    position:relative;
+
+}
+
+.main .main-inner .box{
+
+    width:450px;
+
+    height:489px;
+
+    right:16px;
+
+    top:145px;
+
+    background-color:#fff;
+
+    position: absolute;
+
+    box-shadow: 1px 2px 5px rgb(255, 255, 255),0px 1px 5px rgb(204, 200, 200) ;
+
+    z-index:2;
+
+    overflow: hidden;
+
+}
+.main .main-inner .box .box-top{
+
+   width:450px;
+
+   height:48px;
+
+   text-align: center;
+
+   font-size: 19px;
+   
+   line-height: 74px;
+ 
+   font-weight:bold;
+
+}
+/* .main .main-inner .box .box-top-01 {
+
+    width:224px;
+
+    height:46px;
+
+    position: relative;
+
+    font-size: 20px;
+
+    text-align: center;
+
+    line-height: 48px;
+
+    font-weight: 100;
+
+} */
+
+.main .main-inner .box .box-top a:hover{
+
+    color:blue;
+    
+    border-bottom:1px solid blue;
+    
+} 
+.main .main-inner .box .box-middle{
+
+    position: relative;
+
+    width: 450px;
+
+    height:346px;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+
+    background: #fff;
+
+}
+.main .main-inner .box .box-middle .address{
+
+    width: 330px;
+
+    height : 46px;
+
+    font-size:16px;
+
+    top:30px;
+
+    left: 60px;
+
+    color:rgb(146, 144, 144);
+
+    background:url(../../images/registerLoading/account.png) no-repeat 0% 50%;
+
+    border:1px solid #aaa;
+
+    position: relative;
+
+    border-radius:7px;
+
+
+} 
+
+.table1{
+
+    width: 196px;
+
+    height : 42px;
+
+    margin-left:35px;  
+
+    border-radius : 1%;
+
+    border:1px solid #fff;
+
+    border-radius:7px;
+
+
+}
+.main .main-inner .box .box-middle .address:hover,.main .main-inner .box .box-middle .password:hover{
+
+    border:1px solid rgb(241, 195, 157);
+}
+.symbol{
+
+    margin:12px 0px 0px 0px;
+
+    position: absolute;
+
+    color:rgb(146, 144, 144);
+
+}
+#sel{
+
+    width: 100px;
+
+    height : 30px;
+
+    border-radius : 10%;
+
+    position: relative;
+
+    border:1px solid #fff;
+
+    color:rgb(146, 144, 144);
+}
+.main .main-inner .box .box-middle .password{
+   
+    width: 330px;
+
+    height : 46px;
+
+    font-size:16px;
+
+    top:30px;
+
+    left: 60px;
+
+    background:url(../../images/registerLoading/password.png) no-repeat 0% 50%;
+
+    color:rgb(146, 144, 144);
+
+    border:1px solid #aaa;
+
+    border-radius:7px;
+
+    position: relative;
+ 
+} 
+.main .main-inner .box .box-middle .freeload{
+
+    width: 330px;
+
+    height : 28px;
+
+    position: absolute;
+
+    top:166px;
+
+    left:60px;
+}
+.table2{
+
+    width: 196px;
+
+    height : 42px;
+
+    margin-left:35px;   
+
+    border-radius : 4px;
+
+    border:1px solid #fff;
+}
+
+.lable{
+
+    color:#aaa;
+
+    font-size:14px;
+
+}
+.main .main-inner .box .box-middle .load-01{
+
+    width:162px;
+
+    height:48px;
+
+    position: relative;
+
+    line-height:48px;
+
+    text-align:center;
+
+    bottom:-60px;
+
+    left:60px;
+
+    color:#fff;
+
+    border-radius : 4px;
+
+    background-color:#1890FF;
+
+}
+.main .main-inner .box .box-middle .load-02{
+
+    width:300px;
+
+    height:48px;
+
+    position: relative;
+
+    line-height:48px;
+
+    text-align:center;
+
+    bottom:-60px;
+
+    left:75px;
+
+    color:#fff;
+
+    border-radius : 5px;
+
+    background-color:#1890FF;
+
+}
+.main .main-inner .box .box-middle .load-01:hover,.main .main-inner .box .box-middle .load-02:hover{
+
+    box-shadow: 1px 2px 5px #1890FF,-2px -2px 5px #1890FF;
+
+}
+.main .main-inner .box .box-middle .insert-01{
+
+    width:162px;
+    
+    height:48px;
+
+    top:12px;
+
+    left:233px;
+
+    position: relative;
+
+    text-align:center;
+
+    line-height:48px;
+
+    background-color:rgb(124, 221, 162);
+
+    border:1px solid rgb(124, 221, 162);
+
+    border-radius: 5px;
+    
+}
+.main .main-inner .box .box-middle .insert-01:hover{
+
+    box-shadow: 1px 2px 5px rgb(124, 221, 162),-2px -2px 5px rgb(124, 221, 162);
+
+}
+.main .main-inner .box-middle .insert-01 a{
+
+    text-decoration: none;
+
+    color:#fff;
+
+}
+.main .main-inner .box .box-middle .book{
+   width:330px;
+
+   height:60px;
+
+   font-family: 仿宋;
+
+   position: relative;
+
+   top:48px;
+
+   left:100px;
+}
+.main .main-inner .box .box-middle .book1{
+    width:330px;
+ 
+    height:60px;
+ 
+    font-family: 仿宋;
+ 
+    position: relative;
+ 
+    top:90px;
+ 
+    left:100px;
+ }
+.main .main-inner .box .box-bottom{
+
+    width:450px;
+
+    height:90px;
+
+}
+.main .main-inner .box .box-bottom .box-bottom-01{
+
+    width:450px;
+
+    height:20px;
+
+    font-size:14px;
+
+    left:70px;
+
+    top:25px;
+
+    position: relative;
+
+    color:#aaa;
+
+}
+.main .main-inner .box .box-bottom .box-bottom-02{
+
+    width:450px;
+
+    height:20px;
+
+    font-size:14px;
+
+    left:73px;
+
+    top:30px;
+
+    position: relative;
+
+    color:red;
+
+}
+.main .main-inner .main-bottom{
+
+    width:200px;
+
+    height:60px;
+
+    bottom:10px;
+
+    right:10px;
+
+    text-align:center;
+
+    position: absolute;
+
+    line-height: 60px;
+
+    float:left;
+
+}
+.main .main-inner .main-bottom .main-bottom-01 {
+
+    width:30px;
+
+    height:30px;
+
+    text-decoration: none;
+    
+    color: rgb(179, 182, 179);
+
+    background-color:rgb(114, 112, 112);
+
+    border-radius: 50%;
+ 
+    font-size: 20px;
+ 
+    z-index: 2;
+
+    position: relative;
+
+    top:40px;
+
+    left:130px;
+
+    line-height:28px;
+
+    text-align:center;
+   
+}
+.main .main-inner .main-bottom .main-bottom-02{
+
+    width:30px;
+
+    height:30px;
+
+    text-decoration: none;
+
+    color: rgb(179, 182, 179);
+ 
+    border-radius: 50%;
+
+    font-size: 20px;
+
+    z-index: 2;
+
+    background-color:rgb(114, 112, 112);
+
+    position: relative;
+
+    top:10px;
+
+    left:170px;
+
+    line-height:28px;
+     
+    text-align:center;
+
+}
+.main .main-inner .main-bottom .main-bottom-01 a,.main .main-inner .main-bottom .main-bottom-02 a{
+
+    color:#fff;
+
+    font-size:27px;
+}
+.forget{
+
+    color:blue;
+
+    font-size:14px;
+
+    left:150px;
+
+    text-decoration: none;
+
+    position: relative;
+
+}
+/* 网易注册页面的最下面部分 */
+.footer{
+
+    width:1000px;
+
+    height:65px;
+   
+    margin:0 auto;
+
+    position: relative;
+
+    top:40px;
+
+}
+.footer .footer-left{
+
+    width:92px;
+
+    height:33px;
+
+}
+.footer .footer-left a img{
+
+    width:92px;
+
+    height:33px;
+
+}
+.footer .footer-right-top{
+
+    float:left;
+
+    width:1000px;
+
+    height:24px;
+
+    margin-top:-35px;
+
+}
+.footer .footer-right-top a{
+
+    color:#aaa;
+
+    font-size:12px;
+
+    padding-left:10px;
+
+    text-decoration: none;
+
+}
+.footer-right-top-01{
+
+    margin-left:150px;
+
+}
+.footer .footer-right-bottom{
+
+    float:left;
+
+    width:1000px;
+
+    height:24px;
+
+    font-size:12px;
+    
+}
+.footer .footer-right-bottom-01 {
+
+    margin-left:190px;
+
+}
+.footer .footer-right-bottom a{
+
+    padding-left:8px;
+
+    color:#aaa;
+
+    font-size:12px;
+
+    text-decoration: none;
+    
+}
