@@ -1,6 +1,5 @@
 package com.connext.wms.service.impl;
 
-import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.dto.InputFeedback;
 import com.connext.wms.api.dto.InputFeedbackDetail;
 import com.connext.wms.api.util.EntityAndDto;
@@ -34,6 +33,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final Constant constant;
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
+    private final String PUSH_URL="http://10.129.100.65:8502/Api/getExchangeInputFeedback";
 
 
     @Autowired
@@ -90,11 +90,11 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     public List<InRepertory> checkInRepertoryExpired(List<InRepertory> inRepertories) {
         List<InRepertory> expires = new ArrayList<>();
         inRepertories.forEach(i -> {
-            if (constant.getINIT_STATUS().equals(i.getInRepoStatus()) && isExpired(i)) {
+            if (constant.INIT_STATUS.equals(i.getInRepoStatus()) && isExpired(i)) {
                 expires.add(i);
             }
         });
-        expires.forEach(u -> changeInRepertoryStatus(u.getId(), constant.getOVER_STATUS()));
+        expires.forEach(u -> changeInRepertoryStatus(u.getId(), constant.OVER_STATUS));
         return expires;
     }
 
@@ -104,8 +104,8 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setId(id);
         inRepertory.setReviseTime(new Date());
         inRepertory.setInRepoStatus(status);
-        inRepertory.setSyncStatus(constant.getSYNC_TRUE_STATES());
-        if (constant.getINIT_STATUS().equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
+        inRepertory.setSyncStatus(constant.SYNC_TRUE_STATES);
+        if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
             return true;
         }
@@ -115,9 +115,9 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     public boolean pushInRepertoryState(InRepertory inRepertory) {
         List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
-        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.getTOKENS(), inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
+        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
         try {
-            restTemplate.postForObject("http://10.129.100.65:8502/Api/getExchangeInputFeedback", inputFeedback.toMap(), String.class);
+            restTemplate.postForObject(PUSH_URL, inputFeedback.toMap(), String.class);
             return true;
         } catch (Exception e) {
             return false;

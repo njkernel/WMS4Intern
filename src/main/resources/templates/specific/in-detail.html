@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>入库详情</title>
+    <link rel="stylesheet" type="text/css" href="/css/specific/outstock.css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/search.css">
+</head>
+<style>
+    thead tr td{
+        text-align:center;
+    }
+</style>
+<body style="overflow-x:hidden;">
+<!--/*@thymesVar id="one" type="com.connext.wms.entity.InRepertory"*/-->
+<div>
+    <div class="main-body">
+        <div>
+            <div class="title">
+                <text>商品信息</text>
+            </div>
+            <div class="title-content">
+                <div class="title-content1">
+                    <div class="title-content1-top1">订单号
+                    <input disabled="disabled" th:text="${one.orderId}">
+                    </div>
+                    <div class="title-content1-top2">渠道订单号：<input disabled="disabled"
+                                                                  th:text="${one.channelId}"></div>
+                    <div class="title-content1-top3">入库单号：<input disabled="disabled"
+                                                                 th:text="${one.inRepoId}"></div>
+                </div>
+                <div class="title-content2">
+                    <div class="title-content1-top1">入库单状态：<input disabled="disabled"
+                                                                th:text="${one.inRepoStatus}"></div>
+                    <div class="title-content1-top2">快递公司：<input disabled="disabled"
+                                                                 th:text="${one.expressCompany}"></div>
+                    <div class="title-content1-top3">快递单号：<input disabled="disabled"
+                                                                 th:text="${one.expressId}"></div>
+                </div>
+                <div class="title-content3">
+                    <div class="title-content1-top1">创建时间：<input disabled="disabled"
+                                                                  th:text="${one.createTime}"></div>
+                    <div class="title-content1-top2">修改人：<input disabled="disabled"
+                                                                 th:text="${one.reviser}"></div>
+                    <div class="title-content1-top3">修改时间：<input disabled="disabled"
+                                                                 th:text="${one.reviseTime}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content2">
+            <div class="main-content2-title">
+                <text style="font-size: 18px; font-weight: 600;">出库商品</text>
+            </div>
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>出库单号</th>
+                    <th>商品编码</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                </tr>
+                </thead>
+                <tr th:each="orod:${one.getRepertoryDetails()}">
+                    <td th:text="${orod.inRepoId}"></td>
+                    <td></td>
+                    <td th:text="${orod.goodsName}"></td>
+                    <td></td>
+                    <td th:text="${orod.goodsNum}"></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td style="font-size: 15px;"><strong>总计</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>
