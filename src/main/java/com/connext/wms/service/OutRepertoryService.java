@@ -1,6 +1,7 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.OutRepertory;
+import com.connext.wms.entity.OutRepertoryDetail;
 import com.connext.wms.entity.OutRepertoryExample;
 import com.connext.wms.util.Page;
 
@@ -20,13 +21,14 @@ public interface OutRepertoryService {
     void updateOutRepoOrderStatus(OutRepertory outRepertory, List<Integer> outRepoOrderId,String[] shippingInfo);
     //oms通过出库单编号主动取消wms出库单状态
     void omsUpdateOutRepoOrderStatus(OutRepertory outRepertory,List<String> outRepoOrderNo);
-    //查看出库单详情
-    OutRepertory outRepoOrderDetail(String outRepoOrderId);
     //推送出库单时将出库单插入数据库
     void addOutRepoOrder(OutRepertory outRepertory);
     //oms取消时根据某个出库单id查询出库单详情
     OutRepertory outRepoOrderInfo(String outRepoOrderNo);
     //wms主动取消出库单
     void cancelOutRepoOrder(String[] outRepoOrderNo);
-
+    //根据出库单id查询某一条出库单信息
+    OutRepertory selectByOutRepoId(Integer outRepoId);
+    //根据出库单id查询某一条出库单信息
+    List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId);
 }
