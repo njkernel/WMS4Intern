@@ -1,0 +1,52 @@
+.table-box {
+    border-bottom: 1px solid #ddd;
+}
+.table tbody tr td{
+    height: 30px;
+}
+.table thead tr th {
+    border-bottom: 1px;
+    text-align: center;
+}
+.table input[type=checkbox] {
+    margin: 0;
+}
+.btn-div {
+    padding: 10px;
+}
+.table tbody td {
+    text-align: center;
+}
+.table tbody tr:hover {
+    background-color: #e6f7ff;
+}
+/* 自定义checkbox样式 */
+#checkOne + label::before {
+    content: "\a0";  /*不换行空格*/
+    display: inline-block;
+    vertical-align: .2em;
+    width: 1em;
+    height: 1em;
+    border-radius: .2em;
+    background-color: silver;
+    text-indent: .15em;
+    line-height: .65;
+}
+#checkOne:checked + label::before {
+    content: "\2713";
+    background-color: #528dff;
+    color: #fff;
+}
+#checkOne {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+.modal-body {
+    text-align: center;
+}
+.modal-body .body-input {
+    margin-top: 20px;
+}
+.modal-body .body-input select {
+    width: 100px;
+}

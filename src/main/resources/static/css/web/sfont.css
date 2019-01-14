@@ -1,0 +1,57 @@
+@charset "utf-8";
+/*
+      www.SFont.cn 
+      You must credit the author Copy this link on your web 
+      <div>Font made from <a href="http://www.sfont.cn">icon</a>is licensed by CC BY 3.0</div>
+      OR
+      <a href="http://www.sfont.cn">icon</a>
+*/
+@font-face {
+	font-family: "sfont";
+	src:url("sfont.eot");
+	src:url("sfont.eot?#iefix") format("embedded-opentype"),
+		url("sfont.woff2") format("woff2"),
+		url("sfont.woff") format("woff"),
+		url("sfont.ttf") format("truetype"),
+		url("sfont.svg#sfont") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="i_"]:before, [class*=" i_"]:before{
+	font-family: "sfont";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.i_quit:before {
+	content: "\e010";
+}
+.i_set:before {
+	content: "\e011";
+}
+.i_seach:before {
+	content: "\e012";
+}
+.i_message:before {
+	content: "\e013";
+}
+.i_shrink:before {
+	content: "\e014";
+}
+.i_warehouse:before {
+	content: "\e015";
+}
+.i_user:before {
+	content: "\e016";
+}
+.i_goods:before {
+	content: "\e017";
+}
+.i_orders:before {
+	content: "\e018";
+}
+
