@@ -7,7 +7,7 @@
     <title>出库</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script th:src="@{/javascript/popup/popup.js}"></script>
+    <script th:src="@{/js/popup/popup.js}"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" th:href="@{/styles/search.css}">
     <script type="text/javascript">
@@ -15,8 +15,7 @@
             $('.action').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
                 $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
-                $('#demoModal .modal-footer #receiveButtonId').value=$(this).attr('id');
-                console.log($(this).attr('id'));
+                $('#demoModal .modal-footer #receiveButtonId').attr("value",$(this).attr('id'));
                 $('#demoModal').modal();
             });
         });
@@ -32,21 +31,21 @@
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow"></div>
 <div class="btn-div">
-    <button type="button" class="btn btn-primary action" id="haveChecked">检货</button>
-    <button type="button" class="btn btn-primary action" id="havePackaged">包装</button>
+    <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
+    <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
     <button type="button" class="btn btn-primary action" id="haveCanceled">取消</button>
     <div class="search-box">
-        <form action="">
-            <select name="" id="">
-                <option value="">待检货</option>
-                <option value="">待包装</option>
-                <option value="">待发货</option>
-                <option value="">已发货</option>
-                <option value="">已取消</option>
+        <form th:action="@{/outRepoOrderController/outRepoOrderList}" method="post">
+            <select name="selectStatus" id="selectStatus">
+                <option value="waittingChecked">待检货</option>
+                <option value="waittingPackaged">待包装</option>
+                <option value="waittingShipped">待发货</option>
+                <option value="haveShipped">已发货</option>
+                <option value="haveCanceled">已取消</option>
             </select>
-            <input type="text" placeholder="请输入出库单号">
-            <button type="button" class="btn btn-success">搜索</button>
+            <input type="text" name="outRepoOrderId" placeholder="请输入出库单号">
+            <button type="submit" class="btn btn-success">搜索</button>
         </form>
     </div>
 </div>
@@ -141,15 +140,22 @@
 </body>
 <script>
     function changeStatus() {
+        var receiveButtonIdValue=document.getElementById("receiveButtonId").value;
         var checkBox = document.getElementsByName('checkboxName');
-        var checkedList = new Array();
+        var checkedArray = new Array();
         for (var i = 0; i < checkBox.length; i++) {
             if (checkBox[i].checked) {
-                checkedList.push(checkBox[i].value);
+                checkedArray.push(checkBox[i].value);
             }
         }
-        //var clickButton =
-        console.log(checkedList);
+        $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
+            if(data=="0"){
+                alert("操作失败！");
+            }else{
+                location.href="../outRepoOrderController/outRepoOrderList";
+            }
+        })
+
     }
 
 </script>
