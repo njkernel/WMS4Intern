@@ -30,15 +30,16 @@ public class OutRepertoryController {
     //index跳转outRepo界面
     @RequestMapping("/toOutRepoOrder")
     public String toOutRepoOrder(){
-        return "warehouse-out-list";
+        return "out_repertory";
     }
 
     //分页查询展示出库单
     @RequestMapping("/outRepoOrderList")
     public String outRepoOrderList(Integer currPage, OutRepertoryExample example, Model model) {
-       // model.addAttribute("outRepoOrderList", this.outRepertoryService.outRepoOrderList(currPage, example));
-        return "warehouse-out-list";
+        model.addAttribute("outRepoOrderList", this.outRepertoryService.outRepoOrderListByPage(0,10));
+        return "out_repertory";
     }
+
 
     //更改出库单状态
     @RequestMapping("/updateOutRepoOrderStatus")
@@ -48,10 +49,11 @@ public class OutRepertoryController {
     }
 
     //查看出库单商品详情
-    @RequestMapping("/outRepoOrderDetail")
-    public String outRepoOrderDetail(String outRepoOrderId) {
-        this.outRepertoryService.outRepoOrderDetail(outRepoOrderId);
-        return "";
+    @RequestMapping("/toOutRepoDetail")
+    public String outRepoOrderDetail(String outRepoOrderId,Model model) {
+        model.addAttribute("outRepoOrder",this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
+        model.addAttribute("outRepoOrderDetail",this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
+        return "/specific/outstock";
     }
 
     //WMS批量取消出库单

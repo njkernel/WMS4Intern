@@ -4,6 +4,7 @@ package com.connext.wms.service.serviceImp;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.OutRepertory;
+import com.connext.wms.entity.OutRepertoryDetail;
 import com.connext.wms.entity.OutRepertoryDetailExample;
 import com.connext.wms.entity.OutRepertoryExample;
 import com.connext.wms.service.OutRepertoryService;
@@ -82,14 +83,6 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         this.outRepertoryMapper.updateByExampleSelective(outRepertory,outRepertoryExample);
     }
 
-    //查询出库单商品详情
-    @Override
-    public OutRepertory outRepoOrderDetail(String outRepoOrderId) {
-        OutRepertory outRepertory = this.outRepertoryMapper.selectByPrimaryKey(Integer.parseInt(outRepoOrderId));
-        this.outRepertoryDetailExample.createCriteria().andOutRepoIdEqualTo(Integer.parseInt(outRepoOrderId));
-        outRepertory.setOutRepertoryDetailList(this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample));
-        return outRepertory;
-    }
 
     //推送出库单时将出库单插入数据库
     @Override
@@ -121,6 +114,18 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
             this.outRepertoryMapper.updateByExampleSelective(outRepertory,outRepertoryExample);
         }
 
+    }
+
+    //根据出库单id查询某一条出库单信息
+    @Override
+    public OutRepertory selectByOutRepoId(Integer outRepoId) {
+        return this.outRepertoryMapper.selectByPrimaryKey(outRepoId);
+    }
+
+    @Override
+    public List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId) {
+        outRepertoryDetailExample.createCriteria().andOutRepoIdEqualTo(outRepoId);
+        return this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample);
     }
 
 
