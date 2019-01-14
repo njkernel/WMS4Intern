@@ -47,11 +47,11 @@ public class InRepertoryApi {
                                  @RequestParam String detailDTOS
     ) throws IOException {
         //token校验
-        if (Objects.equals(AES.AESDncode(constant.getTOKENS(), tokens), inRepoId)) {
+        if (Objects.equals(AES.AESDncode(constant.TOKENS, tokens), inRepoId)) {
             List<InRepertoryDetailDTO> repertoryDetailDTOS = objectMapper.readValue(detailDTOS, new TypeReference<List<InRepertoryDetailDTO>>() {
             });
             Date nowTime = new Date();
-            InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, constant.getINIT_STATUS(), constant.getSYNC_FALSE_STATES(), constant.getRECEIVING_REPERTORY(), nowTime, constant.getREVISER(), nowTime, entityAndDto.toEntity(inRepoId, repertoryDetailDTOS));
+            InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, constant.INIT_STATUS, constant.SYNC_FALSE_STATES, constant.RECEIVING_REPERTORY, nowTime, constant.REVISER, nowTime, entityAndDto.toEntity(inRepoId, repertoryDetailDTOS));
             inRepertoryService.initInRepertory(inRepertory);
         } else {
             throw new IOException("tokens error");
