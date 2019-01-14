@@ -30,9 +30,7 @@ public class ExpressCompanyController {
     //查询所有的快递公司信息显示在页面
     @RequestMapping("/findAll")
     public String findAll(Model model){
-        model.addAttribute("express",expressCompanyService.selectByPage(1,5));
-/*        Locale locale = LocaleContextHolder.getLocale();
-        model.addAttribute("exception", messageSource.getMessage("exception", null, locale));*/
+        model.addAttribute("express",expressCompanyService.selectByPage(1,10));
         return "express-company";
     }
 
@@ -41,13 +39,9 @@ public class ExpressCompanyController {
     public String findByKey(Model model,String key) {
         //1:没有查找到对应关键字的记录
         List<ExpressCompany> list = expressCompanyService.selectByExample(key);
-        if (list.size()==0) {
-            return "1";
-        } else {
-            System.out.println(list);
-            model.addAttribute("express", list);
-            return "express-company";
-        }
+        System.out.println(list);
+        model.addAttribute("express", list);
+        return "express-company";
     }
 
     //根据公司名称删除公司信息
@@ -62,14 +56,22 @@ public class ExpressCompanyController {
     @RequestMapping("/Update")
     public String toUpdate(String newName,String expressCompanyName,String contactWay){
         expressCompanyService.updateByExample(newName,expressCompanyName,contactWay);
-        return "redirect:findAll";
+        return "redirect:/expressCompany";
     }
 
     //添加一家公司
     @RequestMapping("/Add")
+    @ResponseBody
     public String toAdd(String expressCompanyName,String contactWay){
-        expressCompanyService.insert(expressCompanyName,contactWay);
-        return "redirect:findAll";
+        System.out.println(expressCompanyName+","+contactWay);
+        //按照输入的公司名称查询数据库中是否有已经存在的公司，如果有返回已经存在；
+        List<ExpressCompany> list = expressCompanyService.selectByExample(expressCompanyName);
+        if(list.size()==1){
+            return "1";
+        }else{
+            expressCompanyService.insert(expressCompanyName,contactWay);
+            return "redirect:/expressCompany";
+        }
     }
 
 

@@ -20,6 +20,10 @@ public class ExceptionController {
     @Autowired
     private ExceptionService exceptionService;
 
+/*    @RequestMapping("/toDetail")
+    public String index(){
+        return "abnormal-order";
+    }*/
 
     //查询所有异常的订单返回到列表
     @RequestMapping("/findList")
