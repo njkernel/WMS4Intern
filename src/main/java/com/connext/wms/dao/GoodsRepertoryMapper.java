@@ -30,5 +30,5 @@ public interface GoodsRepertoryMapper {
      * 查看商品库存表的所有信息
      * @return
      */
-    List<GoodsRepertory> getGoodsRepertory();
+    List<GoodsRepertory> getGoodsRepertory(Integer start,Integer size);
 }

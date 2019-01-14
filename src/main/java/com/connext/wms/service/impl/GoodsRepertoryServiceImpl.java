@@ -50,30 +50,44 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
         调用OMS接口，将总库存同步给OMS
          */
         List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
-        restTemplate.postForObject("http://10.129.100.107:8502/updateTotalStock", listCodeTotalStockDTO, String.class);
+        restTemplate.postForObject("http://10.129.100.42:8502/updateTotalStock", listCodeTotalStockDTO, String.class);
     }
 
     @Override
-    public List<RealRepertoryVO> showRealRepertory() {
-        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory();
+    public List<RealRepertoryVO> showRealRepertory(Integer start,Integer size) {
+        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory(start,size);
         List<RealRepertoryVO> list = new ArrayList<>();
         for (int i = 0; i < goodsRepertoryList.size(); i++) {
             RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(goodsRepertoryList.get(i).getId());
             Integer id = goodsRepertoryList.get(i).getGoodsId();
             GoodsExample goodsExample = new GoodsExample();
             goodsExample.createCriteria().andIdEqualTo(id);
+            Integer goodsRepertoryId = goodsRepertoryList.get(i).getId();
             String sku = goodsMapper.selectByExample(goodsExample).get(0).getSku();
             String goodsName = goodsMapper.selectByExample(goodsExample).get(0).getGoodsName();
-            Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum() + repertoryRegulation.getTotalResult();
-            Integer realAvailableRepertory = goodsRepertoryList.get(i).getAvailableNum() + repertoryRegulation.getAvailableResult();
-            Integer realLockedRepertory = goodsRepertoryList.get(i).getLockedNum() + repertoryRegulation.getLockedResult();
             RealRepertoryVO realRepertoryVO = new RealRepertoryVO();
+            realRepertoryVO.setId(goodsRepertoryId);
             realRepertoryVO.setSku(sku);
             realRepertoryVO.setGoodsName(goodsName);
-            realRepertoryVO.setRealAvailableRepertory(realAvailableRepertory);
-            realRepertoryVO.setRealLockedRepertory(realLockedRepertory);
-            realRepertoryVO.setRealTotalRepertory(realTotalRepertory);
-            list.add(realRepertoryVO);
+            if(repertoryRegulation!=null){
+                Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum() + repertoryRegulation.getTotalResult();
+                Integer realAvailableRepertory = goodsRepertoryList.get(i).getAvailableNum() + repertoryRegulation.getAvailableResult();
+                Integer realLockedRepertory = goodsRepertoryList.get(i).getLockedNum() + repertoryRegulation.getLockedResult();
+                realRepertoryVO.setRealAvailableRepertory(realAvailableRepertory);
+                realRepertoryVO.setRealLockedRepertory(realLockedRepertory);
+                realRepertoryVO.setRealTotalRepertory(realTotalRepertory);
+                list.add(realRepertoryVO);
+            }else {
+                Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum();
+                Integer realAvailableRepertory = goodsRepertoryList.get(i).getAvailableNum();
+                Integer realLockedRepertory = goodsRepertoryList.get(i).getLockedNum();
+                realRepertoryVO.setRealAvailableRepertory(realAvailableRepertory);
+                realRepertoryVO.setRealLockedRepertory(realLockedRepertory);
+                realRepertoryVO.setRealTotalRepertory(realTotalRepertory);
+                list.add(realRepertoryVO);
+            }
+
+
         }
         return list;
 
