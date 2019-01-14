@@ -9,6 +9,11 @@
       <arg column="goods_price" javaType="java.lang.Float" jdbcType="REAL" />
     </constructor>
   </resultMap>
+  <resultMap id="GoodsDTOMap" type="com.connext.wms.api.dto.GoodsDTO">
+    <id column="sku" property="sku"/>
+    <result column="goodsName" property="goodsName"/>
+    <result column="goodsPrice" property="goodsPrice"/>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -195,4 +200,7 @@
       goods_price = #{goodsPrice,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectGoodsDTOBySku" parameterType="String" resultMap="GoodsDTOMap">
+     select sku,goods_name as goodsName,goods_price as goodsPrice from t_goods where sku=#{sku}
+  </select>
 </mapper>

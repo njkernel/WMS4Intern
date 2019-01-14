@@ -1,350 +1,380 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.connext.wms.dao.OutRepertoryMapper">
-  <resultMap id="BaseResultMap" type="com.connext.wms.entity.OutRepertory">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="out_repo_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="channel_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="receiver_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="receiver_address" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="express_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="express_company" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="out_repo_status" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="sync_status" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="reviser" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="revise_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.connext.wms.entity.OutRepertory">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="out_repo_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="channel_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="receiver_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="receiver_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="express_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="express_company" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="out_repo_status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="sync_status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="reviser" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="revise_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, out_repo_id, order_id, channel_id, receiver_name, receiver_address, express_id, 
-    express_company, out_repo_status, sync_status, create_time, reviser, revise_time
-  </sql>
-  <select id="selectByExample" parameterType="com.connext.wms.entity.OutRepertoryExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_out_repo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_out_repo
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, out_repo_id, order_id,
-           channel_id, receiver_name, receiver_address,
-           express_id, express_company, out_repo_status,
-           sync_status, create_time, reviser,
-           revise_time
-    from t_out_repo
-      where out_repo_status like '%异常%'
-    limit #{start},#{size}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_out_repo
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.connext.wms.entity.OutRepertoryExample">
-    delete from t_out_repo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.connext.wms.entity.OutRepertory">
-    insert into t_out_repo (id, out_repo_id, order_id, 
-      channel_id, receiver_name, receiver_address, 
-      express_id, express_company, out_repo_status, 
-      sync_status, create_time, reviser, 
-      revise_time)
-    values (#{id,jdbcType=INTEGER}, #{outRepoId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
-      #{channelId,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
-      #{expressId,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, #{outRepoStatus,jdbcType=VARCHAR}, 
-      #{syncStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=VARCHAR}, 
-      #{reviseTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.connext.wms.entity.OutRepertory">
-    insert into t_out_repo
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="outRepoId != null">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        ,
         out_repo_id,
-      </if>
-      <if test="orderId != null">
         order_id,
-      </if>
-      <if test="channelId != null">
         channel_id,
-      </if>
-      <if test="receiverName != null">
         receiver_name,
-      </if>
-      <if test="receiverAddress != null">
         receiver_address,
-      </if>
-      <if test="expressId != null">
         express_id,
-      </if>
-      <if test="expressCompany != null">
         express_company,
-      </if>
-      <if test="outRepoStatus != null">
         out_repo_status,
-      </if>
-      <if test="syncStatus != null">
         sync_status,
-      </if>
-      <if test="createTime != null">
         create_time,
-      </if>
-      <if test="reviser != null">
         reviser,
-      </if>
-      <if test="reviseTime != null">
-        revise_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="outRepoId != null">
-        #{outRepoId,jdbcType=VARCHAR},
-      </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=VARCHAR},
-      </if>
-      <if test="channelId != null">
-        #{channelId,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverName != null">
-        #{receiverName,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverAddress != null">
-        #{receiverAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="expressId != null">
-        #{expressId,jdbcType=VARCHAR},
-      </if>
-      <if test="expressCompany != null">
-        #{expressCompany,jdbcType=VARCHAR},
-      </if>
-      <if test="outRepoStatus != null">
-        #{outRepoStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="syncStatus != null">
-        #{syncStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reviser != null">
-        #{reviser,jdbcType=VARCHAR},
-      </if>
-      <if test="reviseTime != null">
-        #{reviseTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.connext.wms.entity.OutRepertoryExample" resultType="java.lang.Long">
-    select count(*) from t_out_repo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update t_out_repo
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.outRepoId != null">
+        revise_time
+    </sql>
+    <select id="selectByExample" parameterType="com.connext.wms.entity.OutRepertoryExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from t_out_repo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_out_repo
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_out_repo
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.connext.wms.entity.OutRepertoryExample">
+        delete from t_out_repo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.connext.wms.entity.OutRepertory">
+        insert into t_out_repo (id, out_repo_id, order_id,
+                                channel_id, receiver_name, receiver_address,
+                                express_id, express_company, out_repo_status,
+                                sync_status, create_time, reviser,
+                                revise_time)
+        values (#{id,jdbcType=INTEGER}, #{outRepoId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR},
+                #{channelId,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR},
+                #{expressId,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, #{outRepoStatus,jdbcType=VARCHAR},
+                #{syncStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=VARCHAR},
+                #{reviseTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.connext.wms.entity.OutRepertory">
+        insert into t_out_repo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="outRepoId != null">
+                out_repo_id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="receiverName != null">
+                receiver_name,
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address,
+            </if>
+            <if test="expressId != null">
+                express_id,
+            </if>
+            <if test="expressCompany != null">
+                express_company,
+            </if>
+            <if test="outRepoStatus != null">
+                out_repo_status,
+            </if>
+            <if test="syncStatus != null">
+                sync_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="reviser != null">
+                reviser,
+            </if>
+            <if test="reviseTime != null">
+                revise_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="outRepoId != null">
+                #{outRepoId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverName != null">
+                #{receiverName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverAddress != null">
+                #{receiverAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="expressId != null">
+                #{expressId,jdbcType=VARCHAR},
+            </if>
+            <if test="expressCompany != null">
+                #{expressCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="outRepoStatus != null">
+                #{outRepoStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="syncStatus != null">
+                #{syncStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reviser != null">
+                #{reviser,jdbcType=VARCHAR},
+            </if>
+            <if test="reviseTime != null">
+                #{reviseTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.connext.wms.entity.OutRepertoryExample" resultType="java.lang.Long">
+        select count(*) from t_out_repo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update t_out_repo
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.outRepoId != null">
+                out_repo_id = #{record.outRepoId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderId != null">
+                order_id = #{record.orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.receiverName != null">
+                receiver_name = #{record.receiverName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.receiverAddress != null">
+                receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expressId != null">
+                express_id = #{record.expressId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expressCompany != null">
+                express_company = #{record.expressCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="record.outRepoStatus != null">
+                out_repo_status = #{record.outRepoStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.syncStatus != null">
+                sync_status = #{record.syncStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.reviser != null">
+                reviser = #{record.reviser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reviseTime != null">
+                revise_time = #{record.reviseTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update t_out_repo
+        set id = #{record.id,jdbcType=INTEGER},
         out_repo_id = #{record.outRepoId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orderId != null">
         order_id = #{record.orderId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.channelId != null">
         channel_id = #{record.channelId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.receiverName != null">
         receiver_name = #{record.receiverName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.receiverAddress != null">
         receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="record.expressId != null">
         express_id = #{record.expressId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.expressCompany != null">
         express_company = #{record.expressCompany,jdbcType=VARCHAR},
-      </if>
-      <if test="record.outRepoStatus != null">
         out_repo_status = #{record.outRepoStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.syncStatus != null">
         sync_status = #{record.syncStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.reviser != null">
         reviser = #{record.reviser,jdbcType=VARCHAR},
-      </if>
-      <if test="record.reviseTime != null">
-        revise_time = #{record.reviseTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update t_out_repo
-    set id = #{record.id,jdbcType=INTEGER},
-      out_repo_id = #{record.outRepoId,jdbcType=VARCHAR},
-      order_id = #{record.orderId,jdbcType=VARCHAR},
-      channel_id = #{record.channelId,jdbcType=VARCHAR},
-      receiver_name = #{record.receiverName,jdbcType=VARCHAR},
-      receiver_address = #{record.receiverAddress,jdbcType=VARCHAR},
-      express_id = #{record.expressId,jdbcType=VARCHAR},
-      express_company = #{record.expressCompany,jdbcType=VARCHAR},
-      out_repo_status = #{record.outRepoStatus,jdbcType=VARCHAR},
-      sync_status = #{record.syncStatus,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      reviser = #{record.reviser,jdbcType=VARCHAR},
-      revise_time = #{record.reviseTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.connext.wms.entity.OutRepertory">
-    update t_out_repo
-    <set>
-      <if test="outRepoId != null">
-        out_repo_id = #{outRepoId,jdbcType=VARCHAR},
-      </if>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=VARCHAR},
-      </if>
-      <if test="channelId != null">
-        channel_id = #{channelId,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverName != null">
-        receiver_name = #{receiverName,jdbcType=VARCHAR},
-      </if>
-      <if test="receiverAddress != null">
-        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="expressId != null">
-        express_id = #{expressId,jdbcType=VARCHAR},
-      </if>
-      <if test="expressCompany != null">
-        express_company = #{expressCompany,jdbcType=VARCHAR},
-      </if>
-      <if test="outRepoStatus != null">
-        out_repo_status = #{outRepoStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="syncStatus != null">
-        sync_status = #{syncStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reviser != null">
-        reviser = #{reviser,jdbcType=VARCHAR},
-      </if>
-      <if test="reviseTime != null">
-        revise_time = #{reviseTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.OutRepertory">
-    update t_out_repo
-    set out_repo_id = #{outRepoId,jdbcType=VARCHAR},
-      order_id = #{orderId,jdbcType=VARCHAR},
-      channel_id = #{channelId,jdbcType=VARCHAR},
-      receiver_name = #{receiverName,jdbcType=VARCHAR},
-      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
-      express_id = #{expressId,jdbcType=VARCHAR},
-      express_company = #{expressCompany,jdbcType=VARCHAR},
-      out_repo_status = #{outRepoStatus,jdbcType=VARCHAR},
-      sync_status = #{syncStatus,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=VARCHAR},
-      revise_time = #{reviseTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        revise_time = #{record.reviseTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.connext.wms.entity.OutRepertory">
+        update t_out_repo
+        <set>
+            <if test="outRepoId != null">
+                out_repo_id = #{outRepoId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverName != null">
+                receiver_name = #{receiverName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="expressId != null">
+                express_id = #{expressId,jdbcType=VARCHAR},
+            </if>
+            <if test="expressCompany != null">
+                express_company = #{expressCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="outRepoStatus != null">
+                out_repo_status = #{outRepoStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="syncStatus != null">
+                sync_status = #{syncStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reviser != null">
+                reviser = #{reviser,jdbcType=VARCHAR},
+            </if>
+            <if test="reviseTime != null">
+                revise_time = #{reviseTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.OutRepertory">
+        update t_out_repo
+        set out_repo_id      = #{outRepoId,jdbcType=VARCHAR},
+            order_id         = #{orderId,jdbcType=VARCHAR},
+            channel_id       = #{channelId,jdbcType=VARCHAR},
+            receiver_name    = #{receiverName,jdbcType=VARCHAR},
+            receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+            express_id       = #{expressId,jdbcType=VARCHAR},
+            express_company  = #{expressCompany,jdbcType=VARCHAR},
+            out_repo_status  = #{outRepoStatus,jdbcType=VARCHAR},
+            sync_status      = #{syncStatus,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            reviser          = #{reviser,jdbcType=VARCHAR},
+            revise_time      = #{reviseTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByOutRepoOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_out_repo
+        where out_repo_id=#{outRepoId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectOutRepoByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_out_repo limit
+             #{start},#{size}
+    </select>
+
+    <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, out_repo_id, order_id,
+               channel_id, receiver_name, receiver_address,
+               express_id, express_company, out_repo_status,
+               sync_status, create_time, reviser,
+               revise_time
+        from t_out_repo
+        where out_repo_status like '%异常%'
+            limit #{start},#{size}
+    </select>
 </mapper>

@@ -5,14 +5,6 @@ spring:
     password: c1234567
   messages:
     fallback-to-system-locale: false
-    basename: messages
-
-  mvc:
-    view:
-      prefix: classpath:/templates/
-      suffix: .html
-  thymeleaf:
-    cache: false
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml

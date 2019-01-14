@@ -26,23 +26,24 @@ public interface InRepertoryService {
      */
     List<InRepertory> findAllLike(String value);
 
-    /**
-     * find Detail for one InRepertory
-     *
-     * @param start all page
-     * @param size page size
-     * @return page
-     */
-    List<InRepertory> findAllPage(Integer start,Integer size);
 
     /**
-     * find Detail for one InRepertory
+     * find some InRepertory
      *
-     * @param start wait page
+     * @param start page num
      * @param size page size
      * @return page
      */
     List<InRepertory> findPage(Integer start,Integer size);
+
+    /**
+     * find one type of InRepertory
+     *
+     * @param start page page
+     * @param size page size
+     * @return page
+     */
+    List<InRepertory> findPageBy(String status,Integer start,Integer size);
 
     /**
      * find Detail for one InRepertory
@@ -68,12 +69,13 @@ public interface InRepertoryService {
     List<InRepertory> checkInRepertoryExpired(List<InRepertory> inRepertories);
 
     /**
-     * change the  Status of InRepertory
+     * change the  Status of InRepertory which not complete
      *
      * @param id     InRepertory id
      * @param status InRepertory status
+     * @return true or false
      */
-    void changeInRepertoryStatus(Integer id, String status);
+    boolean changeInRepertoryStatus(Integer id, String status);
 
     /**
      * pushInRepertoryState

@@ -50,6 +50,7 @@ public class ScheduledTasks {
     public void reportCurrentTime() {
         List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll());
         //推送通知
-        log.info("收货超时"+inRepertories.toString());
+        log.info("收货超时" + inRepertories.toString());
+        inRepertories.forEach(inRepertoryService::pushInRepertoryState);
     }
 }

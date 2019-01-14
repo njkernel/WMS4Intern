@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.connext.wms.dao.RepertoryRegulationMapper">
+    <resultMap id="RepertoryRegulationMap" type="com.connext.wms.entity.RepertoryRegulation">
+        <id column="id" property="id"/>
+        <result column="goods_repertory_id" property="goodsRepertoryId"/>
+        <result column="available_num_regulation" property="availableNumRegulation"/>
+        <result column="total_num_regulation" property="totalNumRegulation"/>
+        <result column="locked_num_regulation" property="lockedNumRegulation"/>
+        <result column="availableResult" property="availableResult"/>
+        <result column="lockedResult" property="lockedResult"/>
+        <result column="totalResult" property="totalResult"/>
+    </resultMap>
+
+    <insert id="addAvailableRepertory" parameterType="Integer">
+      insert into t_repertory_regulation(goods_repertory_id,available_num_regulation,total_num_regulation,locked_num_regulation) values(#{goodsRepertoryId},#{availableNumRegulation},0,0)
+    </insert>
+
+    <insert id="reduceAvailableRepertory" parameterType="Integer">
+      insert into t_repertory_regulation(goods_repertory_id,available_num_regulation,total_num_regulation,locked_num_regulation) values(#{goodsRepertoryId},#{availableNumRegulation},0,0)
+    </insert>
+
+    <insert id="addTotalRepertory" parameterType="Integer">
+      insert into t_repertory_regulation(goods_repertory_id,available_num_regulation,total_num_regulation,locked_num_regulation) values(#{goodsRepertoryId},0,#{totalNumRegulation},0)
+    </insert>
+
+    <insert id="reduceTotalRepertory" parameterType="Integer">
+      insert into t_repertory_regulation(goods_repertory_id,available_num_regulation,total_num_regulation,locked_num_regulation) values(#{goodsRepertoryId},0,#{totalNumRegulation},0)
+    </insert>
+
+    <insert id="addLockedRepertory" parameterType="Integer">
+      insert into t_repertory_regulation(goods_repertory_id,available_num_regulation,total_num_regulation,locked_num_regulation) values(#{goodsRepertoryId},0,0,#{lockedNumRegulation})
+    </insert>
+
+    <insert id="reduceLockedRepertory" parameterType="Integer">
+      insert into t_repertory_regulation(goods_repertory_id,available_num_regulation,total_num_regulation,locked_num_regulation) values(#{goodsRepertoryId},0,0,#{lockedNumRegulation})
+    </insert>
+
+    <select id="summaryRepertory" resultMap="RepertoryRegulationMap">
+      select goods_repertory_id,SUM(available_num_regulation) as availableResult,SUM(locked_num_regulation) as lockedResult,SUM(total_num_regulation) as totalResult from t_repertory_regulation group by goods_repertory_id
+    </select>
+
+    <delete id="emptyRepertoryRegulation">
+      delete from t_repertory_regulation
+    </delete>
+
+    <select id="summaryRepertoryByRepertoryId" parameterType="Integer" resultMap="RepertoryRegulationMap">
+        select goods_repertory_id,SUM(available_num_regulation) as availableResult,SUM(locked_num_regulation) as lockedResult,SUM(total_num_regulation) as totalResult from t_repertory_regulation group by goods_repertory_id having goods_repertory_id=#{goodsRepertoryId}
+    </select>
+
+</mapper>
