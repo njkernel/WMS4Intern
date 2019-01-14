@@ -26,7 +26,6 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 public class TestYogurt {
 
     @Autowired
@@ -92,7 +91,8 @@ public class TestYogurt {
             Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum() + repertoryRegulation.getTotalResult();
             System.out.println(realTotalRepertory);
         }*/
-        repertoryRegulationService.replenishRepertory(2,200);
+      //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
+       // repertoryRegulationService.replenishRepertory(2,100);
         List<RealRepertoryVO> list = goodsRepertoryService.showRealRepertory();
         System.out.println(list.toString());
 
