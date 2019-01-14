@@ -27,7 +27,8 @@
         $(function () {
             $('.btn-xs').on("click", function () {
                 console.log($(this).attr('id'));
-                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id');
+                //document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id');
+                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id')+"/action";
             });
         });
 
