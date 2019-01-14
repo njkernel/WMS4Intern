@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>异常订单管理</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/popup/popup.js"></script>
+
+    <link rel="stylesheet" href="/css/search.css">
+    <script type="text/javascript">
+        $(function() {
+            $('.action').on("click",function () {
+                $('#demoModal .modal-header .modal-title').empty().text($(this).text()+"操作");
+                $('#demoModal .modal-body').empty().text("确认进行"+$(this).text()+"操作？");
+                $('#demoModal').modal();
+            });
+        });
+        $(function () {
+            $('.btn-xs').on("click", function () {
+                console.log($(this).attr('id'));
+                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+$(this).attr('id');
+            });
+        });
+    </script>
+</head>
+<body style="overflow-x:hidden;background:#f3f3f3;">
+    <div id="mask_shadow"></div>
+    <div class="btn-div">
+        <button type="button" class="btn btn-primary action" data-toggle="modal" data-target="#demoModal">处理异常</button>
+        <div class="search-box">
+            <form action="/exception/findByKey" method="get">
+                <input id="key" type="text">
+                <button  type="submit" class="btn btn-success">搜索</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>批量</th>
+                    <th>出库单号</th>
+                    <th>异常状态</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                    <th>修改人</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--/*@thymesVar id="exception" type="java.util.ArrayList"*/-->
+                <!--/*@thymesVar id="obj" type="com.connext.wms.entity.OutRepertory"*/-->
+                <tr th:each="obj,i:${exception}">
+                    <td th:text="${i.count}"></td>
+                    <td><input type="checkbox" name="" id=""></td>
+                    <!--/*@thymesVar id="outRepoId" type="com.connext.wms.entity.OutRepertory"*/-->
+                    <td th:text="${obj.outRepoId}"></td>
+                    <td th:text="${obj.outRepoStatus}"></td>
+                    <td th:text="${obj.createTime}"></td>
+                    <td th:text="${obj.reviseTime}"></td>
+                    <td th:text="${obj.reviser}"></td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-xs">查看</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <!-- 弹出框 -->
+    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">title</h4>
+                </div>
+                <div class="modal-body">提示内容</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="footer-pager">
+        <span>共<span>5</span>页，当前第<span>1</span>页</span>
+        <ul class="pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li class="disabled"><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
+    <div id="popup" class="popup" style="top: 1px">
+        <div class="title">
+            <p>异常订单详情</p>
+            <span></span>
+            <span>x</span>
+        </div>
+        <div class="cont">
+            <iframe src="/exception/toDetail" scrolling="auto" style="width:100%;height:100%;border:0px;"></iframe>
+        </div>
+    </div>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $('.table tbody tr td input').click(function () {
+            $(this).addClass('checkbox-style');
+        })
+    </script>
+
+    <script>
+        $('.table tbody tr td input').click(function () {
+            $(this).addClass('checkbox-style');
+        });
+        $(function () {
+            $('#popup').popup();
+            $("body").css("overflow-y", "hidden");
+        });
+        // $(function () {
+        //     $('#orderpopup').orderpopup();
+        //     $("body").css("overflow-y", "hidden");
+        // });
+
+       /* function changeStatus() {
+            var receiveButtonIdValue=document.getElementById("receiveButtonId").value;
+            var checkBox = document.getElementsByName('checkboxName');
+            var checkedArray = new Array();
+            for (var i = 0; i < checkBox.length; i++) {
+                if (checkBox[i].checked) {
+                    checkedArray.push(checkBox[i].value);
+                }
+            }
+            $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
+                if(data=="0"){
+                    alert("操作失败！");
+                }else{
+                    location.href="../outRepoOrderController/outRepoOrderList";
+                }
+            })
+
+        }*/
+    </script>
+</body>
+</html>

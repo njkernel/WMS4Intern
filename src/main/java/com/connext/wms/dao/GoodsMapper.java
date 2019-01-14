@@ -1,5 +1,6 @@
 package com.connext.wms.dao;
 
+import com.connext.wms.api.dto.GoodsDTO;
 import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.GoodsExample;
 import java.util.List;
@@ -32,4 +33,6 @@ public interface GoodsMapper {
     int updateByPrimaryKeySelective(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    GoodsDTO selectGoodsDTOBySku(String sku);
 }

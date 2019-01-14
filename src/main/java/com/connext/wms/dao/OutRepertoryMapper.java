@@ -23,6 +23,11 @@ public interface OutRepertoryMapper {
 
     List<OutRepertory> selectByExample(OutRepertoryExample example);
 
+    List<OutRepertory> selectByPage(Integer start,Integer size);
+
+    OutRepertory selectByExample(String condition);
+
+
     OutRepertory selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") OutRepertory record, @Param("example") OutRepertoryExample example);
@@ -32,4 +37,8 @@ public interface OutRepertoryMapper {
     int updateByPrimaryKeySelective(OutRepertory record);
 
     int updateByPrimaryKey(OutRepertory record);
+
+    OutRepertory selectByOutRepoOrderNo(String outRepoOrderNo);
+
+    List<OutRepertory> selectOutRepoByPage(Integer start,Integer size);
 }

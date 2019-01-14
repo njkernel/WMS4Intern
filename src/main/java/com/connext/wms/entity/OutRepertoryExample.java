@@ -1,9 +1,13 @@
 package com.connext.wms.entity;
 
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class OutRepertoryExample {
     protected String orderByClause;
 
