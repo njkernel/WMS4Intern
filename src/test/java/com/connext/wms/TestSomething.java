@@ -50,7 +50,7 @@ public class TestSomething {
         Integer id = 37;
         InRepertory inRepertory = inRepertoryService.findOne(id);
         List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
-        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.getTOKENS(), inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), "收货失败", list);
+        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), "收货失败", list);
         log.info(restTemplate.postForObject("http://10.129.100.65:8502/Api/getExchangeInputFeedback", inputFeedback.toMap(), String.class));
 }
 
