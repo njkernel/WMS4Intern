@@ -50,19 +50,14 @@ public class OutRepertory {
         this.reviseTime = reviseTime;
     }
 
-    public OutRepertory(String outRepoId, String orderId, String channelId, String receiverName, String receiverAddress, String expressCompany) {
+    public OutRepertory(String outRepoId, String orderId, String channelId, String receiverName, String receiverAddress, String expressCompany,Date createTime) {
         this.outRepoId = outRepoId;
         this.orderId = orderId;
         this.channelId = channelId;
         this.receiverName = receiverName;
         this.receiverAddress = receiverAddress;
-        this.expressId = expressId;
         this.expressCompany = expressCompany;
-        this.outRepoStatus = outRepoStatus;
-        this.syncStatus = syncStatus;
-        this.createTime = createTime;
-        this.reviser = reviser;
-        this.reviseTime = reviseTime;
+        this.createTime=createTime;
     }
 
     public OutRepertory() {

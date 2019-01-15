@@ -100,7 +100,7 @@ body div table thead {
 }
 .table thead tr th:first-child,
 .table thead tr th:nth-of-type(2) {
-    width: 100px;
+    width: 30px;
 }
 .table input[type=checkbox] {
     margin: 0;

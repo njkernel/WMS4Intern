@@ -39,5 +39,5 @@ public interface OutRepertoryMapper {
 
     OutRepertory selectByOutRepoOrderNo(String outRepoOrderNo);
 
-    List<OutRepertory> selectOutRepoByPage(Integer start,Integer size);
+    List<OutRepertory> selectOutRepoByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size);
 }
