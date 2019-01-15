@@ -10,12 +10,14 @@
     <script src="/js/popup/popup.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
+    <link rel="stylesheet" href="/css/pager.css">
+    <script src="/js/pager.js"></script>
     <script type="text/javascript">
         $(function () {
             $('.action').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
                 $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
-                $('#demoModal .modal-footer #getStatus').attr("value",$(this).attr('id'));
+                $('#demoModal .modal-footer #getStatus').attr("value", $(this).attr('id'));
                 $('#demoModal').modal();
             });
         });
@@ -24,22 +26,24 @@
             window.location.replace("/inRepertory/page/1/" + status)
         }
 
-        $(function () {
-            $('.btn-xs').on("click", function () {
-                console.log($(this).attr('id'));
-                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id');
+        $(document).ready(function () {
+            $('.cab').click(function () {
+                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('name')
+            });
+            $('.cad').click(function () {
+                document.getElementById('iframeId').src = "/inRepertory/action/exception?id=" + $(this).attr('name')
             });
         });
 
         function action() {
             $('#demoModal')
-            var status=$('#getStatus').val()
+            var status = $('#getStatus').val()
             var ids = [];
             $('input:checkbox:checked').each(function () {
                 ids.push(parseInt($(this).val()));
             });
-            $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function () {
-                alert("success")
+            $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function (res) {
+                alert(res)
                 window.location.reload()
             })
         }
@@ -65,6 +69,8 @@
         </form>
     </div>
 </div>
+<!--/*@thymesVar id="list" type="java.util.ArrayList"*/-->
+<!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
 <div>
     <table class="table table-condensed">
         <thead>
@@ -82,9 +88,7 @@
         </tr>
         </thead>
         <tbody>
-        <!--/*@thymesVar id="list" type="java.util.ArrayList"*/-->
-        <!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
-        <tr th:each="obj,i:${list}">
+        <tr th:each="obj,i:${page.getData()}">
             <td th:text="${i.count}"></td>
             <td><input type="checkbox" th:value="${obj.id}"></td>
             <td th:text="${obj.inRepoId}"></td>
@@ -95,8 +99,8 @@
             <td th:text="#{''+${obj.receivingRepo}}"></td>
             <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
             <td>
-                <button type="button" th:id="${obj.id}" class="btn btn-default btn-xs">详情</button>
-                <button type="button" th:id="${obj.id}" class="btn btn-danger btn-xs">异常</button>
+                <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情</button>
+                <button type="button" id="exception" th:name="${obj.id}" class="btn btn-danger btn-xs cad">异常</button>
             </td>
         </tr>
 
@@ -120,6 +124,25 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<div class="footer-pager">
+    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
+    <ul class="pagination">
+        <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+        <!--<li class="active"><a href="#">1</a></li>
+        <li class="disabled"><a href="#">2</a></li>-->
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+        <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+            &raquo;</a>
+        </li>
+    </ul>
+</div>
+<script th:inline="javascript">
+    function go(currPage) {
+        window.location.replace("/inRepertory/page/" + currPage + "/" + [[${page.status}]])
+    }
+</script>
 <div id="popup" class="popup">
     <div class="title">
         <p>入库单详情</p>
