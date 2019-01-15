@@ -9,7 +9,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script th:src="@{/js/popup/popup.js}"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" th:href="@{/styles/search.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
     <script type="text/javascript">
         $(function () {
             $('.action').on("click", function () {
@@ -20,17 +20,37 @@
             });
         });
 
+        //查询出库单
         $(function () {
-            $('.btn-xs').on("click", function () {
+            $('.btn-default').on("click", function () {
                 console.log($(this).attr('id'));
-                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+$(this).attr('id');
+                var id=$(this).attr('id');
+                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+id+"&xmx="+Math.random();
             });
         });
+
+        //修改出库单
+        $(function () {
+            $('.btn-danger').on("click", function () {
+                console.log($(this).attr('id'));
+                var id=$(this).attr('id');
+                document.getElementById('iframeId').src="../outRepoOrderController/updateOutRepoOrder?outRepoOrderId="+id+"&xmx="+Math.random();
+            });
+        });
+
+        function go(currPage) {
+            $('#currPage').val(currPage)
+            document.frm.submit();
+        }
     </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
-<div id="mask_shadow"></div>
+<div id="mask_shadow">
+</div>
 <div class="btn-div">
+    <form name="frm" action="">
+        <input type="hidden" id="currPage" name="currPage" />
+    </form>
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
@@ -38,6 +58,7 @@
     <div class="search-box">
         <form th:action="@{/outRepoOrderController/outRepoOrderList}" method="post">
             <select name="selectStatus" id="selectStatus">
+                <option value=""></option>
                 <option value="waittingChecked">待检货</option>
                 <option value="waittingPackaged">待包装</option>
                 <option value="waittingShipped">待发货</option>
@@ -68,23 +89,26 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="orl,orlstatus:${outRepoOrderList}">
-            <td th:text="${orlstatus.count}"></td>
-            <td><input type="checkbox" name="checkboxName" th:value="${orl.id}"></td>
-            <td th:text="${orl.orderId}"></td>
-            <td th:text="${orl.outRepoStatus}"></td>
-            <td th:text="${orl.outRepoId}"></td>
-            <td th:text="${orl.syncStatus}"></td>
-            <td th:text="${orl.receiverName}"></td>
-            <td th:text="${orl.expressCompany}"></td>
-            <td th:text="${orl.expressId}"></td>
-            <td th:text="${orl.receiverAddress}"></td>
-            <td th:text="${orl.createTime}"></td>
+
+
+        <tr th:each="p,pstatus:${page.data}">
+            <td th:text="${pstatus.count}"></td>
+            <td><input type="checkbox" name="checkboxName" th:value="${p.id}"></td>
+            <td th:text="${p.orderId}"></td>
+            <td th:text="${p.outRepoStatus}"></td>
+            <td th:text="${p.outRepoId}"></td>
+            <td th:text="${p.syncStatus}"></td>
+            <td th:text="${p.receiverName}"></td>
+            <td th:text="${p.expressCompany}"></td>
+            <td th:text="${p.expressId}"></td>
+            <td th:text="${p.receiverAddress}"></td>
+            <td th:text="${#dates.format(p.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
-                <button type="button" class="btn btn-default btn-xs" th:id="${orl.id}">查看</button>
-                <button type="button" class="btn btn-danger btn-xs">操作</button>
+                <button type="button" class="btn btn-default btn-xs" th:id="${p.id}">查看</button>
+                <button type="button" class="btn btn-danger btn-xs"  th:id="${p.id}">操作</button>
             </td>
         </tr>
+
 
         </tbody>
     </table>
@@ -102,25 +126,27 @@
                 <input class="receiveButtonId" id="receiveButtonId">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary"
-                        th:onclick="'javascript:changeStatus()'">提交更改
+                        th:onclick="'javascript:changeStatus()'" data-dismiss="modal">提交更改
                 </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 <div class="footer-pager">
-    <span>共<span>5</span>页，当前第<span>1</span>页</span>
+    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
     <ul class="pagination">
-        <li><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li class="disabled"><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
+        <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+        <!--<li class="active"><a href="#">1</a></li>
+        <li class="disabled"><a href="#">2</a></li>-->
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+        <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+            &raquo;</a>
+        </li>
     </ul>
 </div>
-<div id="popup" class="popup">
+<div id="popup" class="popup" style="margin-top: 150px;">
     <div class="title">
         <p>出库单详情</p>
         <span></span>
