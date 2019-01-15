@@ -25,8 +25,7 @@ public interface OutRepertoryMapper {
 
     List<OutRepertory> selectByPage(Integer start,Integer size);
 
-    OutRepertory selectByExample(String condition);
-
+  /*  OutRepertory selectByExample(Integer outRepoId);*/
 
     OutRepertory selectByPrimaryKey(Integer id);
 

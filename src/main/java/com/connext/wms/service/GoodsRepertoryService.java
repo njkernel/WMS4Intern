@@ -20,5 +20,5 @@ public interface GoodsRepertoryService {
      * 显示实时库存
      * @return 库存视图对象
      */
-    List<RealRepertoryVO> showRealRepertory();
+    List<RealRepertoryVO> showRealRepertory(Integer start,Integer size);
 }

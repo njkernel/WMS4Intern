@@ -9,6 +9,9 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
+    <script>
+
+    </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
     <div class="btn-div clearfix">
@@ -118,17 +121,18 @@
     </div>
 
     <div class="footer-pager">
-        <span>共<span>5</span>页，当前第<span>1</span>页</span>
+        <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
         <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li class="disabled"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
+            <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+            <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+            <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+            <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+            <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+                &raquo;</a>
+            </li>
         </ul>
     </div>
+
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="/js/expressCompany/add-update.js"></script>

@@ -26,7 +26,6 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 public class TestYogurt {
 
     @Autowired
@@ -67,7 +66,7 @@ public class TestYogurt {
             System.out.println(repertoryRegulation.getGoodsRepertoryId());
             System.out.println(repertoryRegulation.getLockedResult());
         }*/
-        //goodsRepertoryService.updateGoodsRepertory();
+        goodsRepertoryService.updateGoodsRepertory();
     }
 
     @Test
@@ -92,8 +91,9 @@ public class TestYogurt {
             Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum() + repertoryRegulation.getTotalResult();
             System.out.println(realTotalRepertory);
         }*/
-        repertoryRegulationService.replenishRepertory(2,200);
-        List<RealRepertoryVO> list = goodsRepertoryService.showRealRepertory();
+      //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
+       // repertoryRegulationService.replenishRepertory(2,100);
+        List<RealRepertoryVO> list = goodsRepertoryService.showRealRepertory(0,1);
         System.out.println(list.toString());
 
 
@@ -101,15 +101,17 @@ public class TestYogurt {
 
     @Test
     public void TestAPI() throws IOException {
-        //List<CodeTotalStockDTO> list = goodsRepertoryMapper.getCodeTotalStockDTO();
+        List<CodeTotalStockDTO> list = goodsRepertoryMapper.getCodeTotalStockDTO();
+        System.out.println(list.toString());
         // System.out.println(list.toString());
         //String list1 = list.toString();
-        goodsRepertoryService.updateGoodsRepertory();
+        //goodsRepertoryService.updateGoodsRepertory();
         //String res = restTemplate.postForObject("http://10.129.100.52:8502/updateTotalStock", list, String.class);
         //System.out.println(res);
         //String jiba =objectMapper.readTree(res).get("message").asText();
         //System.out.println(jiba);
 
     }
+
 
 }

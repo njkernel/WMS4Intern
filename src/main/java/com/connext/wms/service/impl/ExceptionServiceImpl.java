@@ -35,10 +35,8 @@ public class ExceptionServiceImpl implements ExceptionService {
     }
 
     //点击查看异常订单详情
-    public OutRepertory selectByExample(String condition){
-        OutRepertoryExample example = new OutRepertoryExample();
-        example.createCriteria().andOutRepoStatusLike(condition);
-        return outRepertoryMapper.selectByExample(condition);
+    public OutRepertory selectByPrimaryKey(Integer id){
+        return outRepertoryMapper.selectByPrimaryKey(id);
     }
 
 }

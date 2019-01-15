@@ -18,10 +18,11 @@
                 $('#demoModal').modal();
             });
         });
+
         $(function () {
-            $('.btn-xs').on("click", function () {
-                console.log($(this).attr('id'));
-                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+$(this).attr('id');
+            $('.ck1').on("click", function () {
+                console.log($(this).attr('name'));
+                document.getElementById('iframeId').src = "/exception/toDetail?id=" + $(this).attr('name');
             });
         });
     </script>
@@ -32,7 +33,7 @@
         <button type="button" class="btn btn-primary action" data-toggle="modal" data-target="#demoModal">处理异常</button>
         <div class="search-box">
             <form action="/exception/findByKey" method="get">
-                <input id="key" type="text">
+                <input name="key" type="text">
                 <button  type="submit" class="btn btn-success">搜索</button>
             </form>
         </div>
@@ -64,7 +65,7 @@
                     <td th:text="${obj.reviseTime}"></td>
                     <td th:text="${obj.reviser}"></td>
                     <td>
-                        <button type="button" class="btn btn-default btn-xs">查看</button>
+                        <a type="button" class="btn btn-default btn-xs ck1" th:name="${obj.id}">查看</a>
                     </td>
                 </tr>
 
@@ -106,7 +107,7 @@
             <span>x</span>
         </div>
         <div class="cont">
-            <iframe src="/exception/toDetail" scrolling="auto" style="width:100%;height:100%;border:0px;"></iframe>
+            <iframe id="iframeId" src="" scrolling="auto" style="width:100%;height:100%;border:0px;"></iframe>
         </div>
     </div>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -124,29 +125,7 @@
             $('#popup').popup();
             $("body").css("overflow-y", "hidden");
         });
-        // $(function () {
-        //     $('#orderpopup').orderpopup();
-        //     $("body").css("overflow-y", "hidden");
-        // });
 
-       /* function changeStatus() {
-            var receiveButtonIdValue=document.getElementById("receiveButtonId").value;
-            var checkBox = document.getElementsByName('checkboxName');
-            var checkedArray = new Array();
-            for (var i = 0; i < checkBox.length; i++) {
-                if (checkBox[i].checked) {
-                    checkedArray.push(checkBox[i].value);
-                }
-            }
-            $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
-                if(data=="0"){
-                    alert("操作失败！");
-                }else{
-                    location.href="../outRepoOrderController/outRepoOrderList";
-                }
-            })
-
-        }*/
     </script>
 </body>
 </html>
