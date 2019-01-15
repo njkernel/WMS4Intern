@@ -16,7 +16,7 @@ public interface ExceptionService {
     List<OutRepertory> selectByExampleToKey(String key);
 
     //点击查看异常订单详情
-    OutRepertory selectByExample(String condition);
+    OutRepertory selectByPrimaryKey(Integer id);
 
     //分页查询所有异常订单信息返回列表
     List<OutRepertory> selectByPage(Integer start,Integer size);
