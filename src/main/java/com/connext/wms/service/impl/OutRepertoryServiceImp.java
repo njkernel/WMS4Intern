@@ -1,4 +1,4 @@
-package com.connext.wms.service.serviceImp;
+package com.connext.wms.service.impl;
 
 
 import com.connext.wms.dao.OutRepertoryDetailMapper;
@@ -34,24 +34,23 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
     @Autowired
     private RestTemplate restTemplate;
 
-    /*//分页查询出库单
+    //分页查询出库单
     @Override
-    public Page outRepoOrderList(Integer currPage, OutRepertoryExample example) {
+    public Page outRepoOrderList(String outRepoOrderId,String selectStatus,Integer currPage) {
         Page page = new Page();
         if (currPage == null) currPage = 1;
         page.setCurrPage(currPage);
-        page.setTotalCount(this.outRepertoryMapper.countByExample(example));
+        page.setTotalCount(this.outRepertoryMapper.countByExample(outRepertoryExample));
         page.init();
-        PageHelper.startPage(currPage, Page.PAGE_SIZE);
-        page.setData(this.outRepertoryMapper.selectByExample(example));
+        //PageHelper.startPage(currPage, Page.PAGE_SIZE);
+        page.setData(this.outRepertoryMapper.selectOutRepoByPage(outRepoOrderId,selectStatus,(currPage-1)*Page.PAGE_SIZE,Page.PAGE_SIZE));
         return page;
-    }*/
+    }
 
     //分页查询2
     @Override
-    public List<OutRepertory> outRepoOrderListByPage(Integer start, Integer size) {
-
-        return this.outRepertoryMapper.selectOutRepoByPage(start,size);
+    public List<OutRepertory> outRepoOrderListByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size) {
+        return this.outRepertoryMapper.selectOutRepoByPage(outRepoOrderId,selectStatus,start,size);
     }
 
     //批量更新出库单状态

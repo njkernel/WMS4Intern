@@ -5,7 +5,7 @@ import java.util.List;
 public class Page {
 
 	//每页条数
-	public static final int PAGE_SIZE = 2;
+	public static final int PAGE_SIZE = 3;
 	
 	//当前页
 	private int currPage = 1;

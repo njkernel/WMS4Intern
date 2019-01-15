@@ -117,11 +117,11 @@ public class xmxTest {
         this.restTemplate.postForObject("http://localhost:8080/api/test",map,String.class);
     }
 
-    @Test
+    /*@Test
     public void PageLook(){
         System.out.println(this.outRepertoryService.outRepoOrderListByPage(3,2));
 
-    }
+    }*/
 
 }
 

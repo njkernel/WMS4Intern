@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.connext.wms.dao.GoodsRepertoryMapper">
+    <resultMap id="GoodsRepertoryMap" type="com.connext.wms.entity.GoodsRepertory">
+        <id column="id" property="id"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="total_num" property="totalNum"/>
+        <result column="available_num" property="availableNum"/>
+        <result column="locked_num" property="lockedNum"/>
+    </resultMap>
+    <resultMap id="CodeTotalStockDTOMap" type="com.connext.wms.api.dto.CodeTotalStockDTO">
+        <id column="goodsCode" property="goodsCode"/>
+        <result column="totalStock" property="totalStock"></result>
+    </resultMap>
+    <update id="updateGoodsRepertory" parameterType="Integer">
+        update t_goods_repertory set total_num=total_num+#{tnum},available_num=available_num+#{anum},locked_num=locked_num+#{lnum} where id=#{id}
+    </update>
+
+    <select id="getCodeTotalStockDTO" resultMap="CodeTotalStockDTOMap">
+        select a.sku as goodsCode,b.total_num as totalStock from t_goods a inner join t_goods_repertory b on a.id = b.goods_id
+    </select>
+
+    <select id="getGoodsRepertory" resultMap="GoodsRepertoryMap">
+        select id,goods_id,total_num,available_num,locked_num from t_goods_repertory
+    </select>
+
+</mapper>
