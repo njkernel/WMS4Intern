@@ -6,6 +6,7 @@ import lombok.Data;
  * @Author: Yogurt7_
  * @Date: 2019/1/11 10:27
  */
+@Data
 public class RealRepertoryVO {
     private Integer id;
     private String sku;
