@@ -9,6 +9,12 @@ import java.util.List;
  * @Date: 2019/1/8 10:47
  */
 public interface GoodsService {
+
+    /**
+     * 分页查询所有商品并返回到列表
+     */
+    List<Goods> findAll(Integer start,Integer size);
+
     /**
      * 根据商品sku返回商品对象
      *
@@ -37,4 +43,10 @@ public interface GoodsService {
      * @param goods
      */
     void updateGoodsNameAndPrice(Goods goods);
+
+    /**
+     * 根据关键字查询相关的商品信息
+     */
+    List<Goods> selectByExample(String key);
+
 }

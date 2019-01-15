@@ -23,6 +23,15 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     RestTemplate restTemplate;
 
+    /**
+     * 分页查询所有商品并返回到列表
+     */
+    @Override
+    public List<Goods> findAll(Integer start,Integer size){
+        Integer pageStart = (start-1)* size;
+        return goodsMapper.selectByPage(pageStart,size);
+    }
+
     @Override
     public Goods getGoodsBySku(String sku) {
         GoodsExample example = new GoodsExample();
@@ -56,5 +65,17 @@ public class GoodsServiceImpl implements GoodsService {
         List<GoodsDTO> goodsDTOSList = new ArrayList<>();
         goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(goods.getSku()));
         restTemplate.postForObject("http://10.129.100.107:8502/updateGoods", goodsDTOSList, String.class);
+    }
+
+    /**
+     * 根据关键字查询相关的商品信息
+     */
+    @Override
+    public List<Goods> selectByExample(String key){
+        String newKey = "%" + key + "%";
+        GoodsExample example = new GoodsExample();
+        example.or().andGoodsNameLike(newKey);
+        example.or().andSkuLike(newKey);
+        return goodsMapper.selectByExample(example);
     }
 }
