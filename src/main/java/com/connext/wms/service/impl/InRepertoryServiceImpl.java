@@ -9,8 +9,10 @@ import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.service.RepertoryRegulationService;
 import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
+import com.connext.wms.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,20 +35,24 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final Constant constant;
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
-    private final String PUSH_URL="http://10.129.100.65:8502/Api/getExchangeInputFeedback";
+    private final RepertoryRegulationService regulationService;
+    private final String PUSH_URL = "http://10.129.100.65:8502/Api/getExchangeInputFeedback";
 
 
     @Autowired
-    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, Constant constant, EntityAndDto entityAndDto, RestTemplate restTemplate) {
+    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, Constant constant, EntityAndDto entityAndDto, RestTemplate restTemplate, RepertoryRegulationService regulationService) {
         this.inRepertoryMapper = inRepertoryMapper;
         this.inRepertoryDetailMapper = inRepertoryDetailMapper;
         this.constant = constant;
         this.entityAndDto = entityAndDto;
         this.restTemplate = restTemplate;
+        this.regulationService = regulationService;
     }
 
     @Override
     public List<InRepertory> findAll() {
+        InRepertoryExample example = new InRepertoryExample();
+        example.setOrderByClause("'revise_time' DESC");
         return inRepertoryMapper.selectByExample(new InRepertoryExample());
     }
 
@@ -107,6 +113,12 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setSyncStatus(constant.SYNC_TRUE_STATES);
         if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
+//            if(status.equals(constant.SUCCESS_STATUS)){
+//                inRepertory.getRepertoryDetails().forEach(
+//                        //增加库存
+//                        u->regulationService.rejectedGoodsSuccess(u.getGoodsId(),u.getGoodsNum())
+//                );
+//            }
             return true;
         }
         return false;
@@ -122,6 +134,25 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status) {
+        Page pageModel = new Page();
+        pageModel.setCurrPage(page);
+        pageModel.setData(inRepertoryList);
+        InRepertoryExample example = new InRepertoryExample();
+        long count = 0;
+        if (status.equals("")) {
+            count = inRepertoryMapper.countByExample(example);
+        } else {
+            example.or().andInRepoStatusEqualTo(status);
+            count = inRepertoryMapper.countByExample(example);
+        }
+        pageModel.setTotalCount(count);
+        pageModel.setStatus(status);
+        pageModel.init();
+        return pageModel;
     }
 
     /**
