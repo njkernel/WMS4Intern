@@ -1,6 +1,7 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.InRepertory;
+import com.connext.wms.util.Page;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -87,11 +88,11 @@ public interface InRepertoryService {
     boolean pushInRepertoryState(InRepertory inRepertory);
 
     /**
-     * @param model Controller model
+     * get a page
      * @param page page number
      * @param inRepertoryList the list want to display
      * @param status inRepertory status
      * @return a template
      */
-    String getPageInfo(Model model, Integer page, List<InRepertory> inRepertoryList, String status);
+    Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status);
 }

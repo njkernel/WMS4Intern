@@ -10,35 +10,33 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">确认收货异常</h4>
-        </div>
-        <div class="modal-body">
-            <form class="form-horizontal add" role="form">
-                <!--/*@thymesVar id="one" type="com.connext.wms.entity.InRepertory"*/-->
-                <div class="form-group" th:each="i:${one.getRepertoryDetails()}">
-                    <input type="hidden" name="sku" th:value="${i.goodsId}">
-                    <label for="goodsNum" class="col-sm-2 control-label" th:text="${i.goodsName}"></label>
-                    <div class="col-sm-10">
-                        <input type="text" name="goodsNum" class="form-control" id="goodsNum" th:value="${i.goodsNum}"
-                               placeholder="请输入实际收到的完好商品数量">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-</div>
-</div>
+<!--/*@thymesVar id="one" type="com.connext.wms.entity.InRepertory"*/-->
+<input id="InRepoId" type="hidden" th:value="${one.id}">
+<th:block th:each="i:${one.getRepertoryDetails()}">
+    <label th:for="${i.getGoodsId()}" th:text="${i.getGoodsName()}"></label>
+    <input type="int" th:id="${i.getGoodsId()}" th:value="${i.getGoodsNum()}">
+</th:block>
+<button onclick="sth()">确认</button>
 </body>
 <script>
-    function saveJudge() {
-        form = $(".form-horizontal.add")
-        var d = {};
-        var t = form.serializeArray();
+    function sth() {
+        var array = [];
+        $('input').each(
+            function () {
+                var sku = $(this).attr("id");
+                var goodsNum = $(this).val()
+                array.push({"sku": sku, "goodsNum": goodsNum})
+            }
+        )
+        var list = JSON.stringify(array);
+        $.post("/inRepertory/action/exception"),
+            {
+                id:$('#InRepoId').val(),
+                list:list
+            }
+            function f() {
+                alert("success")
+            }
     }
 </script>
 </html>

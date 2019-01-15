@@ -5,6 +5,7 @@ import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.util.Constant;
+import com.connext.wms.util.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +48,17 @@ public class InRepertoryController {
     @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model, @RequestParam(required = false, defaultValue = "") String status) {
         List<InRepertory> inRepertories = inRepertoryService.findPage(page, SIZE);
-        return inRepertoryService.getPageInfo(model, page, inRepertories, status);
+        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status);
+        model.addAttribute("page", pageModel);
+        return "warehouse-in-list";
     }
 
     @GetMapping("page/{page}/{status}")
     public String listBy(@PathVariable Integer page, @PathVariable String status, Model model) {
         List<InRepertory> inRepertories = inRepertoryService.findPageBy(status, page, SIZE);
-        return inRepertoryService.getPageInfo(model, page, inRepertories, status);
+        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status);
+        model.addAttribute("page", pageModel);
+        return "warehouse-in-list";
     }
 
     @GetMapping("/search")
@@ -64,7 +69,7 @@ public class InRepertoryController {
     }
 
     @GetMapping("/action/exception")
-    public String detailAction(@PathVariable Integer id, Model model) {
+    public String detailAction(@RequestParam Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
         return "/specific/in-detail-action";
     }
@@ -96,12 +101,5 @@ public class InRepertoryController {
                 }
         );
         return true;
-    }
-
-
-    public static void main(String[] args) {
-        float i = 14F;
-        int j = 10;
-        System.out.println(Math.ceil(i / j));
     }
 }
