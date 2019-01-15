@@ -10,96 +10,143 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/details/warehouse/warehouse.css">
+
+    <script type="text/javascript">
+        function go(currPage) {
+            $('#currPage').val(currPage)
+            document.frm.submit();
+        }
+    </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
-    <div class="btn-div">
-        <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal">新增</button> -->
-        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal-1">编辑</button>-->
-        <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal-2">删除</button> -->
-        <div class="search-box">
-            <form action="">
-             <!--   <select name="" id="">
-                    <option value=""></option>
-                    <option value=""></option>
-                </select>-->
-                <input type="text">
-                <button type="button" class="btn btn-success">搜索</button>
-            </form>
-        </div>
+<div class="btn-div">
+    <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal">新增</button> -->
+    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal-1">编辑</button>-->
+    <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal-2">删除</button> -->
+    <div class="search-box">
+        <form action="/goodsRepertory/findByKey" method="get">
+            <input name="key" type="text" placeholder="请输入商品名称">
+            <button type="submit" class="btn btn-success">搜索</button>
+        </form>
     </div>
-    <!-- 表格部分 -->
-    <div>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th class="number">序号</th>
-                    <th class="batch">批量</th>
-                    <th>商品编号</th>
-                    <th>商品名称</th>
-                    <th>可用库存</th>
-                    <th>锁定库存</th>
-                    <th>总库存</th>
-                    <th class="operation">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="obj,i:${realRepertoryVOList}">
-                    <td th:text="${i.count}"></td>
-                    <td><input type="checkbox" th:name="${obj.id}" th:id="${obj.id}"></td>
-                    <td th:text="${obj.sku}"></td>
-                    <td th:text="${obj.goodsName}"></td>
-                    <td th:text="${obj.realAvailableRepertory}"></td>
-                    <td th:text="${obj.realLockedRepertory}"></td>
-                    <td th:text="${obj.realTotalRepertory}"></td>
-                    <td class="operation">
-                        <button type="button" data-toggle="modal" data-target="#demoModal" class="btn btn-success btn-xs" >补货</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <!-- 分页部分 -->
-    <div class="footer-pager">
-        <span>共<span>5</span>页，当前第<span>1</span>页</span>
-        <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li class="disabled"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul>
-    </div>
+</div>
+<!-- 表格部分 -->
+<div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="number">序号</th>
+            <th class="batch">批量</th>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>可用库存</th>
+            <th>锁定库存</th>
+            <th>总库存</th>
+            <th class="operation">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p,i:${page.data}">
+            <td th:text="${i.count}"></td>
+            <td><input type="checkbox" th:name="${p.id}" th:id="${p.id}"></td>
+            <td th:text="${p.sku}"></td>
+            <td th:text="${p.goodsName}"></td>
+            <td th:text="${p.realAvailableRepertory}"></td>
+            <td th:text="${p.realLockedRepertory}"></td>
+            <td th:text="${p.realTotalRepertory}"></td>
+            <td class="operation">
+                <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal"
+                        class="btn btn-success btn-xs">补货
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<form name="frm" action="">
+    <input type="hidden" id="currPage" name="currPage"/>
+</form>
 
-    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">补货</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal add" role="form">
-                        <div class="form-group ">
-                            <label for="firstname" class="col-sm-2 control-label">补货数量</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="firstname" class="form-control" id="firstname" placeholder="请输入商品数量">
-                            </div>
+<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">补货</h4>
+                <script>
+                    $(function () {
+                        $('.btn-xs').on('click', function () {
+                            $('.goodsid').val($(this).attr('id'))
+                        })
+                    })
+                </script>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal add" role="form">
+                    <div class="form-group ">
+                        <label for="firstname" class="col-sm-2 control-label">补货数量</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="goodsid">
+                            <input type="text" name="firstname" class="form-control" id="firstname"
+                                   placeholder="请输入补货数量"/>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary save"  data-dismiss="modal" id="save">确定</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal" id="confirm"
+                        th:onclick="'javascript:checkConfirmed()'">确定
+                </button>
             </div>
         </div>
     </div>
+</div>
+<!-- 分页部分 -->
+<div class="footer-pager">
+    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
+    <ul class="pagination">
+        <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+        <!--<li class="active"><a href="#">1</a></li>
+        <li class="disabled"><a href="#">2</a></li>-->
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
+               th:text="${page.currPage-1}"></a></li>
+        <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+               th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+            &raquo;</a>
+        </li>
+    </ul>
+</div>
 </body>
+<script th:inline="javascript">
+    function checkConfirmed() {
+        var RepertoryNum = $('#firstname').val();
+        var id = $('.goodsid').val();
+        var url = '/goodsRepertory/replenishRepertory';
+        $.ajax({
+            url: url,
+            type: 'get',
+            data: {
+                "id": id,
+                "num": RepertoryNum
+            },
+            success: function (data) {
+                console.log(data);
+                if (data == "success") {
+                    alert("补货成功！");
+                    window.location.href = "/goodsRepertory/showRealRepertory";
+                }
+
+            }
+        })
+    }
+</script>
 <script>
-    $('.table tbody tr td input').click(function(){
+    $('.table tbody tr td input').click(function () {
         $(this).addClass('checkbox-style');
     });
     // 弹窗验证
