@@ -20,10 +20,21 @@
             });
         });
 
+        //查询出库单
         $(function () {
-            $('.btn-xs').on("click", function () {
+            $('.btn-default').on("click", function () {
                 console.log($(this).attr('id'));
-                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+$(this).attr('id');
+                var id=$(this).attr('id');
+                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+id+"&xmx="+Math.random();
+            });
+        });
+
+        //修改出库单
+        $(function () {
+            $('.btn-danger').on("click", function () {
+                console.log($(this).attr('id'));
+                var id=$(this).attr('id');
+                document.getElementById('iframeId').src="../outRepoOrderController/updateOutRepoOrder?outRepoOrderId="+id+"&xmx="+Math.random();
             });
         });
 
@@ -78,23 +89,6 @@
         </tr>
         </thead>
         <tbody>
-        <!--<tr th:each="orl,orlstatus:${outRepoOrderList}">
-            <td th:text="${orlstatus.count}"></td>
-            <td><input type="checkbox" name="checkboxName" th:value="${orl.id}"></td>
-            <td th:text="${orl.orderId}"></td>
-            <td th:text="${orl.outRepoStatus}"></td>
-            <td th:text="${orl.outRepoId}"></td>
-            <td th:text="${orl.syncStatus}"></td>
-            <td th:text="${orl.receiverName}"></td>
-            <td th:text="${orl.expressCompany}"></td>
-            <td th:text="${orl.expressId}"></td>
-            <td th:text="${orl.receiverAddress}"></td>
-            <td th:text="${orl.createTime}"></td>
-            <td>
-                <button type="button" class="btn btn-default btn-xs" th:id="${orl.id}">查看</button>
-                <button type="button" class="btn btn-danger btn-xs">操作</button>
-            </td>
-        </tr>-->
 
 
         <tr th:each="p,pstatus:${page.data}">
@@ -108,10 +102,10 @@
             <td th:text="${p.expressCompany}"></td>
             <td th:text="${p.expressId}"></td>
             <td th:text="${p.receiverAddress}"></td>
-            <td th:text="${p.createTime}"></td>
+            <td th:text="${#dates.format(p.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
                 <button type="button" class="btn btn-default btn-xs" th:id="${p.id}">查看</button>
-                <button type="button" class="btn btn-danger btn-xs">操作</button>
+                <button type="button" class="btn btn-danger btn-xs"  th:id="${p.id}">操作</button>
             </td>
         </tr>
 
@@ -132,7 +126,7 @@
                 <input class="receiveButtonId" id="receiveButtonId">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary"
-                        th:onclick="'javascript:changeStatus()'">提交更改
+                        th:onclick="'javascript:changeStatus()'" data-dismiss="modal">提交更改
                 </button>
             </div>
         </div><!-- /.modal-content -->
@@ -152,7 +146,7 @@
         </li>
     </ul>
 </div>
-<div id="popup" class="popup">
+<div id="popup" class="popup" style="margin-top: 150px;">
     <div class="title">
         <p>出库单详情</p>
         <span></span>

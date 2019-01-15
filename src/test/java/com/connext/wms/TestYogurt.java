@@ -70,34 +70,34 @@ public class TestYogurt {
         //goodsRepertoryService.updateGoodsRepertory();
     }
 
-    @Test
+    /*@Test
     public void getOne() {
         //System.out.println(goodsMapper.selectByExample(new GoodsExample()));
         //System.out.println(goodsService.getGoodsBySku("00001"));
         //List<CodeTotalStockDTO> list = goodsRepertoryMapper.getCodeTotalStockDTO();
         //System.out.println(list.toString());
         //System.out.println(goodsService.getGoodsById(1));
-        /*List<String> listSku = new ArrayList<>();
+        *//*List<String> listSku = new ArrayList<>();
         listSku.add("00001");
         listSku.add("00002");
         listSku.add("00003");
-        System.out.println(goodsService.getGoodsBySkuList(listSku).toString());*/
+        System.out.println(goodsService.getGoodsBySkuList(listSku).toString());*//*
         //Goods goods = new Goods(1,"00001","小双汇大王中王火腿肠限量版",33.5f);
         //goodsService.updateGoodsNameAndPrice(goods);
         //System.out.println(goodsRepertoryMapper.getGoodsRepertory().toString());
         //System.out.println(repertoryRegulationMapper.summaryRepertoryByRepertoryId(1));
-        /*List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory();
+        *//*List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory();
         for (int i = 0; i < goodsRepertoryList.size(); i++) {
             RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(goodsRepertoryList.get(i).getId());
             Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum() + repertoryRegulation.getTotalResult();
             System.out.println(realTotalRepertory);
-        }*/
+        }*//*
         repertoryRegulationService.replenishRepertory(2,200);
         List<RealRepertoryVO> list = goodsRepertoryService.showRealRepertory();
         System.out.println(list.toString());
 
 
-    }
+    }*/
 
     @Test
     public void TestAPI() throws IOException {

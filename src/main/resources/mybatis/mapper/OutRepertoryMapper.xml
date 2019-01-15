@@ -380,7 +380,7 @@
             WHERE out_repo_id like concat('%',#{outRepoOrderId},'%')
         </if>
             and out_repo_status like CONCAT('%',#{selectStatus},'%')-->
-        ) as a
+        ) as a ORDER BY create_time ASC,revise_time DESC
         limit #{start},#{size}
     </select>
 
