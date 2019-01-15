@@ -28,14 +28,14 @@ public class GoodsRepertoryController {
 
     //跳转index界面
     @RequestMapping("/toIndex")
-    public String toIndex(){
+    public String toIndex() {
         return "index";
     }
 
     //分页查询商品库存
     @RequestMapping("/showRealRepertory")
     public String showRealRepertoryPage(Integer currPage, Model model) {
-        model.addAttribute("page",goodsRepertoryService.showRealRepertory(currPage));
+        model.addAttribute("page", goodsRepertoryService.showRealRepertory(currPage));
         return "wareHouse";
     }
 
@@ -43,15 +43,14 @@ public class GoodsRepertoryController {
     @ResponseBody
     @RequestMapping("/replenishRepertory")
     public String replenishRepertory(Integer id, Integer num) {
-        repertoryRegulationService.replenishRepertory(id,num);
+        repertoryRegulationService.replenishRepertory(id, num);
         return "success";
     }
 
     //根据输入的商品名称的关键字查询商品库存
     @RequestMapping("/findByKey")
-    public String findByKey(Model model,String key,Integer size,Integer start){
-        List<RealRepertoryVO> realRepertoryVOList = goodsRepertoryService.getGoodsRepertoryByGoodsName(start,size,key);
-        model.addAttribute(realRepertoryVOList);
+    public String findByKey(Model model, String key) {
+        model.addAttribute("page", goodsRepertoryService.getGoodsRepertoryByGoodsName(key));
         return "wareHouse";
     }
 }
