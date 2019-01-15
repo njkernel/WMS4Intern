@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,11 @@ public class GoodsRepertoryController {
     }
 
     //补货操作
+    @ResponseBody
     @RequestMapping("/replenishRepertory")
     public String replenishRepertory(Integer id, Integer num) {
         repertoryRegulationService.replenishRepertory(id,num);
-        return "redirect:/goodsRepertory/showRealRepertory";
+        return "success";
     }
 
     //根据输入的商品名称的关键字查询商品库存

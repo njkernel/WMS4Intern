@@ -10,6 +10,13 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/details/warehouse/warehouse.css">
+
+    <script type="text/javascript">
+        function go(currPage) {
+            $('#currPage').val(currPage)
+            document.frm.submit();
+        }
+    </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div class="btn-div">
@@ -48,29 +55,17 @@
             <td th:text="${p.realLockedRepertory}"></td>
             <td th:text="${p.realTotalRepertory}"></td>
             <td class="operation">
-                <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal" class="btn btn-success btn-xs">补货
+                <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal"
+                        class="btn btn-success btn-xs">补货
                 </button>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
-<!-- 分页部分 -->
-<div class="footer-pager">
-    <form action="">
-        <input name="currPage" />
-    </form>
-    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
-    <ul class="pagination">
-        <li><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li class="disabled"><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
-    </ul>
-</div>
+<form name="frm" action="">
+    <input type="hidden" id="currPage" name="currPage"/>
+</form>
 
 <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -109,22 +104,43 @@
         </div>
     </div>
 </div>
+<!-- 分页部分 -->
+<div class="footer-pager">
+    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
+    <ul class="pagination">
+        <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+        <!--<li class="active"><a href="#">1</a></li>
+        <li class="disabled"><a href="#">2</a></li>-->
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
+               th:text="${page.currPage-1}"></a></li>
+        <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+               th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+            &raquo;</a>
+        </li>
+    </ul>
+</div>
 </body>
 <script th:inline="javascript">
     function checkConfirmed() {
         var RepertoryNum = $('#firstname').val();
-        var id =$('.goodsid').val();
+        var id = $('.goodsid').val();
         var url = '/goodsRepertory/replenishRepertory';
         $.ajax({
             url: url,
             type: 'get',
-            dataType: 'json',
             data: {
                 "id": id,
                 "num": RepertoryNum
             },
             success: function (data) {
-                alert("补货成功！");
+                console.log(data);
+                if (data == "success") {
+                    alert("补货成功！");
+                    window.location.href = "/goodsRepertory/showRealRepertory";
+                }
+
             }
         })
     }
