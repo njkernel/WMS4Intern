@@ -38,6 +38,11 @@ public interface GoodsRepertoryMapper {
     Integer getCount();
 
     /**
+     * 返回商品库存表中含有关键字名称商品库存的总数
+     */
+    Integer getCountByKey(String key);
+
+    /**
      * 根据商品名称的关键字查看商品库存表
      * @param start
      * @param size

@@ -25,10 +25,8 @@ public interface GoodsRepertoryService {
 
     /**
      * 根据商品名称的关键字查询实时库存
-     * @param start
-     * @param size
      * @param key 商品名称关键字
      * @return 库存视图对象
      */
-    List<RealRepertoryVO> getGoodsRepertoryByGoodsName(Integer start,Integer size,String key);
+    Page getGoodsRepertoryByGoodsName(String key);
 }
