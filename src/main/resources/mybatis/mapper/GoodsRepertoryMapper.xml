@@ -24,4 +24,16 @@
         select id,goods_id,total_num,available_num,locked_num from t_goods_repertory order by id limit #{start},#{size}
     </select>
 
+    <select id="getGoodsRepertoryByGoodsName" resultMap="GoodsRepertoryMap">
+        select a.id,a.goods_id,a.total_num,a.available_num,a.locked_num from t_goods_repertory a inner join t_goods b on a.goods_id=b.id where b.goods_name like #{key} order by a.id limit #{start},#{size}
+    </select>
+
+    <select id="getIdByGoodsId" parameterType="java.lang.Integer" resultMap="GoodsRepertoryMap">
+        select id,goods_id,total_num,available_num,locked_num from t_goods_repertory where goods_id=#{goodsId}
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(id) from t_goods_repertory
+    </select>
+
 </mapper>
