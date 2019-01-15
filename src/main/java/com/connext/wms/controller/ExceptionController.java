@@ -2,10 +2,12 @@ package com.connext.wms.controller;
 
 import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.service.ExceptionService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,26 +25,26 @@ public class ExceptionController {
 
     //查询所有异常的订单返回到列表
     @RequestMapping("/findList")
-    public String findList(Model model,int start, int size){
-        List<OutRepertory> list = exceptionService.selectByPage(start,size);
-        model.addAttribute("list",list);
-        return "test";
+    public String findList(Model model){
+        List<OutRepertory> list = exceptionService.selectByPage(1,5);
+        model.addAttribute("exception",list);
+        return "error-order-list";
     }
 
     //按关键字查找相关异常的订单
     @RequestMapping("/findByKey")
     public String findByKey(Model model,String key){
         List<OutRepertory> list = exceptionService.selectByExampleToKey(key);
-        model.addAttribute("list",list);
-        return "";
+        model.addAttribute("exception",list);
+        return "error-order-list";
+
     }
 
     //查看异常订单详情
     @RequestMapping("/toDetail")
-    public String toDetail(Model model,String condition){
-        Object list = exceptionService.selectByExample(condition);
-        model.addAttribute("list",list);
-        return "";
+    public String toDetail(Integer id, Model model){
+        model.addAttribute("detail",exceptionService.selectByPrimaryKey(id));
+        return "abnormal-order";
     }
 
     //对异常订单进行再次发货

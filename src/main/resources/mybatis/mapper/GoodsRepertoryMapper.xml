@@ -32,4 +32,8 @@
         select id,goods_id,total_num,available_num,locked_num from t_goods_repertory where goods_id=#{goodsId}
     </select>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(id) from t_goods_repertory
+    </select>
+
 </mapper>

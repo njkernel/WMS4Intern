@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>快递公司管理</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/search.css">
+    <script>
+
+    </script>
+</head>
+<body style="overflow-x:hidden;background:#f3f3f3;">
+    <div class="btn-div clearfix">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">添加</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal1">修改</button>
+        <div class="search-box">
+            <form action="/expressCompany/findByKey" method="get">
+                <input  name="key" type="text">
+                <button type="submit"  class="btn btn-success">搜索</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>快递公司</th>
+                    <th>联系方式</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--/*@thymesVar id="express" type="java.util.ArrayList"*/-->
+                <!--/*@thymesVar id="obj" type="com.connext.wms.entity.ExpressCompany"*/-->
+                <tr th:each="obj,i:${express}">
+                    <td th:text="${i.count}"></td>
+                    <td id="expressCompanyName" th:text="${obj.expressCompanyName}"></td>
+                    <td id="contactWay" th:text="${obj.contactWay}"></td>
+                    <td>
+                        <a type="button" class="btn btn-default btn-xs" th:href="@{/expressCompany/Delete(expressCompanyName=${obj.expressCompanyName})}">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 弹出框 -->
+    <!--新增弹出框-->
+    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">添加公司</h4>
+                </div>
+                <form action="/expressCompany/Add" method="get" class="form-horizontal add">
+                    <div class="modal-body">
+                            <div class="form-group ">
+                                <label for="firstname" class="col-sm-2 control-label">公司名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="firstname" class="form-control" id="firstname" placeholder="请输入公司名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="secondname" class="col-sm-2 control-label">公司联系方式</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="secondname" class="form-control" id="secondname" placeholder="请输入公司联系方式">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button onclick="add()" type="button" class="btn btn-primary save"  data-dismiss="modal" id="save1">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 修改 -->
+    <div class="modal fade" id="demoModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel1">添加公司</h4>
+                </div>
+                <form action="/expressCompany/Add" method="get" class="form-horizontal add">
+                    <div class="modal-body">
+                        <div class="form-group ">
+                            <label for="firstname" class="col-sm-2 control-label">原公司名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="firstname" class="form-control" id="firstname1" placeholder="请输入要修改的公司名称">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="firstname" class="col-sm-2 control-label">新公司名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="firstname" class="form-control" id="firstname2" placeholder="请输入新的公司名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="secondname" class="col-sm-2 control-label">新公司联系方式</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="secondname" class="form-control" id="secondname1" placeholder="请输入新的公司联系方式">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button onclick="update()" type="button" class="btn btn-primary save"  data-dismiss="modal" id="save">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-pager">
+        <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
+        <ul class="pagination">
+            <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+            <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+            <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+            <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+            <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+                &raquo;</a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="/js/expressCompany/add-update.js"></script>
+</html>

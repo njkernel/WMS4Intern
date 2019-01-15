@@ -30,7 +30,12 @@ public interface GoodsRepertoryMapper {
      * 查看商品库存表的所有信息
      * @return
      */
-    List<GoodsRepertory> getGoodsRepertory(Integer start, Integer size);
+    List<GoodsRepertory> getGoodsRepertory(Integer start,Integer size);
+
+    /**
+     * 返回商品库存表中商品库存的总数
+     */
+    Integer getCount();
 
     /**
      * 根据商品名称的关键字查看商品库存表
@@ -38,7 +43,7 @@ public interface GoodsRepertoryMapper {
      * @param size
      * @return
      */
-    List<GoodsRepertory> getGoodsRepertoryByGoodsName(Integer start, Integer size, String key);
+    List<GoodsRepertory> getGoodsRepertoryByGoodsName(Integer start,Integer size,String key);
 
     /**
      * 根据商品id获取商品库存id

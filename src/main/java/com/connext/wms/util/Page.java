@@ -4,68 +4,79 @@ import java.util.List;
 
 public class Page {
 
-	//每页条数
-	public static final int PAGE_SIZE = 3;
-	
-	//当前页
-	private int currPage = 1;
-	
-	//总记录数
-	private Long totalCount;
-	
-	//总页数
-	private Long totalPage;
-	
-	//数据
-	private List data;
-	
-	/**
-	 * 计算总页数
-	 */
-	public void init() {
-		if(this.totalCount % PAGE_SIZE == 0) {
-			this.totalPage = this.totalCount/PAGE_SIZE;
-		}else {
-			this.totalPage = this.totalCount/PAGE_SIZE+1;
-		}
-	}
+    //每页条数
+    public static final int PAGE_SIZE = 10;
 
-	public int getCurrPage() {
-		return currPage;
-	}
+    //当前页
+    private int currPage = 1;
 
-	public void setCurrPage(int currPage) {
-		this.currPage = currPage;
-	}
+    //总记录数
+    private Long totalCount;
 
-	public Long getTotalCount() {
-		return totalCount;
-	}
+    //总页数
+    private Long totalPage;
 
-	public void setTotalCount(Long totalCount) {
-		this.totalCount = totalCount;
-	}
+    //数据
+    private List data;
 
-	public Long getTotalPage() {
-		return totalPage;
-	}
 
-	public void setTotalPage(Long totalPage) {
-		this.totalPage = totalPage;
-	}
+    //状态
+    private String status;
 
-	public List getData() {
-		return data;
-	}
+    /**
+     * 计算总页数
+     */
+    public void init() {
+        if (this.totalCount % PAGE_SIZE == 0) {
+            this.totalPage = this.totalCount / PAGE_SIZE;
+        } else {
+            this.totalPage = this.totalCount / PAGE_SIZE + 1;
+        }
+    }
 
-	public void setData(List data) {
-		this.data = data;
-	}
+    public int getCurrPage() {
+        return currPage;
+    }
 
-	public static int getPageSize() {
-		return PAGE_SIZE;
-	}
-	
-	
+    public void setCurrPage(int currPage) {
+        this.currPage = currPage;
+    }
+
+    public Long getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Long totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Long getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(Long totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public List getData() {
+        return data;
+    }
+
+    public void setData(List data) {
+        this.data = data;
+    }
+
+    public static int getPageSize() {
+        return PAGE_SIZE;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }
 

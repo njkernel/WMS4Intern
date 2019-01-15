@@ -1,9 +1,8 @@
 package com.connext.wms.service;
 
 
-
-
 import com.connext.wms.entity.RealRepertoryVO;
+import com.connext.wms.util.Page;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public interface GoodsRepertoryService {
      * 显示实时库存
      * @return 库存视图对象
      */
-    List<RealRepertoryVO> showRealRepertory(Integer start, Integer size);
+    Page showRealRepertory(Integer currPage);
 
     /**
      * 根据商品名称的关键字查询实时库存
@@ -31,5 +30,5 @@ public interface GoodsRepertoryService {
      * @param key 商品名称关键字
      * @return 库存视图对象
      */
-    List<RealRepertoryVO> getGoodsRepertoryByGoodsName(Integer start, Integer size, String key);
+    List<RealRepertoryVO> getGoodsRepertoryByGoodsName(Integer start,Integer size,String key);
 }

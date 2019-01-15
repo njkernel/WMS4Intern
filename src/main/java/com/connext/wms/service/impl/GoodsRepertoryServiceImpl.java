@@ -9,6 +9,7 @@ import com.connext.wms.entity.GoodsRepertory;
 import com.connext.wms.entity.RealRepertoryVO;
 import com.connext.wms.entity.RepertoryRegulation;
 import com.connext.wms.service.GoodsRepertoryService;
+import com.connext.wms.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -54,8 +55,8 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
     }
 
     @Override
-    public List<RealRepertoryVO> showRealRepertory(Integer start, Integer size) {
-        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory(start, size);
+    public Page showRealRepertory(Integer currPage) {
+        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
         List<RealRepertoryVO> list = new ArrayList<>();
         for (int i = 0; i < goodsRepertoryList.size(); i++) {
             RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(goodsRepertoryList.get(i).getId());
@@ -89,7 +90,12 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
 
 
         }
-        return list;
+        Page page = new Page();
+        page.setTotalCount((long)goodsRepertoryMapper.getCount());
+        page.setCurrPage(currPage);
+        page.init();
+        page.setData(list);
+        return page;
 
     }
 
