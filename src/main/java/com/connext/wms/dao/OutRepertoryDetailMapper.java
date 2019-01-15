@@ -31,4 +31,7 @@ public interface OutRepertoryDetailMapper {
     int updateByPrimaryKeySelective(OutRepertoryDetail record);
 
     int updateByPrimaryKey(OutRepertoryDetail record);
+
+    //批量插入入库单详情
+    int insertDetailList(List<OutRepertoryDetail> outRepertoryDetailList);
 }

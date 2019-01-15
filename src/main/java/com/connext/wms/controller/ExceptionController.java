@@ -20,21 +20,31 @@ public class ExceptionController {
     @Autowired
     private ExceptionService exceptionService;
 
+/*    @RequestMapping("/toDetail")
+    public String index(){
+        return "abnormal-order";
+    }*/
 
     //查询所有异常的订单返回到列表
     @RequestMapping("/findList")
-    public String findList(Model model,int start, int size){
-        List<OutRepertory> list = exceptionService.selectByPage(start,size);
-        model.addAttribute("list",list);
-        return "test";
+    public String findList(Model model){
+        List<OutRepertory> list = exceptionService.selectByPage(1,5);
+        model.addAttribute("exception",list);
+        return "error-order-list";
     }
 
     //按关键字查找相关异常的订单
     @RequestMapping("/findByKey")
     public String findByKey(Model model,String key){
         List<OutRepertory> list = exceptionService.selectByExampleToKey(key);
-        model.addAttribute("list",list);
-        return "";
+        if (list.size()==0) {
+            return "1";
+        } else {
+            System.out.println(list);
+            model.addAttribute("list",list);
+            return "error-order-list";
+        }
+
     }
 
     //查看异常订单详情

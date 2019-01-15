@@ -8,18 +8,28 @@ import lombok.Data;
  */
 @Data
 public class RealRepertoryVO {
+    private Integer id;
     private String sku;
     private String goodsName;
     private Integer realTotalRepertory;
     private Integer realAvailableRepertory;
     private Integer realLockedRepertory;
 
-    public RealRepertoryVO(String sku, String goodsName, Integer realTotalRepertory, Integer realAvailableRepertory, Integer realLockedRepertory) {
+    public RealRepertoryVO(Integer id, String sku, String goodsName, Integer realTotalRepertory, Integer realAvailableRepertory, Integer realLockedRepertory) {
+        this.id = id;
         this.sku = sku;
         this.goodsName = goodsName;
         this.realTotalRepertory = realTotalRepertory;
         this.realAvailableRepertory = realAvailableRepertory;
         this.realLockedRepertory = realLockedRepertory;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getSku() {

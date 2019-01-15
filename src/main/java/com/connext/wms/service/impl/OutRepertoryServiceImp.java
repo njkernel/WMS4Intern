@@ -4,6 +4,7 @@ package com.connext.wms.service.serviceImp;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.OutRepertory;
+import com.connext.wms.entity.OutRepertoryDetail;
 import com.connext.wms.entity.OutRepertoryDetailExample;
 import com.connext.wms.entity.OutRepertoryExample;
 import com.connext.wms.service.OutRepertoryService;
@@ -49,6 +50,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
     //分页查询2
     @Override
     public List<OutRepertory> outRepoOrderListByPage(Integer start, Integer size) {
+
         return this.outRepertoryMapper.selectOutRepoByPage(start,size);
     }
 
@@ -61,18 +63,18 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
             stringList.add(outRepertory1.getOrderId());
         }
         System.out.println(outRepertory);
-        Map map=new HashMap();
+        /*Map map=new HashMap();
         map.put("status",outRepertory.getOutRepoStatus());
         map.put("orderIdList",stringList);
-        if(outRepertory.getOutRepoStatus().equals("have shipped")){
+        if(outRepertory.getOutRepoStatus().equals("haveShipped")){
             map.put("shippingInfo",shippingInfo);
         }
-        String s=this.restTemplate.postForObject("http://10.129.100.54:8502/synchronizeState",map,String.class);
+        String s=this.restTemplate.postForObject("http://172.20.10.6:8502/synchronizeState",map,String.class);
         System.out.println("********"+s);
         System.out.println("*******"+outRepertory.getOutRepoStatus());
-        if("200".equals(s)){
+        if("200".equals(s)){*/
             this.outRepertoryMapper.updateByExampleSelective(outRepertory, outRepertoryExample);
-        }
+        //}
     }
 
     //oms通过出库单编号主动取消wms出库单状态
@@ -82,14 +84,6 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         this.outRepertoryMapper.updateByExampleSelective(outRepertory,outRepertoryExample);
     }
 
-    //查询出库单商品详情
-    @Override
-    public OutRepertory outRepoOrderDetail(String outRepoOrderId) {
-        OutRepertory outRepertory = this.outRepertoryMapper.selectByPrimaryKey(Integer.parseInt(outRepoOrderId));
-        this.outRepertoryDetailExample.createCriteria().andOutRepoIdEqualTo(Integer.parseInt(outRepoOrderId));
-        outRepertory.setOutRepertoryDetailList(this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample));
-        return outRepertory;
-    }
 
     //推送出库单时将出库单插入数据库
     @Override
@@ -121,6 +115,18 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
             this.outRepertoryMapper.updateByExampleSelective(outRepertory,outRepertoryExample);
         }
 
+    }
+
+    //根据出库单id查询某一条出库单信息
+    @Override
+    public OutRepertory selectByOutRepoId(Integer outRepoId) {
+        return this.outRepertoryMapper.selectByPrimaryKey(outRepoId);
+    }
+
+    @Override
+    public List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId) {
+        outRepertoryDetailExample.createCriteria().andOutRepoIdEqualTo(outRepoId);
+        return this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample);
     }
 
 
