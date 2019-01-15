@@ -64,7 +64,8 @@ public class InRepertoryController {
     @GetMapping("/search")
     public String search(@RequestParam String like, Model model) {
         String likeSth = "%" + like + "%";
-        model.addAttribute("list", inRepertoryService.findAllLike(likeSth));
+        Page pageModel = inRepertoryService.getPageInfo(0, inRepertoryService.findAllLike(likeSth), "");
+        model.addAttribute("page", pageModel);
         return "warehouse-in-list";
     }
 

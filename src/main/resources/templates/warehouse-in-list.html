@@ -42,8 +42,8 @@
             $('input:checkbox:checked').each(function () {
                 ids.push(parseInt($(this).val()));
             });
-            $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function () {
-                alert("success")
+            $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function (res) {
+                alert(res)
                 window.location.reload()
             })
         }
@@ -124,22 +124,23 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<div id="pagination" class="pagination"></div>
+<div class="footer-pager">
+    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
+    <ul class="pagination">
+        <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+        <!--<li class="active"><a href="#">1</a></li>
+        <li class="disabled"><a href="#">2</a></li>-->
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+        <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+            &raquo;</a>
+        </li>
+    </ul>
+</div>
 <script th:inline="javascript">
-    window.onload = function () {
-        new Page({
-            id: 'pagination',
-            pageTotal: [[${page.getTotalPage()}]], //必填,总页数
-            pageAmount: 10,  //每页多少条
-            dataTotal: [[${page.getTotalCount()}]], //总共多少条数据
-            curPage: [[${page.getCurrPage()}]], //初始页码,不填默认为1
-            pageSize: 5, //分页个数,不填默认为5
-            showPageTotalFlag: true,
-            getPage: function (page) {
-                //获取当前页数
-                window.location.replace("/inRepertory/page/" + page + [[${status}]])
-            }
-        })
+    function go(currPage) {
+        window.location.replace("/inRepertory/page/" + currPage + "/" + [[${page.status}]])
     }
 </script>
 <div id="popup" class="popup">

@@ -150,6 +150,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
             count = inRepertoryMapper.countByExample(example);
         }
         pageModel.setTotalCount(count);
+        pageModel.setStatus(status);
         pageModel.init();
         return pageModel;
     }

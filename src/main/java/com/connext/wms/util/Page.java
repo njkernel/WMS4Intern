@@ -19,6 +19,10 @@ public class Page {
     //数据
     private List data;
 
+
+    //状态
+    private String status;
+
     /**
      * 计算总页数
      */
@@ -66,6 +70,13 @@ public class Page {
         return PAGE_SIZE;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 }
 

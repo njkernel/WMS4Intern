@@ -10,40 +10,20 @@
     <script src="/js/popup/orderpopup.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-    h4{
-        font-weight: 600;
-    }
-    body div table thead {
-    background-color: rgba(0, 0, 0, 0.2);
-    }
-    body div table thead th{
-        text-align: center;
-    }
-    body div table tr{
-        text-align: center;
-    }
-    .table tbody tr .operation{
-
-    width:100px;
-    
-    height:30px;
-    }
-    .table tbody tr .number{
-
-    width:100px;
-    
-    height:30px;}
-    .cancel-servebtn{
-    float: right;
-    padding-right: 30px;
-    }
-    .txtnum{
-        width: 45px;
-    }
+        .modal-dialog{
+            width:970px;
+            height:200px;
+        }
     </style>
 </head>
-<body style="overflow-x:hidden;background:#fff;">
-        <h4 >收货管理</h4>
+<body style="overflow-x:hidden;background:#f3f3f3;">
+<div id="mask_shadow"></div>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">收货管理</h4>
+        </div>
         <div class="modal-body">
             <form class="form-horizontal refund" role="form">
                 <div class="form-group ">
@@ -56,10 +36,9 @@
                             <tr>
                                 <th>商品编码</th>
                                 <th>商品名称</th>
-                                <th>商品数量</th>     
+                                <th>商品数量</th>
                             </tr>
                             </thead>
-
                             <!--/*@thymesVar id="one" type="com.connext.wms.entity.InRepertory"*/-->
                             <tr th:each="i:${one.getRepertoryDetails()}">
                                 <td th:text="${i.getGoodsId()}"></td>
@@ -74,13 +53,15 @@
                         </table>
                     </div>
                 </div>
+
             </form>
         </div>
-       <div class="cancel-servebtn">
+        <div class="modal-footer">
             <button type="button" class="btn btn-default">取消</button>
-            <button type="button" onclick="sth()" data-dismiss="modal" class="btn btn-primary save">保存</button>
-     
-       </div>
+            <button type="button" onclick="sth()" class="btn btn-primary save">保存</button>
+        </div>
+    </div>
+</div>
 <script th:inline="javascript">
     function sth() {
         var array = [];
