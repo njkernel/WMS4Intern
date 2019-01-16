@@ -374,7 +374,18 @@
                sync_status, create_time, reviser,
                revise_time
         from t_out_repo
-        where out_repo_status like '%异常%'
+        where out_repo_status = 'shipException'
+            limit #{start},#{size}
+    </select>
+    <select id="selectByKey1" parameterType="com.connext.wms.entity.OutRepertoryExample" resultMap="BaseResultMap">
+        select id, out_repo_id, order_id,
+               channel_id, receiver_name, receiver_address,
+               express_id, express_company, out_repo_status,
+               sync_status, create_time, reviser,
+               revise_time
+        from t_out_repo
+        where express_company like #{key}
+          and out_repo_status = 'shipException'
             limit #{start},#{size}
     </select>
 </mapper>

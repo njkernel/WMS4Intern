@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -87,20 +88,9 @@ public class WmsApplicationTests {
 
 
   @Test
-  //分页查询快递公司信息
-  public void findByPage(){
-    System.out.println(expressCompanyService.selectByPage(1,2));
-  }
-
-  @Test
-  //分页查询异常信息;
-  public void selectByPage(){
-    System.out.println(exceptionService.selectByPage(1,5));
-  }
-
-  @Test
-  public void test2(){
-    System.out.println(exceptionService.selectByExampleToKey("快递"));
+  public void test3(){
+    String newKey = "%" + "233" + "%";
+    System.out.println(exceptionService.selectByExampleToKey(1,newKey));
   }
 
 

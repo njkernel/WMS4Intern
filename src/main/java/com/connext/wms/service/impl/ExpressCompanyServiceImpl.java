@@ -4,6 +4,7 @@ import com.connext.wms.dao.ExpressCompanyMapper;
 import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.entity.ExpressCompanyExample;
 import com.connext.wms.service.ExpressCompanyService;
+import com.connext.wms.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +23,30 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
 
 
     //分页查询所有快递公司信息
-    public List<ExpressCompany> selectByPage(Integer start,Integer size){
-        Integer pageStart = (start-1)* size;
-        return expressCompanyMapper.selectByPage(pageStart,size);
+    public Page selectByPage(Integer currPage){
+        List<ExpressCompany> list = expressCompanyMapper.selectByPage((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
+        ExpressCompanyExample example = new ExpressCompanyExample();
+        Page page = new Page();
+        page.setTotalCount((long)expressCompanyMapper.countByExample(example));
+        page.setCurrPage(currPage);
+        page.init();
+        page.setData(list);
+        return page;
     }
 
     //根据关键字查询
-    public List<ExpressCompany> selectByExample(String key){
+    public Page selectByKey(Integer currPage,String key){
         String newKey = "%" + key + "%";
+        List<ExpressCompany> list = expressCompanyMapper.selectByKey((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE,newKey);
         ExpressCompanyExample example = new ExpressCompanyExample();
-        example.createCriteria().andExpressCompanyNameLike(newKey);
-        return expressCompanyMapper.selectByExample(example);
+        example.or().andExpressCompanyNameLike(newKey);
+        Page page = new Page();
+        page.setTotalCount((long)expressCompanyMapper.countByExample(example));
+        page.setCurrPage(currPage);
+        page.init();
+        page.setData(list);
+        return page;
+
     }
 
     //添加快递公司信息
@@ -59,8 +73,5 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
         example.createCriteria().andExpressCompanyNameEqualTo(expressCompanyName);
         expressCompanyMapper.updateByExample(record,example);
     }
-
-
-
 
 }
