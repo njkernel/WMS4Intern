@@ -73,7 +73,7 @@ public class GoodsServiceImpl implements GoodsService {
         String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
         goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
         System.out.println(goodsDTOSList.toString());
-        restTemplate.postForObject("http://10.129.100.51:8503/updateGoods", goodsDTOSList, String.class);
+        restTemplate.postForObject("http://10.129.100.51:8502/updateGoods", goodsDTOSList, String.class);
     }
 
     /**

@@ -46,5 +46,17 @@ public class GoodsController {
         return "success";
     }
 
+    /**
+     * 显示编辑页面的商品信息
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getGoodsById")
+    public Goods getGoodsById(Integer id) {
+        Goods goods = goodsService.getGoodsById(id);
+        return goods;
+    }
+
 
 }

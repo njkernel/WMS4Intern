@@ -42,9 +42,7 @@
             <td th:text="${obj.goodsName}"></td>
             <td th:text="${obj.goodsPrice}"></td>
             <td class="operation">
-                <button type="button" data-toggle="modal" th:id="${obj.id}" data-target="#demoModal"
-                        class="btn btn-success btn-xs">编辑
-                </button>
+                <button type="button" data-toggle="modal" th:id="${obj.id}" data-target="#demoModal" class="btn btn-success btn-xs" th:onclick="|getData(${obj.id})|">编辑</button>
             </td>
         </tr>
         </tbody>
@@ -115,6 +113,7 @@
 </div>
 </body>
 
+
 <script th:inline="javascript">
     function saveData() {
         var id = $('.goodsid').val();
@@ -139,5 +138,17 @@
             }
         })
     }
+    function getData(id) {
+        $.ajax({
+            url: "/goods/getGoodsById?id=" + id,
+            type: "get",
+            dataType: "json",
+            success: function (goods) {
+                $('#firstname').val(goods.goodsName);
+                $('#secondname').val(goods.goodsPrice);
+            }
+        })
+    }
+
 </script>
 </html>

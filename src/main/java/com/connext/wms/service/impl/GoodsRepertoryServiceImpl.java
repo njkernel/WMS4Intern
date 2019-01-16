@@ -51,7 +51,7 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
         调用OMS接口，将总库存同步给OMS
          */
         List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
-        restTemplate.postForObject("http://10.129.100.51:8503/updateTotalStock", listCodeTotalStockDTO, String.class);
+        restTemplate.postForObject("http://10.129.100.51:8502/updateTotalStock", listCodeTotalStockDTO, String.class);
     }
 
     @Override
