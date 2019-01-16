@@ -32,8 +32,6 @@ public class ApplicationProgrameInterface {
     @Resource
     private OutRepertoryService outRepertoryService;
     @Resource
-    private OutRepertory outRepertory;
-    @Resource
     private OutRepertoryDetailMapper outRepertoryDetailMapper;
     @Resource
     private GoodsService goodsService;
@@ -51,34 +49,35 @@ public class ApplicationProgrameInterface {
             @RequestParam(required = true) String outRepoOrderDetailDto
     ) throws IOException {
         //先将出库单插入出库单表
-        outRepertory = new OutRepertory(outRepoId, orderId, channelId, receiverName, receiverAddress, expressCompany,new Date());
+        OutRepertory outRepertory = new OutRepertory(outRepoId, orderId, channelId, receiverName, receiverAddress, expressCompany,new Date(),"waittingChecked");
         this.outRepertoryService.addOutRepoOrder(outRepertory);
         //出库单插入表中获取新增字段的主键
+        System.out.println("*******************"+outRepertory.getId());
 
-        //再插入出库单详情到出库单详情表
         List<OutRepoOrderDetailDto> outRepoOrderDetailDtoList = objectMapper.readValue(outRepoOrderDetailDto,
                 new TypeReference<List<OutRepoOrderDetailDto>>() {
-                });
+        });
 
         //根据接收到的goodsCode查询goods
         OutRepertoryDetail outRepertoryDetail=new OutRepertoryDetail();
         List<String> skuList = new ArrayList<String>();
+        System.out.println("^^^^^^^^^^^^^^"+outRepoOrderDetailDtoList);
         for (OutRepoOrderDetailDto outRepoOrderDetailDto1 : outRepoOrderDetailDtoList) {
+            System.out.println("++++++++++++++++"+outRepoOrderDetailDto1.getGoodsCode());
             skuList.add(outRepoOrderDetailDto1.getGoodsCode());
             //调用 商品库存更改 方法
             Integer goodId=this.goodsService.getGoodsBySku(outRepoOrderDetailDto1.getGoodsCode()).getId();
+            System.out.println(outRepoOrderDetailDto1.getNum()+"##########");
             this.repertoryRegulationService.deliveryGoodsBeforeDelivery(goodId,outRepoOrderDetailDto1.getNum());
             outRepertoryDetail.setGoodsNum(outRepoOrderDetailDto1.getNum());
         }
-        List<OutRepertoryDetail> outRepertoryDetailList=new ArrayList<>();
         for(Goods good:this.goodsService.getGoodsBySkuList(skuList)){
-
+            System.out.println("##########"+good);
             outRepertoryDetail.setGoodsName(good.getGoodsName());
             outRepertoryDetail.setGoodsId(good.getId());
-            //outRepertoryDetail.setOutRepoId();
-            outRepertoryDetailList.add(outRepertoryDetail);
+            outRepertoryDetail.setOutRepoId(outRepertory.getId());
+            this.outRepertoryDetailMapper.insertSelective(outRepertoryDetail);
         }
-            this.outRepertoryDetailMapper.insertDetailList(outRepertoryDetailList);
         return "200";
     }
 
@@ -97,6 +96,7 @@ public class ApplicationProgrameInterface {
         try {
             String[] str = outRepoOrderNo.split(",");
             List<String> integerList = Arrays.asList(str);
+            OutRepertory outRepertory=new OutRepertory();
             outRepertory.setOutRepoStatus("已取消");
             this.outRepertoryService.omsUpdateOutRepoOrderStatus(outRepertory, integerList);
         } catch (Exception e) {

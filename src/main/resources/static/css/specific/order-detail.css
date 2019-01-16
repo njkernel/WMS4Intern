@@ -4,10 +4,6 @@ body{
     top: -1px;
     font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
 }
-input {
-    border: 0!important;
-    background-color: #FFFFFF;
-}
 .container{
     /* width: 966px;
     height: 1400px; */
@@ -36,7 +32,7 @@ input{
 } */
 .main-body{
     background-color: rgb(255,255,255);
-    height: 850px;
+    /* height: 850px; */
     position: relative;
 }
 .main-content1{
@@ -48,16 +44,10 @@ input{
     /* height: 30px; */
     /* background-color: goldenrod; */
     font-size: 18px;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
     font-weight: 600;
     /* margin-left: 20px; */
 }
-/* .title-content{ */
-    /* height: 170px;
-    margin-top: 5px; */
-    /* background-color: blueviolet; */
-    /* border: 1px solid #000; */
-/* } */
 .title-content1{
    height: 40px;
    font-weight: initial;
@@ -88,7 +78,7 @@ input{
     /* background-color: forestgreen; */
 }
 .main-content2{
-    height: 100px;
+    /* height: 100px; */
     border-top:1px solid rgb(191,191,191);
     margin-top: 5px;
     font-weight: 600;
@@ -191,6 +181,7 @@ button.focus, button:focus, button:hover {
 }
 th{
     font-weight: normal;
+    text-align:center;
 }
 tr:hover td{
     background-color:rgb(230,247,255);
