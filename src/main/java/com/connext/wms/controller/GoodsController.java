@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -18,27 +19,44 @@ public class GoodsController {
 
     //分页查询所有商品
     @RequestMapping("/findAll")
-    public String toList(Model model,Integer start,Integer size){
-        List<Goods> list = goodsService.findAll(1,10);
-        model.addAttribute("goods",list);
+    public String toList(Model model, Integer currPage) {
+        model.addAttribute("page", goodsService.findAll(currPage));
         return "goods-list";
     }
 
     //关键字查询
     @RequestMapping("/byKey")
-    public String Key(Model model,String key){
-        List<Goods> list = goodsService.selectByExample(key);
-        model.addAttribute("goods",list);
+    public String Key(Model model, String key) {
+        model.addAttribute("page", goodsService.selectByExample(key));
         return "goods-list";
     }
 
-/*    //修改商品信息
+    /*    //修改商品信息
+        @RequestMapping("/update")
+        public Integer toUpdate(Integer id,String goodsName,String goodsPrice1){
+            Float goodsPrice = Float.valueOf(goodsPrice1);
+            goodsService.updateGoodsNameAndPrice(id,goodsName,goodsPrice);
+            return 1;
+        }*/
+    //修改商品信息
+    @ResponseBody
     @RequestMapping("/update")
-    public Integer toUpdate(Integer id,String goodsName,String goodsPrice1){
-        Float goodsPrice = Float.valueOf(goodsPrice1);
-        goodsService.updateGoodsNameAndPrice(id,goodsName,goodsPrice);
-        return 1;
-    }*/
+    public String updateGoods(Goods goods) {
+        goodsService.updateGoodsNameAndPrice(goods);
+        return "success";
+    }
+
+    /**
+     * 显示编辑页面的商品信息
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getGoodsById")
+    public Goods getGoodsById(Integer id) {
+        Goods goods = goodsService.getGoodsById(id);
+        return goods;
+    }
 
 
 }
