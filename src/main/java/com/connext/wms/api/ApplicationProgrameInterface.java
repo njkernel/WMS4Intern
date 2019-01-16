@@ -94,10 +94,11 @@ public class ApplicationProgrameInterface {
     @ResponseBody
     public String cancelResult(@RequestParam(required = true) String outRepoOrderNo) {
         try {
+            System.out.println(outRepoOrderNo);
             String[] str = outRepoOrderNo.split(",");
             List<String> integerList = Arrays.asList(str);
             OutRepertory outRepertory=new OutRepertory();
-            outRepertory.setOutRepoStatus("已取消");
+            outRepertory.setOutRepoStatus("");
             this.outRepertoryService.omsUpdateOutRepoOrderStatus(outRepertory, integerList);
         } catch (Exception e) {
             return "201";

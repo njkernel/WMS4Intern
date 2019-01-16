@@ -1,14 +1,12 @@
 package com.connext.wms.service.impl;
 
-
-import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.OutRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
 import com.connext.wms.util.Page;
-//import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -30,26 +28,34 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
     private RestTemplate restTemplate;
     @Autowired
     private RepertoryRegulationService repertoryRegulationService;
-    @Autowired
-    private GoodsMapper goodsMapper;
+
 
     //分页查询出库单
     @Override
-    public Page outRepoOrderList(String outRepoOrderId, String selectStatus, Integer currPage) {
+    public Page outRepoOrderList(Integer currPage) {
         Page page = new Page();
         if (currPage == null) currPage = 1;
         page.setCurrPage(currPage);
         OutRepertoryExample outRepertoryExample = null;
         page.setTotalCount(this.outRepertoryMapper.countByExample(outRepertoryExample));
         page.init();
-        page.setData(this.outRepertoryMapper.selectOutRepoByPage(outRepoOrderId, selectStatus, (currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE));
+        page.setData(this.outRepertoryMapper.selectOutRepoByPage((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE));
         return page;
     }
 
     //分页查询2
     @Override
-    public List<OutRepertory> outRepoOrderListByPage(String outRepoOrderId, String selectStatus, Integer start, Integer size) {
-        return this.outRepertoryMapper.selectOutRepoByPage(outRepoOrderId, selectStatus, start, size);
+    public Page unclearSelect(String outRepoOrderId, String selectStatus, Integer currPage) {
+        OutRepertoryExample outRepertoryExample=new OutRepertoryExample();
+        Page page = new Page();
+        if (currPage == null) currPage = 1;
+        page.setCurrPage(currPage);
+        outRepertoryExample.or().andOutRepoIdLike("%"+outRepoOrderId+"%").andOutRepoStatusEqualTo(selectStatus);
+        page.setTotalCount(this.outRepertoryMapper.countByExample(outRepertoryExample));
+        page.init();
+        PageHelper.startPage(currPage, Page.PAGE_SIZE);
+        page.setData(this.outRepertoryMapper.selectByExample(outRepertoryExample));
+        return page;
     }
 
     //批量更新出库单状态
@@ -132,19 +138,25 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
             OutRepertory outRepertory = new OutRepertory();
             outRepertory.setOutRepoStatus("haveCanceled");
             outRepertory.setReviseTime(new Date());
-            OutRepertoryExample outRepertoryExample = new OutRepertoryExample();
+            /*OutRepertoryExample outRepertoryExample = new OutRepertoryExample();
             outRepertoryExample.createCriteria().andOutRepoIdIn(Arrays.asList(outRepoOrderNo));
-            this.outRepertoryMapper.updateByExampleSelective(outRepertory, outRepertoryExample);
+            this.outRepertoryMapper.updateByExample(outRepertory, outRepertoryExample);*/
             //取消出库单时，更新库存
             for (String outRepoNo : outRepoOrderNo) {
+                outRepertory.setOutRepoId(outRepoNo);
+                this.outRepertoryMapper.updateWhenCancel(outRepertory);//更新 状态为已取消；
                 OutRepertoryDetailExample outRepertoryDetailExample = new OutRepertoryDetailExample();
                 outRepertoryDetailExample.or().andOutRepoIdEqualTo(this.outRepertoryMapper.selectByOutRepoOrderNo(outRepoNo).getId());
                 for (OutRepertoryDetail outRepertoryDetail : this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample)) {
                     this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(), outRepertoryDetail.getGoodsNum());
                 }
-
+                Integer outRepoId=this.outRepertoryMapper.selectByOutRepoOrderNo(outRepoNo).getId();//根据某个出库单号获取某一个出库单id
+                for(OutRepertoryDetail outRepertoryDetail:this.outRepertoryDetailMapper.selectListByOutRepoId(outRepoId)){
+                    System.out.println("@@@@@@@@@@@@"+outRepertoryDetail);
+                    System.out.println(outRepertoryDetail.getGoodsId()+"^%^%^^%^"+outRepertoryDetail.getGoodsNum());
+                    outRepertoryDetail.getGoodsId();
+                }
             }
-
         }
 
     }

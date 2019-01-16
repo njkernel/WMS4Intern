@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface OutRepertoryMapper {
+    void updateWhenCancel(OutRepertory outRepertory);
+
     long countByExample(OutRepertoryExample example);
 
     int deleteByExample(OutRepertoryExample example);
@@ -41,5 +43,5 @@ public interface OutRepertoryMapper {
 
     OutRepertory selectByOutRepoOrderNo(String outRepoOrderNo);
 
-    List<OutRepertory> selectOutRepoByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size);
+    List<OutRepertory> selectOutRepoByPage(Integer start,Integer size);
 }

@@ -185,11 +185,29 @@ public class xmxTest {
         this.restTemplate.postForObject("http://localhost:8080/api/test",map,String.class);
     }
 
+    @Test
+    public void cancelDelivery(){
+        this.repertoryRegulationService.cancelDelivery(8,90);
+    }
+
     /*@Test
     public void PageLook(){
         System.out.println(this.outRepertoryService.outRepoOrderListByPage(3,2));
 
     }*/
+
+    @Test
+    public void tttest(){
+        String[] outRepoOrderNo={"1901060001a5baee9","1901060002bb0dc48"};
+        this.outRepertoryService.cancelOutRepoOrder(outRepoOrderNo);
+    }
+
+    @Test
+    public void TTesttt(){
+        OutRepertoryExample outRepertoryExample=new OutRepertoryExample();
+        outRepertoryExample.or().andOutRepoIdLike("%ee%").andOutRepoStatusEqualTo("waittingChecked");
+        System.out.println(this.outRepertoryMapper.countByExample(outRepertoryExample));
+    }
 
 }
 

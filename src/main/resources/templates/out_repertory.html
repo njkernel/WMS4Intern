@@ -65,14 +65,14 @@
 </div>
 <div class="btn-div">
     <form name="frm" action="">
-        <input id="currPage" name="currPage" />
+        <input id="currPage" type="hidden" name="currPage" />
     </form>
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
     <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
     <div class="search-box">
-        <form th:action="@{/outRepoOrderController/outRepoOrderList}" method="post">
+        <form th:action="@{/outRepoOrderController/unclearSelect}" method="post">
             <select name="selectStatus" id="selectStatus">
                 <option value=""></option>
                 <option value="waittingChecked">待检货</option>
@@ -119,7 +119,13 @@
             <td th:text="${#dates.format(p.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
                 <button type="button" class="btn btn-default btn-xs" th:id="${p.id}">查看</button>
-                <button type="button" class="btn btn-danger btn-xs"  th:id="${p.id}">操作</button>
+                <t th:if="${p.outRepoStatus!='waittingShipped'}">
+                    <button type="button" class="btn btn-danger btn-xs" disabled="disabled" th:id="${p.id}">操作</button>
+                </t>
+                <t th:if="${p.outRepoStatus=='waittingShipped'}">
+                    <button type="button" class="btn btn-danger btn-xs" th:id="${p.id}">操作</button>
+                </t>
+
             </td>
         </tr>
 

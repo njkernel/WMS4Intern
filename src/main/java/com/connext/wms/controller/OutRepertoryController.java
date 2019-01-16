@@ -36,9 +36,16 @@ public class OutRepertoryController {
 
     //分页查询展示出库单
     @RequestMapping("/outRepoOrderList")
-    public String outRepoOrderList(Integer currPage, String selectStatus, String outRepoOrderId, Model model) {
-        model.addAttribute("page",this.outRepertoryService.outRepoOrderList(outRepoOrderId,selectStatus,currPage));
+    public String outRepoOrderList(Integer currPage, Model model) {
+        model.addAttribute("page",this.outRepertoryService.outRepoOrderList(currPage));
         return "out_repertory";
+    }
+
+    //模糊查询
+    @RequestMapping("/unclearSelect")
+    public String unclearSelect(Integer currPage,String selectStatus,String outRepoOrderId,Model model){
+        model.addAttribute("page",this.outRepertoryService.unclearSelect(outRepoOrderId,selectStatus,currPage));
+        return "redirect:/outRepoOrderController/outRepoOrderList";
     }
 
 

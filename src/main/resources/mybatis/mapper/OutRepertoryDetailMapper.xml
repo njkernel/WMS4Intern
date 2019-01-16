@@ -211,4 +211,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <select id="selectListByOutRepoId" parameterType="java.lang.Integer" resultType="com.connext.wms.entity.OutRepertoryDetail">
+    select * from t_out_repo_items where out_repo_id=#{outRepoId}
+  </select>
+
 </mapper>
