@@ -94,6 +94,12 @@
     from t_express_company
     limit #{start},#{size}
   </select>
+  <select id="selectByKey" parameterType="com.connext.wms.entity.ExpressCompanyExample" resultMap="BaseResultMap">
+    select id, express_company_name, contact_way
+    from t_express_company
+      where express_company_name like #{key}
+           limit #{start},#{size}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_express_company
     where id = #{id,jdbcType=INTEGER}

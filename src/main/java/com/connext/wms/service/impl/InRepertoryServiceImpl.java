@@ -36,7 +36,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
     private final RepertoryRegulationService regulationService;
-    private final String PUSH_URL = "http://10.129.100.65:8502/Api/getExchangeInputFeedback";
+    private final String PUSH_URL = "http://10.129.100.22:8502/Api/getReturnInputFeedback";
 
 
     @Autowired
@@ -113,12 +113,14 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setSyncStatus(constant.SYNC_TRUE_STATES);
         if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
-//            if(status.equals(constant.SUCCESS_STATUS)){
-//                inRepertory.getRepertoryDetails().forEach(
-//                        //增加库存
-//                        u->regulationService.rejectedGoodsSuccess(u.getGoodsId(),u.getGoodsNum())
-//                );
-//            }
+            if (status.equals(constant.SUCCESS_STATUS)) {
+                InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
+                detailExample.or().andInRepoIdEqualTo(id);
+                inRepertoryDetailMapper.selectByExample(detailExample).forEach(
+                        //增加库存
+                        u -> regulationService.rejectedGoodsSuccess(u.getGoodsId(), u.getGoodsNum())
+                );
+            }
             return true;
         }
         return false;
@@ -142,8 +144,8 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         pageModel.setCurrPage(page);
         pageModel.setData(inRepertoryList);
         InRepertoryExample example = new InRepertoryExample();
-        long count = 0;
-        if (status.equals("")) {
+        long count;
+        if ("".equals(status)) {
             count = inRepertoryMapper.countByExample(example);
         } else {
             example.or().andInRepoStatusEqualTo(status);

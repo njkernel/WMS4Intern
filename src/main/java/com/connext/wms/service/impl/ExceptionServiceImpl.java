@@ -3,6 +3,7 @@ package com.connext.wms.service.impl;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.ExceptionService;
+import com.connext.wms.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +20,30 @@ public class ExceptionServiceImpl implements ExceptionService {
     private OutRepertoryMapper outRepertoryMapper;
 
     //分页查询所有异常订单信息返回列表
-    public List<OutRepertory> selectByPage(Integer start,Integer size){
-        Integer pageStart = (start-1)* size;
-        return outRepertoryMapper.selectByPage(pageStart,size);
+    public Page selectByPage(Integer currPage){
+        List<OutRepertory> list = outRepertoryMapper.selectByPage((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
+        OutRepertoryExample example = new OutRepertoryExample();
+        Page page = new Page();
+        page.setTotalCount((long)outRepertoryMapper.countByExample(example));
+        page.setCurrPage(currPage);
+        page.init();
+        page.setData(list);
+        return page;
     }
 
     //查找关键字查找异常订单
-    public List<OutRepertory> selectByExampleToKey(String key){
+    public Page selectByExampleToKey(Integer currPage,String key){
         String newKey = "%" + key + "%";
+        List<OutRepertory> list = outRepertoryMapper.selectByKey1(newKey,(currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
         OutRepertoryExample example = new OutRepertoryExample();
-        example.or().andOutRepoStatusLike(newKey);
-        example.or().andExpressCompanyLike(newKey);
         example.or().andOutRepoIdLike(newKey);
-        return outRepertoryMapper.selectByExample(example);
+        Page page = new Page();
+        page.setTotalCount((long)outRepertoryMapper.countByExample(example));
+        page.setCurrPage(currPage);
+        page.init();
+        page.setData(list);
+        return page;
+
     }
 
     //点击查看异常订单详情

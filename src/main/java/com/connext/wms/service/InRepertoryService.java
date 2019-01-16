@@ -43,6 +43,7 @@ public interface InRepertoryService {
      *
      * @param start page page
      * @param size page size
+     * @param status status
      * @return page
      */
     List<InRepertory> findPageBy(String status,Integer start,Integer size);

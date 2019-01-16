@@ -52,7 +52,7 @@ public class TestSomething {
         List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
         InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), "收货失败", list);
         log.info(restTemplate.postForObject("http://10.129.100.65:8502/Api/getExchangeInputFeedback", inputFeedback.toMap(), String.class));
-}
+    }
 
     @Test
     public void t() {
@@ -70,5 +70,11 @@ public class TestSomething {
         long creatTime = inRepertory.getCreateTime().getTime();
         long now = System.currentTimeMillis();
         log.info(String.valueOf(now - creatTime > days));
+    }
+
+    @Test
+    public void unquie() {
+        InRepertory inRepertory= inRepertoryMapper.selectByPrimaryKey(12);
+        inRepertory.getId();
     }
 }

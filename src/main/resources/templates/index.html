@@ -32,7 +32,7 @@
                     <li class="list_li" mid="tab1"  funurl=".././details/orders/order-list.html">
                         <a tabindex="-1" href="javascript:void(0);" id="default">订单列表</a>
                     </li>
-                    <li class="list_li" mid="tab2" funurl=".././details/orders/error-order-list.html">
+                    <li class="list_li" mid="tab2" funurl="/exception/findList?currPage=1">
                         <a tabindex="-1" href="javascript:void(0);">异常出库单列表</a>
                     </li>
                     <li class="list_li" mid="tab3" funurl="/outRepoOrderController/outRepoOrderList">
@@ -89,13 +89,13 @@
             </dt>
             <dd class="list_dd">
                 <ul class="list_dd_ul">
-                    <li class="list_li" mid="tab9" funurl=".././details/user/administrator.html">
+                    <li class="list_li" mid="tab9" funurl="/user/queryAll">
                         <a tabindex="-1" href="javascript:void(0);">仓库管理员管理</a>
                     </li>
                     <li class="list_li" mid="tab10" funurl=".././details/user/refused-person.html">
                         <a tabindex="-1" href="javascript:void(0);">收货人管理</a>
                     </li>
-                    <li class="list_li" mid="tab11" funurl=".././details/user/express-company.html">
+                    <li class="list_li" mid="tab11" funurl="/expressCompany/findAll?currPage=1">
                     <a tabindex="-1" href="javascript:void(0);">快递公司管理</a>
                     </li>
                 </ul>
@@ -109,11 +109,11 @@
                 <i class="fa fa-arrow-left" ></i>
            </span>
             <ul class="user-list">
-            <!--<li><i class="i_seach"></i></li>-->
-            <!--<li><i class="i_user"></i></li>-->
-            <li><i class="i_message"></i></li>
-            <li><i class="i_set"></i></li>
-            <li><i class="i_quit"></i></li>
+                <!--<li><i class="i_seach"></i></li>-->
+                <!--<li><i class="i_user"></i></li>-->
+                <!--<li><i class="i_message"></i></li>
+                <li><i class="i_set"></i></li>-->
+                <li><button style="border: 0;background: #FFFFFF;" type="button" onclick="window.location.href='/user/outLogin'"><i class="i_quit" style="font-size: 25px"></i></button></li>
             </ul>
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active noclose" ><a href="#bTabs_tab1" data-toggle="tab">订单列表</a>

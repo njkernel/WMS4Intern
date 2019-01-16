@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>表格</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -75,7 +75,7 @@
     <table class="table table-condensed">
         <thead>
         <tr>
-            <th>序号</th>
+            <!--<th>序号</th>-->
             <th>批量</th>
             <th>入库单号</th>
             <th>快递公司</th>
@@ -89,7 +89,7 @@
         </thead>
         <tbody>
         <tr th:each="obj,i:${page.getData()}">
-            <td th:text="${i.count}"></td>
+            <!--<td th:text="${i.count}"></td>-->
             <td><input type="checkbox" th:value="${obj.id}"></td>
             <td th:text="${obj.inRepoId}"></td>
             <td th:text="${obj.expressCompany}"></td>
@@ -130,9 +130,11 @@
         <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
         <!--<li class="active"><a href="#">1</a></li>
         <li class="disabled"><a href="#">2</a></li>-->
-        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
+               th:text="${page.currPage-1}"></a></li>
         <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+               th:text="${page.currPage+1}"></a></li>
         <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
             &raquo;</a>
         </li>
@@ -143,7 +145,7 @@
         window.location.replace("/inRepertory/page/" + currPage + "/" + [[${page.status}]])
     }
 </script>
-<div id="popup" class="popup">
+<div id="popup" class="popup" style="top:-300px">
     <div class="title">
         <p>入库单详情</p>
         <span></span>
@@ -156,7 +158,7 @@
 <script>
     $(function () {
         $('#popup').popup();
-        $("body").css("overflow-y", "hidden");
+        // $("body").css("overflow-y", "hidden");
     });
 </script>
 </body>

@@ -93,8 +93,8 @@ public class TestYogurt {
         }*/
       //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
        // repertoryRegulationService.replenishRepertory(2,100);
-        List<RealRepertoryVO> list = goodsRepertoryService.getGoodsRepertoryByGoodsName(0,2,"王中王");
-        System.out.println(list.toString());
+        //List<RealRepertoryVO> list = goodsRepertoryService.getGoodsRepertoryByGoodsName(0,2,"王中王");
+       // System.out.println(list.toString());
 
 
     }
