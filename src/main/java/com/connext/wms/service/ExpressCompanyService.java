@@ -24,12 +24,13 @@ public interface ExpressCompanyService {
     Page selectByKey(Integer currPage,String key);
 
     //添加快递公司信息
-    void insert(String expressCompanyName,String contactWay);
+    Integer insert(String expressCompanyName,String contactWay);
 
     //根据公司名称删除信息
     void deleteByExample(String expressCompanyName);
 
     //修改快递公司信息
-    void updateByExample(String newName,String expressCompanyName,String contactWay);
+    Integer updateByExample(String newName,String expressCompanyName,String contactWay);
+
 
 }
