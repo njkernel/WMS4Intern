@@ -98,10 +98,10 @@ body div table thead {
 .table thead tr th:last-child {
     width: 100px;
 }
-.table thead tr th:first-child,
-.table thead tr th:nth-of-type(2) {
-    width: 30px;
-}
+/*.table thead tr th:first-child,*/
+/*.table thead tr th:nth-of-type(2) {*/
+    /*width: 30px;*/
+/*}*/
 .table input[type=checkbox] {
     margin: 0;
 }

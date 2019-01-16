@@ -35,8 +35,6 @@
     <table class="table table-condensed">
         <thead>
         <tr>
-            <th class="number">序号</th>
-            <th class="batch">批量</th>
             <th>商品编号</th>
             <th>商品名称</th>
             <th>可用库存</th>
@@ -47,8 +45,6 @@
         </thead>
         <tbody>
         <tr th:each="p,i:${page.data}">
-            <td th:text="${i.count}"></td>
-            <td><input type="checkbox" th:name="${p.id}" th:id="${p.id}"></td>
             <td th:text="${p.sku}"></td>
             <td th:text="${p.goodsName}"></td>
             <td th:text="${p.realAvailableRepertory}"></td>
