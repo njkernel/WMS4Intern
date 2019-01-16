@@ -75,7 +75,7 @@
     <table class="table table-condensed">
         <thead>
         <tr>
-            <th>序号</th>
+            <!--<th>序号</th>-->
             <th>批量</th>
             <th>入库单号</th>
             <th>快递公司</th>
@@ -89,7 +89,7 @@
         </thead>
         <tbody>
         <tr th:each="obj,i:${page.getData()}">
-            <td th:text="${i.count}"></td>
+            <!--<td th:text="${i.count}"></td>-->
             <td><input type="checkbox" th:value="${obj.id}"></td>
             <td th:text="${obj.inRepoId}"></td>
             <td th:text="${obj.expressCompany}"></td>
