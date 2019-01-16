@@ -98,7 +98,7 @@ public class InRepertoryController {
         ids.forEach(
                 u -> {
                     inRepertoryService.changeInRepertoryStatus(u, status);
-                    //inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(u));
+                    inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(u));
                 }
         );
         return true;

@@ -36,7 +36,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
     private final RepertoryRegulationService regulationService;
-    private final String PUSH_URL = "http://10.129.100.65:8502/Api/getExchangeInputFeedback";
+    private final String PUSH_URL = "http://10.129.100.22:8502/Api/getReturnInputFeedback";
 
 
     @Autowired
@@ -113,10 +113,12 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         inRepertory.setSyncStatus(constant.SYNC_TRUE_STATES);
         if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
-            if(status.equals(constant.SUCCESS_STATUS)){
-                inRepertory.getRepertoryDetails().forEach(
+            if (status.equals(constant.SUCCESS_STATUS)) {
+                InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
+                detailExample.or().andInRepoIdEqualTo(id);
+                inRepertoryDetailMapper.selectByExample(detailExample).forEach(
                         //增加库存
-                        u->regulationService.rejectedGoodsSuccess(u.getGoodsId(),u.getGoodsNum())
+                        u -> regulationService.rejectedGoodsSuccess(u.getGoodsId(), u.getGoodsNum())
                 );
             }
             return true;
