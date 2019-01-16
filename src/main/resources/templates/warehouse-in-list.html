@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width"><!--, initial-scale=1.0">-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>表格</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
@@ -130,9 +130,11 @@
         <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
         <!--<li class="active"><a href="#">1</a></li>
         <li class="disabled"><a href="#">2</a></li>-->
-        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
+               th:text="${page.currPage-1}"></a></li>
         <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+               th:text="${page.currPage+1}"></a></li>
         <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
             &raquo;</a>
         </li>
@@ -156,7 +158,7 @@
 <script>
     $(function () {
         $('#popup').popup();
-        $("body").css("overflow-y", "hidden");
+        // $("body").css("overflow-y", "hidden");
     });
 </script>
 </body>
