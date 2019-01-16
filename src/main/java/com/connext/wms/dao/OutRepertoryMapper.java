@@ -21,6 +21,8 @@ public interface OutRepertoryMapper {
 
     int insertSelective(OutRepertory record);
 
+    List<OutRepertory> selectByKey1(@Param("key") String key,@Param("start") Integer start,@Param("size") Integer size);
+
     List<OutRepertory> selectByExample(OutRepertoryExample example);
 
     List<OutRepertory> selectByPage(Integer start,Integer size);
