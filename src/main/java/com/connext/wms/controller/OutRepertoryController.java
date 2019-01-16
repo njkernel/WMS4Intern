@@ -29,20 +29,14 @@ public class OutRepertoryController {
 
     //跳转index界面
     @RequestMapping("/toIndex")
-    public String toIndex(){
+    public String toIndex() {
         return "index";
-    }
-
-    //index跳转outRepo界面
-    @RequestMapping("/toOutRepoOrder")
-    public String toOutRepoOrder(){
-        return "out_repertory";
     }
 
     //分页查询展示出库单
     @RequestMapping("/outRepoOrderList")
-    public String outRepoOrderList(Integer currPage, OutRepertoryExample example, Model model) {
-        model.addAttribute("outRepoOrderList", this.outRepertoryService.outRepoOrderListByPage(0,10));
+    public String outRepoOrderList(Integer currPage, String selectStatus, String outRepoOrderId, Model model) {
+        model.addAttribute("page",this.outRepertoryService.outRepoOrderList(outRepoOrderId,selectStatus,currPage));
         return "out_repertory";
     }
 
@@ -51,26 +45,35 @@ public class OutRepertoryController {
     @RequestMapping("/updateOutRepoOrderStatus")
     @ResponseBody
     public String updateOutRepoOrderStatus(@RequestParam(required = false) String[] shippingInfo, String status, String outRepoOrderIdArray) throws IOException {
-        OutRepertory outRepertory=new OutRepertory();
+        OutRepertory outRepertory = new OutRepertory();
         outRepertory.setOutRepoStatus(status);
         JavaType javaType = objectMapper.getTypeFactory().constructParametricType(
                 List.class, String.class);
-        List<Integer>  list= objectMapper.readValue(outRepoOrderIdArray, javaType);
-        this.outRepertoryService.updateOutRepoOrderStatus(outRepertory, list,shippingInfo);
+        List<Integer> list = objectMapper.readValue(outRepoOrderIdArray, javaType);
+        this.outRepertoryService.updateOutRepoOrderStatus(outRepertory, list, shippingInfo);
         return "1";
     }
 
     //查看出库单商品详情
     @RequestMapping("/toOutRepoDetail")
-    public String outRepoOrderDetail(String outRepoOrderId,Model model) {
-        model.addAttribute("outRepoOrder",this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
-        model.addAttribute("outRepoOrderDetail",this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
+    public String outRepoOrderDetail(String outRepoOrderId, Model model) {
+        model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
+        model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
         return "/specific/outstock";
     }
 
+    //发货时可以修改出库单的信息
+    @RequestMapping("/updateOutRepoOrder")
+    public String updateOutRepoOrder(String outRepoOrderId,Model model){
+        model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
+        model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
+        return "/specific/outstock_update";
+    }
+
+
     //WMS批量取消出库单
     @RequestMapping("/cancelOutRepoOrder")
-    public String cancelOutRepoOrder(String[] outRepoOrderNo){
+    public String cancelOutRepoOrder(String[] outRepoOrderNo) {
         this.outRepertoryService.cancelOutRepoOrder(outRepoOrderNo);
         return "";
     }

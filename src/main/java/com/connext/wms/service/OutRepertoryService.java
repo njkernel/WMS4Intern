@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface OutRepertoryService {
     //分页查询出库单
-    //Page outRepoOrderList(Integer currPage, OutRepertoryExample example);
+    Page outRepoOrderList(String outRepoOrderId,String selectStatus,Integer currPage);
     //分页查询2
-    List<OutRepertory> outRepoOrderListByPage(Integer start,Integer size);
+    List<OutRepertory> outRepoOrderListByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size);
     //更改出库单状态（通过出库单的id）
     void updateOutRepoOrderStatus(OutRepertory outRepertory, List<Integer> outRepoOrderId,String[] shippingInfo);
     //oms通过出库单编号主动取消wms出库单状态

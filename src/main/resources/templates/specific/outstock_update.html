@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>出库详情</title>
+    <title>出库单的修改</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/specific/outstock.css}"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
@@ -13,7 +13,6 @@
 </head>
 <style>
     thead tr td{
-
         text-align:center;
     }
 </style>
@@ -39,8 +38,7 @@
                                                                 th:text="${outRepoOrder.receiverName}"></div>
                     <div class="title-content1-top2">快递公司：<input disabled="disabled"
                                                                  th:text="${outRepoOrder.expressCompany}"></div>
-                    <div class="title-content1-top3">快递单号：<input disabled="disabled"
-                                                                 th:text="${outRepoOrder.expressId}"></div>
+                    <div class="title-content1-top3">快递单号：<input name="expressId" /></div>
                 </div>
                 <div class="title-content3">
                     <div class="title-content1-top1">出库单状态：<input disabled="disabled"
@@ -57,35 +55,35 @@
             <div class="main-content2-title">
                 <text style="font-size: 18px; font-weight: 600;">出库商品</text>
             </div>
-                <table class="table table-condensed">
-                   <thead>
-                   <tr>
-                       <th>出库单号</th>
-                       <th>商品编码</th>
-                       <th>商品名称</th>
-                       <th>单价</th>
-                       <th>数量</th>
-                       <th>金额</th>
-                   </tr>
-                   </thead>
-                    <tr th:each="orod:${outRepoOrderDetail}">
-                        <td th:text="${orod.outRepoId}"></td>
-                        <td></td>
-                        <td th:text="${orod.goodsName}"></td>
-                        <td></td>
-                        <td th:text="${orod.goodsNum}"></td>
-                        <td></td>
-                    </tr>
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>出库单号</th>
+                    <th>商品编码</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                </tr>
+                </thead>
+                <tr th:each="orod:${outRepoOrderDetail}">
+                    <td th:text="${orod.outRepoId}"></td>
+                    <td></td>
+                    <td th:text="${orod.goodsName}"></td>
+                    <td></td>
+                    <td th:text="${orod.goodsNum}"></td>
+                    <td></td>
+                </tr>
 
-                    <tr>
-                        <td style="font-size: 15px;"><strong>总计</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>2000</td>
-                        <td>4005</td>
-                    </tr>
-                </table>
+                <tr>
+                    <td style="font-size: 15px;"><strong>总计</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>2000</td>
+                    <td>4005</td>
+                </tr>
+            </table>
         </div>
 
 

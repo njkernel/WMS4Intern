@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表格</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/popup/orderpopup.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    h4{
+        font-weight: 600;
+    }
+    body div table thead {
+    background-color: rgba(0, 0, 0, 0.2);
+    }
+    body div table thead th{
+        text-align: center;
+    }
+    body div table tr{
+        text-align: center;
+    }
+    .table tbody tr .operation{
+
+    width:100px;
+    
+    height:30px;
+    }
+    .table tbody tr .number{
+
+    width:100px;
+    
+    height:30px;}
+    .cancel-servebtn{
+    float: right;
+    padding-right: 30px;
+    }
+    .txtnum{
+        width: 45px;
+    }
+    </style>
+</head>
+<body style="overflow-x:hidden;background:#fff;">
+        <h4 >收货管理</h4>
+        <div class="modal-body">
+            <form class="form-horizontal refund" role="form">
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label" th:text="|订单号 :${one.inRepoId}|"></label>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <table class="table table-condensed">
+                            <thead>
+                            <tr>
+                                <th>商品编码</th>
+                                <th>商品名称</th>
+                                <th>商品数量</th>     
+                            </tr>
+                            </thead>
+
+                            <!--/*@thymesVar id="one" type="com.connext.wms.entity.InRepertory"*/-->
+                            <tr th:each="i:${one.getRepertoryDetails()}">
+                                <td th:text="${i.getGoodsId()}"></td>
+                                <td th:text="${i.getGoodsName()}"></td>
+                                <td class="refund">
+                                    <div class="control-btn">
+                                        <input type="int" class="txtnum" th:id="${i.getGoodsId()}"
+                                               th:value="${i.getGoodsNum()}" style="width: 22px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+       <div class="cancel-servebtn">
+            <button type="button" class="btn btn-default">取消</button>
+            <button type="button" onclick="sth()" data-dismiss="modal" class="btn btn-primary save">保存</button>
+     
+       </div>
+<script th:inline="javascript">
+    function sth() {
+        var array = [];
+        $("input").each(
+            function () {
+                var sku = $(this).attr("id");
+                var goodsNum = $(this).val()
+                array.push({"sku": sku, "goodsNum": goodsNum})
+            }
+        )
+        var list = JSON.stringify(array);
+        $.post("/inRepertory/action/exception", {
+            id: [[${one.id}]],
+            list: list
+        }, function (result) {
+            alert(result);
+            window.close()
+        });
+    };
+</script>
+</body>
+</html>

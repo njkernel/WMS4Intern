@@ -51,7 +51,7 @@ public class TestYogurt {
 //    goodsMapper.insert(new Goods(2, "2", "2", 1F));
         // GoodsExample goodsExample = new GoodsExample();
         //System.out.println(goodsMapper.countByExample(goodsExample));
-        // repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
+         repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
         //repertoryRegulationService.cancelDelivery(1,2);
         //  repertoryRegulationService.deliveryGoodsAfterDelivery(1,1);
         //repertoryRegulationService.rejectedGoodsSuccess(1,1);
@@ -66,7 +66,7 @@ public class TestYogurt {
             System.out.println(repertoryRegulation.getGoodsRepertoryId());
             System.out.println(repertoryRegulation.getLockedResult());
         }*/
-        goodsRepertoryService.updateGoodsRepertory();
+      //  goodsRepertoryService.updateGoodsRepertory();
     }
 
     @Test
@@ -93,8 +93,8 @@ public class TestYogurt {
         }*/
       //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
        // repertoryRegulationService.replenishRepertory(2,100);
-        List<RealRepertoryVO> list = goodsRepertoryService.showRealRepertory(0,1);
-        System.out.println(list.toString());
+        //List<RealRepertoryVO> list = goodsRepertoryService.getGoodsRepertoryByGoodsName(0,2,"王中王");
+       // System.out.println(list.toString());
 
 
     }

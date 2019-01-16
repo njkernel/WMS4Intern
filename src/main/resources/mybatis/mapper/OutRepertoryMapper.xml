@@ -360,11 +360,28 @@
         where out_repo_id=#{outRepoId,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectOutRepoByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
+    <select id="selectOutRepoByPage" resultMap="BaseResultMap">
+        <!--select
         <include refid="Base_Column_List"/>
         from t_out_repo limit
-             #{start},#{size}
+             #{start},#{size}-->
+        select *
+        from
+        (select * from t_out_repo
+        <where>
+            <if test="outRepoOrderId!=null and outRepoOrderId!='' ">
+                and out_repo_id like concat('%',#{outRepoOrderId},'%')
+            </if>
+            <if test="selectStatus!=null and selectStatus!='' ">
+                and out_repo_status like CONCAT('%',#{selectStatus},'%')
+            </if>
+        </where>
+        <!--<if test="">
+            WHERE out_repo_id like concat('%',#{outRepoOrderId},'%')
+        </if>
+            and out_repo_status like CONCAT('%',#{selectStatus},'%')-->
+        ) as a ORDER BY create_time ASC,revise_time DESC
+        limit #{start},#{size}
     </select>
 
     <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
