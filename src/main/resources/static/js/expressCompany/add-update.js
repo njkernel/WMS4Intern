@@ -12,11 +12,12 @@ function add() {
             "contactWay": contactWay
         },
         success:function (data) {
-            if(data == "1"){
+            if(data==1){
                 alert("该公司已经存在！");
+            }else if (data==2) {
+                alert("添加公司成功！");
+                window.location.reload()
             }
-
-
         }
     })
 }
@@ -38,7 +39,10 @@ function update() {
             "contactWay": contactWay
         },
         success:function (data) {
-            alert("修改公司信息成功！");
+            if(data==1){
+                alert("修改公司信息成功！");
+                window.location.reload()
+            }
         }
     })
 }

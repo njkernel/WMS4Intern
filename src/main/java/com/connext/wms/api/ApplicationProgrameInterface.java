@@ -7,6 +7,7 @@ import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.OutRepertoryService;
+import com.connext.wms.service.RepertoryRegulationService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,11 @@ import java.util.*;
 @RequestMapping("/api")
 public class ApplicationProgrameInterface {
     @Resource
+    private RepertoryRegulationService repertoryRegulationService;
+    @Resource
     private ObjectMapper objectMapper;
     @Resource
     private OutRepertoryService outRepertoryService;
-    private OutRepertoryDetail outRepertoryDetail;
     @Resource
     private OutRepertory outRepertory;
     @Resource
@@ -49,7 +51,7 @@ public class ApplicationProgrameInterface {
             @RequestParam(required = true) String outRepoOrderDetailDto
     ) throws IOException {
         //先将出库单插入出库单表
-        outRepertory = new OutRepertory(outRepoId, orderId, channelId, receiverName, receiverAddress, expressCompany);
+        outRepertory = new OutRepertory(outRepoId, orderId, channelId, receiverName, receiverAddress, expressCompany,new Date());
         this.outRepertoryService.addOutRepoOrder(outRepertory);
         //出库单插入表中获取新增字段的主键
 
@@ -59,13 +61,18 @@ public class ApplicationProgrameInterface {
                 });
 
         //根据接收到的goodsCode查询goods
+        OutRepertoryDetail outRepertoryDetail=new OutRepertoryDetail();
         List<String> skuList = new ArrayList<String>();
         for (OutRepoOrderDetailDto outRepoOrderDetailDto1 : outRepoOrderDetailDtoList) {
             skuList.add(outRepoOrderDetailDto1.getGoodsCode());
+            //调用 商品库存更改 方法
+            Integer goodId=this.goodsService.getGoodsBySku(outRepoOrderDetailDto1.getGoodsCode()).getId();
+            this.repertoryRegulationService.deliveryGoodsBeforeDelivery(goodId,outRepoOrderDetailDto1.getNum());
             outRepertoryDetail.setGoodsNum(outRepoOrderDetailDto1.getNum());
         }
         List<OutRepertoryDetail> outRepertoryDetailList=new ArrayList<>();
         for(Goods good:this.goodsService.getGoodsBySkuList(skuList)){
+
             outRepertoryDetail.setGoodsName(good.getGoodsName());
             outRepertoryDetail.setGoodsId(good.getId());
             //outRepertoryDetail.setOutRepoId();
@@ -81,14 +88,6 @@ public class ApplicationProgrameInterface {
     public String getOutRepoOrderStatus(@RequestParam(required = true) String outRepoOrderNo) {
         return this.outRepertoryService.outRepoOrderInfo(outRepoOrderNo).getOutRepoStatus();
     }
-
-    //测试自己的调用接口的方法是否奏效
-    /*@PostMapping(value="/test")
-    @ResponseBody
-    public String test(@RequestBody Map map){
-        System.out.println(map);
-        return "200";
-    }*/
 
 
     //oms取消wms出库单，wms告知oms出库单是否取消成功

@@ -2,8 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>OMS订单管理系统</title>
     <link rel="stylesheet" type="text/css" href="/css/web/sfont.css">
@@ -29,14 +28,14 @@
                 <i class="list_dt_icon"></i>
             </dt>
             <dd class="list_dd" style="display: block">
-                <ul class="list_dd_ul">
-                    <li class="list_li" mid="tab1" funurl=".././details/orders/order-list.html">
+                <ul class="list_dd_ul"  >
+                    <li class="list_li" mid="tab1"  funurl=".././details/orders/order-list.html">
                         <a tabindex="-1" href="javascript:void(0);" id="default">订单列表</a>
                     </li>
                     <li class="list_li" mid="tab2" funurl=".././details/orders/error-order-list.html">
                         <a tabindex="-1" href="javascript:void(0);">异常出库单列表</a>
                     </li>
-                    <li class="list_li" mid="tab3" funurl=".././details/orders/warehouse-out-list.html">
+                    <li class="list_li" mid="tab3" funurl="/outRepoOrderController/outRepoOrderList">
                         <a tabindex="-1" href="javascript:void(0);">出库单列表</a>
                     </li>
                     <li class="list_li" mid="tab4" funurl="/inRepertory/page/1">
@@ -58,14 +57,14 @@
             </dt>
             <dd class="list_dd">
                 <ul class="list_dd_ul">
-                    <li class="list_li" mid="tab7" funurl=".././details/warehouse/wareHouse.html">
+                    <li class="list_li" mid="tab7" funurl="/goodsRepertory/showRealRepertory?pageNumber=1,pageSize=1">
                         <a tabindex="-1" href="javascript:void(0);">库存列表</a>
                     </li>
                     <!-- <li class="list_li" mid="tab3" funurl=".././details/orders/warehouse-out-list.html">
-                        <a tabindex="-1" href="javascript:void(0);">出库单列表</a>
+                        <a tabindex="-1" href="js:void(0);">出库单列表</a>
                     </li>
                     <li class="list_li" mid="tab4" funurl=".././details/orders/warehouse-in-list.html">
-                        <a tabindex="-1" href="javascript:void(0);">入库单列表</a>
+                        <a tabindex="-1" href="js:void(0);">入库单列表</a>
                     </li> -->
                 </ul>
             </dd>
@@ -97,7 +96,7 @@
                         <a tabindex="-1" href="javascript:void(0);">收货人管理</a>
                     </li>
                     <li class="list_li" mid="tab11" funurl=".././details/user/express-company.html">
-                        <a tabindex="-1" href="javascript:void(0);">快递公司管理</a>
+                    <a tabindex="-1" href="javascript:void(0);">快递公司管理</a>
                     </li>
                 </ul>
             </dd>
@@ -107,25 +106,24 @@
         <!--右侧导航栏-->
         <div class="tablan col-md-12" id="mainFrameTabs" style="padding : 0px;">
            <span class="shrink">
-                <i class="fa fa-arrow-left"></i>
+                <i class="fa fa-arrow-left" ></i>
            </span>
             <ul class="user-list">
-                <!--<li><i class="i_seach"></i></li>-->
-                <!--<li><i class="i_user"></i></li>-->
-                <!--<li><i class="i_message"></i></li>
-                <li><i class="i_set"></i></li>-->
-                <li><button style="border: 0;background: #FFFFFF;" type="button" onclick="window.location.href='/user/outLogin'"><i class="i_quit" style="font-size: 25px"></i></button></li>
+            <!--<li><i class="i_seach"></i></li>-->
+            <!--<li><i class="i_user"></i></li>-->
+            <li><i class="i_message"></i></li>
+            <li><i class="i_set"></i></li>
+            <li><i class="i_quit"></i></li>
             </ul>
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active noclose"><a href="#bTabs_tab1" data-toggle="tab">订单列表</a>
+                <li role="presentation" class="active noclose" ><a href="#bTabs_tab1" data-toggle="tab">订单列表</a>
                 </li>
             </ul>
             <!--noclose-->
             <div class="tab-content">
                 <!--默认显示第一个列表-->
                 <div class="tab-pane active" id="bTabs_tab1">
-                    <iframe frameborder="0" scrolling="auto" style="width:100%;height:100%;border:0px;"
-                            src="../../../../../../../Desktop/OMS/src/pages/details/orders/order-list.html"></iframe>
+                    <iframe frameborder="0" scrolling="auto" style="width:100%;height:100%;border:0px;" src="../../../../../../../Desktop/OMS/src/pages/details/orders/order-list.html"></iframe>
                 </div>
             </div>
         </div>
@@ -133,7 +131,7 @@
 </div>
 <script src="/js/jquery-2.1.1.min.js"></script>
 <script src="/js/tabs/tabs.js"></script>
-<!-- <script src="../../assets/javascript/popup/popup.js"></script> -->
+<!-- <script src="../../assets/js/popup/popup.js"></script> -->
 <script src="/js/index.js"></script>
 <script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
 </body>

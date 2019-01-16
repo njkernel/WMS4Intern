@@ -22,6 +22,14 @@ public interface GoodsMapper {
 
     int insertSelective(Goods record);
 
+    /**
+     * 分页查询所有商品
+     * @param start
+     * @param size
+     * @return
+     */
+    List<Goods> selectByPage(Integer start,Integer size);
+
     List<Goods> selectByExample(GoodsExample example);
 
     Goods selectByPrimaryKey(Integer id);
