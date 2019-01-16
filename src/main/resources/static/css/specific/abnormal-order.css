@@ -12,7 +12,7 @@
 }
 .main-body{
     background-color: rgb(255,255,255);
-    height: 850px;
+    /* height: 850px; */
     position: relative;
 }
 .main-content1{
@@ -61,12 +61,13 @@
     /* background-color: forestgreen; */
 }
 input{
-    display: none;
+    border: 0;
+    background-color: #FFFFFF;
 }
-.main-content2{
+/* .main-content2{
     height: 640px;
-    /* background-color: gold; */
-}
+    background-color: gold;
+} */
 .main-content2-title{
     height: 40px;
     /* border: 1px solid #000; */
@@ -81,6 +82,7 @@ input{
 }
 th{
     font-weight: normal;
+    text-align:center;
 }
 .tr-title{
   background-color: rgb(204,204,204);

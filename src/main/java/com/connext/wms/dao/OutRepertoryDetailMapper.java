@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
+
 @Mapper
 @Repository
 public interface OutRepertoryDetailMapper {
@@ -32,6 +34,4 @@ public interface OutRepertoryDetailMapper {
 
     int updateByPrimaryKey(OutRepertoryDetail record);
 
-    //批量插入入库单详情
-    int insertDetailList(List<OutRepertoryDetail> outRepertoryDetailList);
 }

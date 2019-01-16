@@ -1,11 +1,15 @@
 package com.connext.wms;
 
+import com.connext.wms.api.dto.OutRepoOrderDetailDto;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.OutRepertory;
+import com.connext.wms.entity.OutRepertoryDetail;
 import com.connext.wms.entity.OutRepertoryDetailExample;
 import com.connext.wms.entity.OutRepertoryExample;
+import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.OutRepertoryService;
+import com.connext.wms.service.RepertoryRegulationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 
@@ -21,7 +26,10 @@ import java.util.*;
 @SpringBootTest
 @Transactional
 public class xmxTest {
-
+    @Resource
+    private GoodsService goodsService;
+    @Resource
+    private RepertoryRegulationService repertoryRegulationService;
     @Autowired
     private OutRepertoryMapper outRepertoryMapper;
     @Autowired
@@ -34,6 +42,7 @@ public class xmxTest {
     private RestTemplate restTemplate;
     @Autowired
     private OutRepertoryService outRepertoryService;
+
 
     @Test
     public void updateOutRepoOrderStatus() {
@@ -66,6 +75,51 @@ public class xmxTest {
     }
 
     @Test
+    public void Testt(){
+        String outRepoId="1234567";
+        String orderId="1234567";
+        String channelId="1234567";
+        String receiverName="1234567";
+        String receiverAddress="1234567";
+        OutRepoOrderDetailDto outRepertoryDetailDto1=new OutRepoOrderDetailDto();
+        outRepertoryDetailDto1.setGoodsCode("S0001");
+        outRepertoryDetailDto1.setNum(12);
+        OutRepoOrderDetailDto outRepertoryDetailDto2=new OutRepoOrderDetailDto();
+        outRepertoryDetailDto2.setGoodsCode("S0002");
+        outRepertoryDetailDto2.setNum(20);
+        List<OutRepoOrderDetailDto> list=new ArrayList<>();
+        list.add(outRepertoryDetailDto1);
+        list.add(outRepertoryDetailDto2);
+        Map map=new HashMap();
+        map.put("outRepoId",outRepoId);
+        map.put("orderId",orderId);
+        map.put("channelId",channelId);
+        map.put("receiverName",receiverName);
+        map.put("receiverAddress",receiverAddress);
+        map.put("outRepoOrderDetailDto",list);
+        this.restTemplate.postForObject("http://localhost:8080/api/pushOutRepoOrder",map,String.class);
+
+    }
+
+    @Test
+    public void receiveIdWhenSelect(){
+        OutRepertory outRepertory=new OutRepertory();
+        outRepertory.setOutRepoStatus("waittingChecked");
+        outRepertory.setOrderId("1234567");
+        outRepertory.setExpressId("12345678");
+        Integer i=this.outRepertoryMapper.insert(outRepertory);
+        System.out.println(outRepertory.getId());
+        System.out.println(i);
+    }
+
+    @Test
+    public void TestGood(){
+        System.out.println(this.goodsService.getGoodsBySku("S0007").getId());
+        this.repertoryRegulationService.deliveryGoodsBeforeDelivery(8,1000);
+
+    }
+
+    @Test
     public void cancelResult(){
         OutRepertory outRepertory=new OutRepertory();
         outRepertory.setId(1);
@@ -94,6 +148,20 @@ public class xmxTest {
     }
 
     @Test
+    public void TestTTT(){
+        List<OutRepertoryDetail> outRepertoryDetailList=new ArrayList<>();
+        OutRepertoryDetail outRepertoryDetail=new OutRepertoryDetail();
+        outRepertoryDetail.setId(100);
+        outRepertoryDetail.setGoodsName("dfdf");
+        outRepertoryDetail.setGoodsId(100);
+        outRepertoryDetail.setOutRepoId(99);
+        System.out.println(outRepertoryDetail);
+        outRepertoryDetailList.add(outRepertoryDetail);
+        this.outRepertoryDetailMapper.insertSelective(outRepertoryDetail);
+        //this.outRepertoryDetailMapper.insertDetailList(outRepertoryDetailList);
+    }
+
+    @Test
     public void sendStatus(){
         OutRepertory outRepertory=new OutRepertory();
         outRepertory.setOutRepoStatus("have checked");
@@ -101,7 +169,7 @@ public class xmxTest {
         list.add(41);
         String[] shippingInfo=null;
         //String[] shippingInfo={"shentong","1234324",new Date().toString(),new Date().toString()};
-        this.outRepertoryService.updateOutRepoOrderStatus(outRepertory,list,shippingInfo);
+        this.outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
     }
     @Test
     public void testServer(){

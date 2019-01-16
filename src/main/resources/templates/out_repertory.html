@@ -19,6 +19,16 @@
                 $('#demoModal').modal();
             });
         });
+        /*把取消按钮和别的操作按钮分开*/
+        $(function () {
+            $('.cancel').on("click", function () {
+                $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
+                $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
+                $('#demoModal .modal-footer #receiveButtonId').attr("value",$(this).attr('id'));
+                $('#demoModal').modal();
+            });
+        });
+
 
         //查询出库单
         $(function () {
@@ -34,13 +44,19 @@
             $('.btn-danger').on("click", function () {
                 console.log($(this).attr('id'));
                 var id=$(this).attr('id');
-                document.getElementById('iframeId').src="../outRepoOrderController/updateOutRepoOrder?outRepoOrderId="+id+"&xmx="+Math.random();
+                document.getElementById('iframeId').src="../outRepoOrderController/preUpdateOutRepoOrder?outRepoOrderId="+id+"&xmx="+Math.random();
             });
         });
 
         function go(currPage) {
             $('#currPage').val(currPage)
             document.frm.submit();
+        }
+
+        function closeIFrame(){
+            console.log("关闭子页面");
+            $('#popup').css("display","none");
+            $('#mask_shadow').css("display","none");
         }
     </script>
 </head>
@@ -49,12 +65,12 @@
 </div>
 <div class="btn-div">
     <form name="frm" action="">
-        <input type="hidden" id="currPage" name="currPage" />
+        <input id="currPage" name="currPage" />
     </form>
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
-    <button type="button" class="btn btn-primary action" id="haveCanceled">取消</button>
+    <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
     <div class="search-box">
         <form th:action="@{/outRepoOrderController/outRepoOrderList}" method="post">
             <select name="selectStatus" id="selectStatus">
@@ -74,7 +90,6 @@
     <table class="table table-condensed">
         <thead>
         <tr>
-            <th>序号</th>
             <th>批量</th>
             <th>订单号</th>
             <th>出库单状态</th>
@@ -92,7 +107,6 @@
 
 
         <tr th:each="p,pstatus:${page.data}">
-            <td th:text="${pstatus.count}"></td>
             <td><input type="checkbox" name="checkboxName" th:value="${p.id}"></td>
             <td th:text="${p.orderId}"></td>
             <td th:text="${p.outRepoStatus}"></td>
@@ -169,20 +183,82 @@
         var receiveButtonIdValue=document.getElementById("receiveButtonId").value;
         var checkBox = document.getElementsByName('checkboxName');
         var checkedArray = new Array();
+        var checkedStatusArray = new Array();
+        var checkedOutRepoNoArray = new Array();
         for (var i = 0; i < checkBox.length; i++) {
             if (checkBox[i].checked) {
                 checkedArray.push(checkBox[i].value);
+                var tr=checkBox[i].parentNode.parentNode;
+                checkedStatusArray.push(tr.cells[2].innerHTML);
+                checkedOutRepoNoArray.push(tr.cells[3].innerHTML);
             }
         }
-        $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
-            if(data=="0"){
-                alert("操作失败！");
-            }else{
-                location.href="../outRepoOrderController/outRepoOrderList";
+
+        if(receiveButtonIdValue=="waittingPackaged"){
+            for(var j=0;j<checkedStatusArray.length;j++){
+                if(checkedStatusArray[j]!="waittingChecked"){
+                    alert("请选择符合状态的出库单！");
+                    break;
+                }else{
+                    $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
+                        if(data=="0"){
+                            alert("操作失败！");
+                        }else{
+                            location.href="../outRepoOrderController/outRepoOrderList";
+                        }
+                    })
+                }
             }
-        })
+        }else if(receiveButtonIdValue=="waittingShipped"){
+            for(var j=0;j<checkedStatusArray.length;j++){
+                if(checkedStatusArray[j]!="waittingPackaged"){
+                    alert("请选择符合状态的出库单！");
+                    break;
+                }else{
+                    $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
+                        if(data=="0"){
+                            alert("操作失败！");
+                        }else{
+                            location.href="../outRepoOrderController/outRepoOrderList";
+                        }
+                    })
+                }
+            }
+        }else if(receiveButtonIdValue=="haveShipped"){
+            for(var j=0;j<checkedStatusArray.length;j++){
+                if(checkedStatusArray[j]!="waittingShipped"){
+                    alert("请选择符合状态的出库单！");
+                    break;
+                }else{
+                    $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
+                        if(data=="0"){
+                            alert("操作失败！");
+                        }else{
+                            location.href="../outRepoOrderController/outRepoOrderList";
+                        }
+                    })
+                }
+            }
+        }else if(receiveButtonIdValue=="haveCanceled"){
+            for(var j=0;j<checkedStatusArray.length;j++){
+                if(checkedStatusArray[j]=="haveShipped"){
+                    alert("请选择符合状态的出库单！");
+                    break;
+                }else{
+                    $.getJSON("../outRepoOrderController/cancelOutRepoOrder",{"outRepoOrderNoArray":JSON.stringify(checkedOutRepoNoArray)},function(data){
+                        if(data=="0"){
+                            alert("操作失败！");
+                        }else{
+                            location.href="../outRepoOrderController/outRepoOrderList";
+                        }
+                    })
+                }
+            }
+        }
+        /**/
 
     }
+
 
 </script>
 </html>

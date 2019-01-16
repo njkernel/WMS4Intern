@@ -125,7 +125,7 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.connext.wms.entity.OutRepertory">
+    <insert id="insert" parameterType="com.connext.wms.entity.OutRepertory" useGeneratedKeys="true" keyProperty="id">
         insert into t_out_repo (id, out_repo_id, order_id,
                                 channel_id, receiver_name, receiver_address,
                                 express_id, express_company, out_repo_status,
@@ -380,7 +380,8 @@
             WHERE out_repo_id like concat('%',#{outRepoOrderId},'%')
         </if>
             and out_repo_status like CONCAT('%',#{selectStatus},'%')-->
-        ) as a ORDER BY create_time ASC,revise_time DESC
+        ) as a where out_repo_status not in('shipException')
+        ORDER BY create_time ASC,revise_time DESC
         limit #{start},#{size}
     </select>
 
