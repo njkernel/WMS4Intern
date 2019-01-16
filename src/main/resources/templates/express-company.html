@@ -9,14 +9,11 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
-    <script>
-
-    </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
     <div class="btn-div clearfix">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">添加</button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal1">修改</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">添加公司</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal1">修改公司信息</button>
         <div class="search-box">
             <form action="/expressCompany/findByKey" method="get">
                 <input  name="key" type="text">
@@ -37,7 +34,7 @@
             <tbody>
                 <!--/*@thymesVar id="express" type="java.util.ArrayList"*/-->
                 <!--/*@thymesVar id="obj" type="com.connext.wms.entity.ExpressCompany"*/-->
-                <tr th:each="obj,i:${express}">
+                <tr th:each="obj,i:${page.getData()}">
                     <td th:text="${i.count}"></td>
                     <td id="expressCompanyName" th:text="${obj.expressCompanyName}"></td>
                     <td id="contactWay" th:text="${obj.contactWay}"></td>
@@ -119,11 +116,15 @@
             </div>
         </div>
     </div>
-
+    <form name="frm" action="" >
+        <input name="currPage" type="hidden" id="currPage"/>
+    </form>
     <div class="footer-pager">
         <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
         <ul class="pagination">
             <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+            <!--<li class="active"><a href="#">1</a></li>
+            <li class="disabled"><a href="#">2</a></li>-->
             <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
             <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
             <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
@@ -132,8 +133,13 @@
             </li>
         </ul>
     </div>
-
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="/js/expressCompany/add-update.js"></script>
+<script type="text/javascript">
+    function go(currPage) {
+        $('#currPage').val(currPage)
+        document.frm.submit();
+    }
+</script>
 </html>

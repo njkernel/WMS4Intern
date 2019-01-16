@@ -1,5 +1,4 @@
 function add() {
-    console.log("添加")
     var expressCompanyName = $('#firstname').val();
     var contactWay = $('#secondname').val();
     var url = '/expressCompany/Add';
@@ -24,7 +23,6 @@ function add() {
 
 
 function update() {
-    console.log("添加")
     var newName = $('#firstname2').val();
     var expressCompanyName = $('#firstname1').val();
     var contactWay = $('#secondname1').val();

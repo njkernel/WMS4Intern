@@ -35,8 +35,11 @@ public interface ExpressCompanyMapper {
     //查询所有快递公司信息
     List<ExpressCompany> selectByExample(ExpressCompanyExample example);
 
-    //分页查询所有快递公司信息
+    //分页按照关键字查询公司信息
     List<ExpressCompany> selectByPage(Integer start,Integer size);
+
+    //分页查询所有快递公司信息
+    List<ExpressCompany> selectByKey(Integer start,Integer size,String key);
 
     ExpressCompany selectByPrimaryKey(Integer id);
 

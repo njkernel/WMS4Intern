@@ -1,6 +1,7 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.OutRepertory;
+import com.connext.wms.util.Page;
 
 import java.util.List;
 
@@ -13,12 +14,12 @@ import java.util.List;
 public interface ExceptionService {
 
     //查找关键字查找异常订单
-    List<OutRepertory> selectByExampleToKey(String key);
+    Page selectByExampleToKey(Integer currPage,String key);
 
     //点击查看异常订单详情
     OutRepertory selectByPrimaryKey(Integer id);
 
     //分页查询所有异常订单信息返回列表
-    List<OutRepertory> selectByPage(Integer start,Integer size);
+    Page selectByPage(Integer currPage);
 
 }

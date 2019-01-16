@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -84,8 +83,7 @@ public class InRepertoryController {
         inRepertory.setRepertoryDetails(entityAndDto.idToEntity(String.valueOf(id), inRepertoryDetailDTOS));
         boolean result = inRepertoryService.changeInRepertoryStatus(id, constant.SUCCESS_STATUS);
         if (result) {
-            inRepertoryService.pushInRepertoryState(inRepertory);
-            return true;
+            return inRepertoryService.pushInRepertoryState(inRepertory);
         }
         return false;
     }
@@ -98,7 +96,7 @@ public class InRepertoryController {
         ids.forEach(
                 u -> {
                     inRepertoryService.changeInRepertoryStatus(u, status);
-                    //inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(u));
+                    inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(u));
                 }
         );
         return true;
