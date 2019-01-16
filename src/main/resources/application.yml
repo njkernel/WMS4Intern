@@ -5,7 +5,5 @@ spring:
     password: c1234567
   messages:
     fallback-to-system-locale: false
-
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
-

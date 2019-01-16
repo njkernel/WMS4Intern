@@ -25,6 +25,7 @@ public interface UserMapper {
     void modifyRole(User user);
     //修改用户信息
     void updateByPrimaryKey(User record);
+    User updateById(int id);
     //忘记密码
     void forget(User user);
     //重复注册
@@ -45,5 +46,7 @@ public interface UserMapper {
     int updateByExample(@Param("record") User record, @Param("example") UserExample example);
 
     int updateByPrimaryKeySelective(User record);
+
+    User selectUserByPhone(String phone);
 
 }

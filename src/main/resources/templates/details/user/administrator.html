@@ -12,208 +12,203 @@
 
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
-    <div class="btn-div">
-        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal">新增</button>
-        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal-1">编辑</button>-->
-        <!--<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal-2">删除</button>-->
-        <!-- <div class="search-box">
-            <form action="">
-                <select name="" id="">
-                    <option value=""></option>
-                    <option value=""></option>
-                </select>
-                <input type="text">
-                <button type="button" class="btn btn-success">搜索</button>
-            </form>
-        </div> -->
-    </div>
-    <!-- 表格部分 -->
-    <div>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>用户账号</th>
-                    <th>用户密码</th>
-                    <th>手机号码</th>
-                    <th>用户权限</th>
-                    <th class="operation">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--/*@thymesVar id="user" type="com.connext.wms.entity.User"*/-->
-                <tr th:each="user:${users}">
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.userName}"></td>
-                    <td th:text="${user.password}"></td>
-                    <td th:text="${user.telephone}"></td>
-                    <td th:text="${user.role}"></td>
-                    <td class="operation">
-                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-1">修改</button>
-                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#demoModal-2" >删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <!-- 分页部分 -->
-    <div class="footer-pager">
-        <span>共<span>5</span>页，当前第<span>1</span>页</span>
-        <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li class="disabled"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul>
-    </div>
-    <!-- 弹出框 -->
-    <!-- <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">title</h4>
-                </div>
-                <div class="modal-body">提示内容</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">提交更改</button>
-                </div>
-            </div>
-        </div> -->
-    </div>
+<div class="btn-div">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">新增</button>
+    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal-1">编辑</button>-->
+    <!--<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal-2">删除</button>-->
+    <!-- <div class="search-box">
+        <form action="">
+            <select name="" id="">
+                <option value=""></option>
+                <option value=""></option>
+            </select>
+            <input type="text">
+            <button type="button" class="btn btn-success">搜索</button>
+        </form>
+    </div> -->
+</div>
+<!-- 表格部分 -->
+<div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>用户账号</th>
+            <th>用户密码</th>
+            <th>手机号码</th>
+            <th>用户权限</th>
+            <th class="operation">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="user" type="com.connext.wms.entity.User"*/-->
+        <tr th:each="user:${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.telephone}"></td>
+            <td th:text="${user.role}"></td>
+            <td class="operation">
+                <!--<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-1">修改
+                </button>-->
+                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-1"
+                        th:onclick="|getData(${user.id})|">修改
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#demoModal-2"
+                        th:onclick="|getData(${user.id})|">删除
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- 分页部分 -->
+<div class="footer-pager">
+    <span>共<span>5</span>页，当前第<span>1</span>页</span>
+    <ul class="pagination">
+        <li><a href="#">&laquo;</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li class="disabled"><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li>
+    </ul>
+</div>
 
-    <!-- 弹出框 -->
-    <!--新增弹出框-->
-    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">新增用户</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal add" role="form" action="/user/register">
-                        <div class="form-group">
-                            <label for="firstname" class="col-sm-2 control-label">用户名称</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="userName" class="form-control" id="firstname" placeholder="请输入用户名称">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="secondname" class="col-sm-2 control-label">用户密码</label>
-                            <div class="col-sm-10">
-                                <input type="password" name="password" class="form-control" id="secondname" placeholder="请输入用户密码">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="thirdname" class="col-sm-2 control-label">用户手机</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="telephone" class="form-control" id="thirdname" placeholder="请输手机号">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname"  class="col-sm-2 control-label">用户权限</label>
-                            <div class="col-sm-10">
-                                <select id="lastname" style="outline:none;" class="form-control">
-                                    <option value="review">商品预检员</option>
-                                    <option value="InRepertory">入库管理员</option>
-                                    <option value="OutRepertory">出库管理员</option>
-                                    <option value="manage" selected="selected">库存管理员</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!--<div class="form-group">
-                        <label for="lastname-2"  class="col-sm-2 control-label">用户权限</label>
+</div>
+
+<!-- 弹出框 -->
+<!--新增弹出框-->
+<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新增用户</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal add" role="form" id="form1">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">用户名称</label>
                         <div class="col-sm-10">
-                            <input type="text" name="lastname" class="form-control" id="lastname-2" placeholder="请输入用户密码">
+                            <input type="text" name="username" class="form-control" required id="username"
+                                   placeholder="请输入用户名称"/>
                         </div>
-                        </div>-->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary save"  data-dismiss="modal" id="save">保存</button>
-                </div>
-            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">用户密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="password" class="form-control" id="password" required
+                                   placeholder="请输入用户密码"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone" class="col-sm-2 control-label">用户手机</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="telephone" class="form-control" id="telephone" required
+                                   placeholder="请输手机号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="col-sm-2 control-label">用户权限</label>
+                        <div class="col-sm-10">
+                            <select id="role" name="role" style="outline:none;" class="form-control">
+                                <option value="review">商品预检员</option>
+                                <option value="InRepertory">入库管理员</option>
+                                <option value="OutRepertory">出库管理员</option>
+                                <option value="manage" selected="selected">库存管理员</option>
+                            </select>
+                        </div>
+                    </div>
 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal" id="save" onclick="insert()">
+                    保存
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--编辑弹出框-->
+<div class="modal fade" id="demoModal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel-1">编辑用户</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal compile" role="form" id="form2">
+                    <!--/*@thymesVar id="user1" type="com.connext.wms.entity.User"*/-->
+                    <div class="form-group">
+                        <label for="firstname-1" class="col-sm-2 control-label">用户名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="username" class="form-control" id="firstname-1">
+                            <input type="hidden" name="firstname-id" id="firstname-id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userpassword" class="col-sm-2 control-label">用户密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="userpassword" class="form-control" id="userpassword">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname-1" class="col-sm-2 control-label">用户手机</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="telephone" class="form-control" id="lastname-1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname-3" class="col-sm-2 control-label">用户权限</label>
+                        <div class="col-sm-10">
+                            <select id="lastname-3" name="role" style="outline:none;" class="form-control">
+                                <option value="review">商品预检员</option>
+                                <option value="InRepertory">入库管理员</option>
+                                <option value="OutRepertory">出库管理员</option>
+                                <option value="manage" selected="selected">库存管理员</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal" id="save1" onclick="modify()">
+                    保存
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--删除弹出框-->
+<div class="modal fade" id="demoModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="border: 0">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel-2">确认要删除当前用户吗</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer" style="border: 0">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteUser()">确认删除</button>
+            </div>
         </div>
     </div>
-    <!--编辑弹出框-->
-    <div class="modal fade" id="demoModal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel-1">编辑用户</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal compile" role="form">
-                        <div class="form-group">
-                            <label for="firstname-1" class="col-sm-2 control-label">用户名称</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="firstname" class="form-control" id="firstname-1" value="用户名称">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="secondname-1" class="col-sm-2 control-label">用户密码</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="secondname" class="form-control" id="secondname-1" value="用户密码">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname-1"  class="col-sm-2 control-label">用户权限</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="lastname" class="form-control" id="lastname-1" value="用户权限">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname-3"  class="col-sm-2 control-label">用户权限</label>
-                            <div class="col-sm-10">
-                                <select id="lastname-3" style="outline:none;" class="form-control">
-                                    <option value="review">商品预检员</option>
-                                    <option value="InRepertory">入库管理员</option>
-                                    <option value="OutRepertory">出库管理员</option>
-                                    <option value="manage" selected="selected">库存管理员</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary save"  data-dismiss="modal" id="save1">保存</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!--删除弹出框-->
-    <div class="modal fade" id="demoModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="border: 0">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel-2">确认要删除当前用户吗</h4>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer" style="border: 0">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary"  data-dismiss="modal">确认删除</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    </div>
+</div>
+</div>
 </body>
 <script>
     $('.table tbody tr').mouseover(function () {
@@ -224,26 +219,112 @@
         var number = $(this).index();
         $('.table tbody tr td').eq(4 + (number) * 6).find('select:first').attr("id", "sel");
     });
-    function saveJudge(form){
+
+    function saveJudge(form) {
         var d = {};
         var t = form.serializeArray();
         console.log(JSON.stringify(t));
-        $.each(t, function() {
+        $.each(t, function () {
             d[this.name] = this.value;
         });
-        for (i=0;i<t.length;i++){
-            if (t[i].value==''){
+        for (i = 0; i < t.length; i++) {
+            if (t[i].value == '') {
                 alert("请输入相关信息");
                 return false;
             }
         }
         alert("保存成功！");
     }
-    $("#save").click(function (){
+
+    $("#save").click(function () {
         saveJudge($(".form-horizontal.add"));
     });
-    $("#save1").click(function (){
+    $("#save1").click(function () {
         saveJudge($(".form-horizontal.compile"));
     });
+
+    function insert() {
+        $.ajax({
+            url: "/user/register",
+            type: "post",
+            dataType: "json",
+            data: $('#form1').serialize(),
+            success: function (result) {
+                console.log(result);
+                if (result.resultCode == 200) {
+                    alert("SUCCESS");
+                }
+            }
+        })
+    }
+
+    function getData(id) {
+        $.ajax({
+            url: "/user/getUserByID?id=" + id,
+            type: "get",
+            dataType: "json",
+            success: function (user) {
+                $('#firstname-1').val(user.username);
+                $('#userpassword').val(user.password);
+                $('#lastname-1').val(user.telephone);
+                $('#lastname-3').val(user.role);
+                $('#firstname-id').val(id);
+            }
+        })
+    }
+
+    function modify() {
+        var username = $('#firstname-1').val();
+        var password = $('#userpassword').val();
+        var telephone = $('#lastname-1').val();
+        var role = $('#lastname-3').val();
+        var id = $('#firstname-id').val();
+        user = {
+            "id": id,
+            "username": username,
+            "password": password,
+            "telephone": telephone,
+            "role": role
+        }
+        $.ajax({
+            url: "/user/updateByPrimaryKey",
+            type: "post",
+            dataType: "json",
+            data: user,
+            success: function (result) {
+                console.log(result);
+                if (result.resultCode == 200) {
+                    alert("SUCCESS");
+                }
+            }
+        })
+    }
+
+    function deleteUser() {
+        var username = $('#firstname-1').val();
+        var password = $('#userpassword').val();
+        var telephone = $('#lastname-1').val();
+        var role = $('#lastname-3').val();
+        var id = $('#firstname-id').val();
+        user = {
+            "id": id,
+            "username": username,
+            "password": password,
+            "telephone": telephone,
+            "role": role
+        }
+        $.ajax({
+            url: "/user/delete",
+            type: "post",
+            dataType: "json",
+            data: user,
+            success: function (result) {
+                console.log(result);
+                if (result.resultCode == 200) {
+                    alert("SUCCESS");
+                }
+            }
+        })
+    }
 </script>
 </html>

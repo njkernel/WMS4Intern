@@ -18,6 +18,12 @@
                 #{telephone,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
     </insert>
 
+    <select id="selectUserByPhone" resultType="com.connext.wms.entity.User">
+        select *
+        from t_user
+        where telephone = #{Phone}
+    </select>
+
     <!--注册验证-->
     <select id="checkRegister" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(telephone)
@@ -45,12 +51,18 @@
     <!--修改用户信息-->
     <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.User">
         update t_user
-        set user_name = #{username,jdbcType=VARCHAR},
+        set username  = #{username,jdbcType=VARCHAR},
             password  = #{password,jdbcType=VARCHAR},
             telephone = #{telephone,jdbcType=VARCHAR},
             role=#{role,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <select id="updateById" parameterType="Integer" resultType="com.connext.wms.entity.User">
+        select *
+        from t_user
+        where id = #{id}
+    </select>
 
     <!--用户列表-->
     <select id="queryAll" resultMap="BaseResultMap">

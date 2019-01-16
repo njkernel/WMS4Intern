@@ -97,7 +97,8 @@
     margin-top: 33px; }
     .index .right .tablan .user-list {
       position: absolute;
-      right: 20px; }
+      right: 20px;
+      top: -6px;}
     .index .right .tablan .user-list li {
       float: left;
       margin-left: 20px;

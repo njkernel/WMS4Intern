@@ -19,9 +19,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(User user) {
         // TODO Auto-generated method stub
-        String password= new BCryptPasswordEncoder().encode(user.getPassword());
+        String password = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(password);
-        user.setUserName(user.getUserName());
+        user.setUsername(user.getUsername());
         user.setTelephone(user.getTelephone());
         user.setRole(user.getRole());
         userMapper.insert(user);
@@ -49,6 +49,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateById(int id) {
+        return this.userMapper.updateById(id);
+    }
+
+    @Override
     public List<User> queryAll() {
         return this.userMapper.queryAll();
     }
@@ -61,5 +66,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void forget(User user) {
         this.userMapper.forget(user);
+    }
+
+    public User findByUserName(String username) {
+        return userMapper.selectUserByPhone(username);
     }
 }

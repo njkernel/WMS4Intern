@@ -6,135 +6,122 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>表格</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="/js/popup/popup.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
     <script type="text/javascript">
-        $(function () {
-            $('.action').on("click", function () {
-                $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
-                $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
-                $('#demoModal .modal-footer #getStatus').attr("value",$(this).attr('id'));
+        $(function() {
+            $('.action').on("click",function () {
+                $('#demoModal .modal-header .modal-title').empty().text($(this).text()+"操作");
+                $('#demoModal .modal-body').empty().text("确认进行"+$(this).text()+"操作？");
                 $('#demoModal').modal();
             });
         });
-
         function list(status) {
-            window.location.replace("/inRepertory/page/1/" + status)
-        }
-
-        $(function () {
-            $('.btn-xs').on("click", function () {
-                console.log($(this).attr('id'));
-                document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('id');
-            });
-        });
-
-        function action() {
-            $('#demoModal')
-            var status=$('#getStatus').val()
-            var ids = [];
-            $('input:checkbox:checked').each(function () {
-                ids.push(parseInt($(this).val()));
-            });
-            $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function () {
-                alert("success")
-                window.location.reload()
-            })
+            window.location.replace("/inRepertory/page/1/"+status)
         }
     </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
-<div id="mask_shadow"></div>
-<div class="btn-div">
-    <button type="button" value="success" id="success" class="btn btn-primary action">确认收货</button>
-    <button type="button" value="fail" id="fail" class="btn btn-primary action">收货失败</button>
-    <div class="search-box">
-        <form action="/inRepertory/search" method="get">
-            <select name="" id="" onchange="list(this.options[this.selectedIndex].value)">
-                <option value=""></option>
-                <option value="">全部</option>
-                <option value="wait">等待收货</option>
-                <option value="success">收货成功</option>
-                <option value="fail">收货失败</option>
-                <option value="over">超15天未收货</option>
-            </select>
-            <input type="text" name="like" placeholder="请输入单号">
-            <button type="submit" class="btn btn-success">搜索</button>
-        </form>
+    <div id="mask_shadow"></div>
+    <div class="btn-div">
+        <button type="button" class="btn btn-primary action">确认收货</button>
+        <button type="button" class="btn btn-primary action">收获失败</button>
+        <div class="search-box">
+            <form action="/inRepertory/search" method="get">
+                <select name="" id="">
+                    <option onclick="list('wait')">等待收货</option>
+                    <option onclick="list('success')">收货成功</option>
+                    <option onclick="list('fail')">收货失败</option>
+                    <option onclick="list('over')">超15天未收货</option>
+                </select>
+                <input type="text" name="like" placeholder="请输入单号">
+                <button type="submit" class="btn btn-success">搜索</button>
+            </form>
+        </div>
     </div>
-</div>
-<div>
-    <table class="table table-condensed">
-        <thead>
-        <tr>
-            <th>序号</th>
-            <th>批量</th>
-            <th>入库单号</th>
-            <th>快递公司</th>
-            <th>快递单号</th>
-            <th>入库单状态</th>
-            <th>同步状态</th>
-            <th>收货仓库</th>
-            <th>创建时间</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!--/*@thymesVar id="list" type="java.util.ArrayList"*/-->
-        <!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
-        <tr th:each="obj,i:${list}">
-            <td th:text="${i.count}"></td>
-            <td><input type="checkbox" th:value="${obj.id}"></td>
-            <td th:text="${obj.inRepoId}"></td>
-            <td th:text="${obj.expressCompany}"></td>
-            <td th:text="${obj.expressId}"></td>
-            <td th:text="#{''+${obj.inRepoStatus}}"></td>
-            <td th:text="#{''+${obj.syncStatus}}"></td>
-            <td th:text="#{''+${obj.receivingRepo}}"></td>
-            <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
-            <td>
-                <button type="button" th:id="${obj.id}" class="btn btn-default btn-xs">详情</button>
-                <button type="button" th:id="${obj.id}" class="btn btn-danger btn-xs">异常</button>
-            </td>
-        </tr>
+    <div>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>批量</th>
+                    <th>入库单号</th>
+                    <th>订单号</th>
+                    <th>快递公司</th>
+                    <th>快递单号</th>
+                    <th>入库单状态</th>
+                    <th>同步状态</th>
+                    <th>收货仓库</th>
+                    <th>创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            <!--/*@thymesVar id="list" type="java.util.ArrayList"*/-->
+            <!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
+            <tr th:each="obj,i:${list}">
+                <td th:text="${i.count}"></td>
+                <td><input type="checkbox" th:name="${obj.inRepoId}" th:id="${obj.inRepoId}"></td>
+                <td th:text="${obj.inRepoId}"></td>
+                <td th:text="${obj.orderId}"></td>
+                <td th:text="${obj.expressCompany}"></td>
+                <td th:text="${obj.expressId}"></td>
+                <td th:text="#{''+${obj.inRepoStatus}}"></td>
+                <td th:text="#{''+${obj.syncStatus}}"></td>
+                <td th:text="#{''+${obj.receivingRepo}}"></td>
+                <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
+                <td>
+                    <button type="button" class="btn btn-default btn-xs">操作</button>
+                    <button type="button" class="btn btn-danger btn-xs">操作</button>
+                </td>
+            </tr>
 
-        </tbody>
-    </table>
-</div>
-<!-- 弹出框 -->
-<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">title</h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <input type="hidden" value="" id="getStatus">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="action()">提交更改</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<div id="popup" class="popup">
-    <div class="title">
-        <p>入库单详情</p>
-        <span></span>
-        <span>x</span>
+            </tbody>
+        </table>
     </div>
-    <div class="cont">
-        <iframe src="" scrolling="auto" id="iframeId" style="width:100%;height:100%;border:0px;"></iframe>
+    <!-- 弹出框 -->
+    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">title</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
-</div>
-<script>
-    $(function () {
-        $('#popup').popup();
-        $("body").css("overflow-y", "hidden");
-    });
-</script>
+    <div class="footer-pager">
+        <span>共<span>5</span>页，当前第<span>1</span>页</span>
+        <ul class="pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li class="disabled"><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
+    <div id="popup" class="popup">
+        <div class="title">
+            <p>入库单详情</p>
+            <span></span>
+            <span>x</span>
+        </div>
+        <div class="cont">
+            <iframe src="/addstock.html" scrolling="auto" style="width:100%;height:100%;border:0px;"></iframe></div>
+    </div>
+    <script>
+        $(function () {
+            $('#popup').popup();
+            $("body").css("overflow-y", "hidden");
+        });
+    </script>
 </body>
 </html>

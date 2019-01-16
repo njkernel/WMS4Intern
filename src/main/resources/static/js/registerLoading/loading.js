@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
   var account1, password;
   var i = 1;
@@ -52,5 +51,6 @@ $(document).ready(function () {
         break;
     }
   }
+
 });
 

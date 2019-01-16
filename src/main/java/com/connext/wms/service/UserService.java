@@ -19,10 +19,13 @@ public interface UserService {
     void delete(Integer id);
     //修改用户信息
     void updateByPrimaryKey(User user);
+    User updateById(int id);
     //用户列表
     List<User> queryAll();
     //修改权限
     void modifyRole(User user);
     //忘记密码
     void forget(User user);
+
+    public User findByUserName(String username);
 }
