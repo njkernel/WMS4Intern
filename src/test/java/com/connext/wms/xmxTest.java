@@ -24,7 +24,7 @@ import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
+
 public class xmxTest {
     @Resource
     private GoodsService goodsService;
@@ -203,10 +203,29 @@ public class xmxTest {
     }
 
     @Test
+    public void getStatus(){
+        String outRepoOrderNo="1901060001a5baee9";
+        System.out.println(this.outRepertoryService.outRepoOrderInfo(outRepoOrderNo));
+        System.out.println(this.outRepertoryService.outRepoOrderInfo(outRepoOrderNo).getOutRepoStatus());
+
+    }
+
+    @Test
     public void TTesttt(){
         OutRepertoryExample outRepertoryExample=new OutRepertoryExample();
-        outRepertoryExample.or().andOutRepoIdLike("%ee%").andOutRepoStatusEqualTo("waittingChecked");
+        outRepertoryExample.or().andOutRepoIdLike("%%").andOutRepoStatusEqualTo("");
         System.out.println(this.outRepertoryMapper.countByExample(outRepertoryExample));
+    }
+
+    @Test
+    public void updateWhenCancel(){
+        Integer outRepoId=this.outRepertoryMapper.selectByOutRepoOrderNo("1901060001a5baee9").getId();//根据某个出库单号获取某一个出库单id
+        for(OutRepertoryDetail outRepertoryDetail:this.outRepertoryDetailMapper.selectListByOutRepoId(outRepoId)){
+            System.out.println("@@@@@@@@@@@@"+outRepertoryDetail);
+            System.out.println(outRepertoryDetail.getGoodsId()+"^%^%^^%^"+outRepertoryDetail.getGoodsNum());
+            outRepertoryDetail.getGoodsId();
+            this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(),outRepertoryDetail.getGoodsNum());
+        }
     }
 
 }

@@ -50,7 +50,10 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         Page page = new Page();
         if (currPage == null) currPage = 1;
         page.setCurrPage(currPage);
-        outRepertoryExample.or().andOutRepoIdLike("%"+outRepoOrderId+"%").andOutRepoStatusEqualTo(selectStatus);
+        outRepertoryExample.or().andOutRepoIdLike("%"+outRepoOrderId+"%");
+        if(selectStatus!=null){
+            outRepertoryExample.or().andOutRepoStatusEqualTo(selectStatus);
+        }
         page.setTotalCount(this.outRepertoryMapper.countByExample(outRepertoryExample));
         page.init();
         PageHelper.startPage(currPage, Page.PAGE_SIZE);
@@ -90,11 +93,10 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
             }
 
         }
-        String s = this.restTemplate.postForObject("http://10.129.100.40:8502/synchronizeState", map, String.class);
-        System.out.println("********" + s);
-        System.out.println("*******" + outRepertory.getOutRepoStatus());
+        String s = this.restTemplate.postForObject("http://10.129.100.49:8502/synchronizeState", map, String.class);
         if ("200".equals(s)) {
             outRepertory.setReviseTime(new Date());
+            outRepertory.setSyncStatus("haveSync");
             this.outRepertoryMapper.updateByExampleSelective(outRepertory, outRepertoryExample);
         } else if ("201".equals(s)) {
             outRepertory.setOutRepoStatus("shipException");
@@ -133,14 +135,12 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         }
         String newStringBuffer = stringBuffer.toString();
         String outputCodeList = newStringBuffer.substring(0, newStringBuffer.length() - 1);
-        String s = this.restTemplate.postForObject("http://10.129.100.79:8502/cancelOrderOfWms", outputCodeList, String.class);
+        String s = this.restTemplate.postForObject("http://10.129.100.93:8502/cancelOrderOfWms", outputCodeList, String.class);
         if ("200".equals(s)) {
             OutRepertory outRepertory = new OutRepertory();
             outRepertory.setOutRepoStatus("haveCanceled");
             outRepertory.setReviseTime(new Date());
-            /*OutRepertoryExample outRepertoryExample = new OutRepertoryExample();
-            outRepertoryExample.createCriteria().andOutRepoIdIn(Arrays.asList(outRepoOrderNo));
-            this.outRepertoryMapper.updateByExample(outRepertory, outRepertoryExample);*/
+            outRepertory.setSyncStatus("haveSync");
             //取消出库单时，更新库存
             for (String outRepoNo : outRepoOrderNo) {
                 outRepertory.setOutRepoId(outRepoNo);
@@ -152,9 +152,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
                 }
                 Integer outRepoId=this.outRepertoryMapper.selectByOutRepoOrderNo(outRepoNo).getId();//根据某个出库单号获取某一个出库单id
                 for(OutRepertoryDetail outRepertoryDetail:this.outRepertoryDetailMapper.selectListByOutRepoId(outRepoId)){
-                    System.out.println("@@@@@@@@@@@@"+outRepertoryDetail);
-                    System.out.println(outRepertoryDetail.getGoodsId()+"^%^%^^%^"+outRepertoryDetail.getGoodsNum());
-                    outRepertoryDetail.getGoodsId();
+                    this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(),outRepertoryDetail.getGoodsNum());
                 }
             }
         }
