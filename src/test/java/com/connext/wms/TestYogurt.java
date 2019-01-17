@@ -4,10 +4,7 @@ import com.connext.wms.api.dto.CodeTotalStockDTO;
 import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.dao.GoodsRepertoryMapper;
 import com.connext.wms.dao.RepertoryRegulationMapper;
-import com.connext.wms.entity.Goods;
-import com.connext.wms.entity.GoodsRepertory;
-import com.connext.wms.entity.RealRepertoryVO;
-import com.connext.wms.entity.RepertoryRegulation;
+import com.connext.wms.entity.*;
 import com.connext.wms.service.GoodsRepertoryService;
 import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.RepertoryRegulationService;
@@ -51,7 +48,7 @@ public class TestYogurt {
 //    goodsMapper.insert(new Goods(2, "2", "2", 1F));
         // GoodsExample goodsExample = new GoodsExample();
         //System.out.println(goodsMapper.countByExample(goodsExample));
-         repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
+         //repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
         //repertoryRegulationService.cancelDelivery(1,2);
         //  repertoryRegulationService.deliveryGoodsAfterDelivery(1,1);
         //repertoryRegulationService.rejectedGoodsSuccess(1,1);
@@ -66,7 +63,8 @@ public class TestYogurt {
             System.out.println(repertoryRegulation.getGoodsRepertoryId());
             System.out.println(repertoryRegulation.getLockedResult());
         }*/
-      //  goodsRepertoryService.updateGoodsRepertory();
+        goodsRepertoryService.updateGoodsRepertory();
+        //System.out.println();
     }
 
     @Test
@@ -95,7 +93,8 @@ public class TestYogurt {
        // repertoryRegulationService.replenishRepertory(2,100);
         //List<RealRepertoryVO> list = goodsRepertoryService.getGoodsRepertoryByGoodsName(0,2,"王中王");
        // System.out.println(list.toString());
-
+        GoodsExample example = new GoodsExample();
+        System.out.println(goodsMapper.countByExample(example));
 
     }
 

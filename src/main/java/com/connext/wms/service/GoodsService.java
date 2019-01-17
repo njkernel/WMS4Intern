@@ -1,6 +1,7 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.Goods;
+import com.connext.wms.util.Page;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface GoodsService {
     /**
      * 分页查询所有商品并返回到列表
      */
-    List<Goods> findAll(Integer start,Integer size);
+    Page findAll(Integer currPage);
 
     /**
      * 根据商品sku返回商品对象
@@ -47,6 +48,6 @@ public interface GoodsService {
     /**
      * 根据关键字查询相关的商品信息
      */
-    List<Goods> selectByExample(String key);
+    Page selectByExample(String key);
 
 }
