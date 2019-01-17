@@ -51,24 +51,14 @@ public class ExpressCompanyController {
     @RequestMapping("/Update")
     @ResponseBody
     public Integer toUpdate(String newName,String expressCompanyName,String contactWay){
-        expressCompanyService.updateByExample(newName,expressCompanyName,contactWay);
-        return 1;
+        return expressCompanyService.updateByExample(newName, expressCompanyName, contactWay);
     }
 
     //添加一家公司
     @RequestMapping("/Add")
     @ResponseBody
     public Integer toAdd(String expressCompanyName,String contactWay){
-        //按照输入的公司名称查询数据库中是否有已经存在的公司，如果有返回已经存在；
-        ExpressCompanyExample example = new ExpressCompanyExample();
-        example.or().andExpressCompanyNameEqualTo(expressCompanyName);
-        List<ExpressCompany> list = expressCompanyMapper.selectByExample(example);
-        if(list.size()==1){
-            return 1;
-        }else{
-            expressCompanyService.insert(expressCompanyName,contactWay);
-            return 2;
-        }
+        return expressCompanyService.insert(expressCompanyName,contactWay);
     }
 
 
