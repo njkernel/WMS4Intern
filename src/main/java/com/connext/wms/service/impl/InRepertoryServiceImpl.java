@@ -36,7 +36,6 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
     private final RepertoryRegulationService regulationService;
-    private final String PUSH_URL = "http://10.129.100.22:8502/Api/getReturnInputFeedback";
 
 
     @Autowired
@@ -131,7 +130,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
         InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
         try {
-            restTemplate.postForObject(PUSH_URL, inputFeedback.toMap(), String.class);
+            restTemplate.postForObject(constant.PUSH_URL, inputFeedback.toMap(), String.class);
             return true;
         } catch (Exception e) {
             return false;

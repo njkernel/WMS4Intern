@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     var account, password001, password002, phonenumber, code001, check1, check2, check3, check4, check5, check6, check7;
     //   监听邮箱账号变化
@@ -28,14 +27,13 @@ $(document).ready(function () {
         password001 = $('#password1').val();
     });
     //  离开焦点后发生变化
-         var Regxx = /^\w{6,18}$/;
+    var Regxx = /^\w{6,18}$/;
     $('#password1').blur(function () {
         //    密码长度的限制     
-        if (!Regxx.test( password001)) {
+        if (!Regxx.test(password001)) {
             $('#pass1').hide();
             $('#pass1-01').show();
-        }
-        else {
+        } else {
             $('#pass1-01').hide();
             $('#pass1').show();
             check2 = 1;
@@ -51,8 +49,7 @@ $(document).ready(function () {
         if (password002 != password001) {
             $('#pass2').hide();
             $('#pass2-01').show();
-        }
-        else {
+        } else {
             $('#pass2-01').hide();
             $('#pass2').show();
             check3 = 1;
@@ -70,8 +67,7 @@ $(document).ready(function () {
         if (!reg.test(phonenumber)) {
             $('#phone-1').hide();
             $('#phone-1-01').show();
-        }
-        else {
+        } else {
             $('#phone-1-01').hide();
             $('#phone-1').show();
             check4 = 1;
@@ -87,8 +83,7 @@ $(document).ready(function () {
         if (code001 != window.localStorage.getItem("code01")) {
             $('#code-1').hide();
             $('#code-1-01').show();
-        }
-        else {
+        } else {
             $('#code-1-01').hide();
             $('#code-1').show();
             check5 = 1;
@@ -151,5 +146,169 @@ $(document).ready(function () {
         }
     });
 });
+
+$('.table tbody tr').mouseover(function () {
+    var number = $(this).index();
+    $('.table tbody tr td').eq(4 + (number) * 6).find('select:first').attr("id", "changeId");
+})
+$('.table tbody tr').mouseout(function () {
+    var number = $(this).index();
+    $('.table tbody tr td').eq(4 + (number) * 6).find('select:first').attr("id", "sel");
+});
+
+function saveJudge(form) {
+    var d = {};
+    var t = form.serializeArray();
+    console.log(JSON.stringify(t));
+    $.each(t, function () {
+        d[this.name] = this.value;
+    });
+    for (i = 0; i < t.length; i++) {
+        if (t[i].value == '') {
+            alert("请输入相关信息");
+            return false;
+        }
+    }
+    alert("保存成功！");
+}
+
+$("#save").click(function () {
+    saveJudge($(".form-horizontal.add"));
+});
+$("#save1").click(function () {
+    saveJudge($(".form-horizontal.compile"));
+});
+
+function insert() {
+    $.ajax({
+        url: "/user/register",
+        type: "post",
+        dataType: "json",
+        data: $('#form1').serialize(),
+        success: function (result) {
+            console.log(result);
+            if (result.resultCode == 200) {
+                alert("SUCCESS");
+            }
+        }
+    })
+}
+
+function getData(id) {
+    $.ajax({
+        url: "/user/getUserByID?id=" + id,
+        type: "get",
+        dataType: "json",
+        success: function (user) {
+            $('#firstname-1').val(user.username);
+            $('#userpassword').val(user.password);
+            $('#lastname-1').val(user.telephone);
+            $('#lastname-3').val(user.role);
+            $('#firstname-id').val(id);
+        }
+    })
+}
+
+function modify() {
+    var username = $('#firstname-1').val();
+    var password = $('#userpassword').val();
+    var telephone = $('#lastname-1').val();
+    var role = $('#lastname-3').val();
+    var id = $('#firstname-id').val();
+    user = {
+        "id": id,
+        "username": username,
+        "password": password,
+        "telephone": telephone,
+        "role": role
+    }
+    $.ajax({
+        url: "/user/updateByPrimaryKey",
+        type: "post",
+        dataType: "json",
+        data: user,
+        success: function (result) {
+            console.log(result);
+            if (result.resultCode == 200) {
+                alert("SUCCESS");
+            }
+        }
+    })
+}
+
+function deleteUser() {
+    var username = $('#firstname-1').val();
+    var password = $('#userpassword').val();
+    var telephone = $('#lastname-1').val();
+    var role = $('#lastname-3').val();
+    var id = $('#firstname-id').val();
+    user = {
+        "id": id,
+        "username": username,
+        "password": password,
+        "telephone": telephone,
+        "role": role
+    }
+    $.ajax({
+        url: "/user/delete",
+        type: "post",
+        dataType: "json",
+        data: user,
+        success: function (result) {
+            console.log(result);
+            if (result.resultCode == 200) {
+                alert("SUCCESS");
+            }
+        }
+    })
+}
+
+function checkPhone1() {
+    var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
+    if (!reg.test($("#telephone").val())) {
+        document.getElementById("user_phone").style.visibility = "visible";
+        $("#user_phone").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
+        return false;
+    } else {
+        document.getElementById("user_phone").style.visibility = "hidden";
+        return true;
+    }
+}
+
+function checkPhone2() {
+    var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
+    if (!reg.test($("#lastname-1").val())) {
+        document.getElementById("user_phone1").style.visibility = "visible";
+        $("#user_phone1").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
+        return false;
+    } else {
+        document.getElementById("user_phone1").style.visibility = "hidden";
+        return true;
+    }
+}
+
+function checkName1() {
+    var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
+    if (!reg.test($("#username").val())) {
+        document.getElementById("user_name1").style.visibility = "visible";
+        $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误</font>");
+        return false;
+    } else {
+        document.getElementById("user_name1").style.visibility = "hidden";
+        return true;
+    }
+}
+
+function checksel1() {
+    if (checkName1() == false) {
+        return false;
+    } else {
+
+    }
+    if (checkPhone1() == false) {
+        return false;
+    } else {
+    }
+}
 
 
