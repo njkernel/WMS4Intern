@@ -9,12 +9,6 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
-    <script type="text/javascript">
-        function go(currPage) {
-            $('#currPage').val(currPage)
-            document.frm.submit();
-        }
-    </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div class="btn-div clearfix">
@@ -42,7 +36,9 @@
             <td th:text="${obj.goodsName}"></td>
             <td th:text="${obj.goodsPrice}"></td>
             <td class="operation">
-                <button type="button" data-toggle="modal" th:id="${obj.id}" data-target="#demoModal" class="btn btn-success btn-xs" th:onclick="|getData(${obj.id})|">编辑</button>
+                <button type="button" data-toggle="modal" th:id="${obj.id}" data-target="#demoModal"
+                        class="btn btn-success btn-xs" th:onclick="|getData(${obj.id})|">编辑
+                </button>
             </td>
         </tr>
         </tbody>
@@ -61,13 +57,6 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">添加商品信息</h4>
-                <script>
-                    $(function () {
-                        $('.btn-xs').on('click', function () {
-                            $('.goodsid').val($(this).attr('id'))
-                        })
-                    })
-                </script>
             </div>
             <form class="form-horizontal add">
                 <div class="modal-body">
@@ -76,7 +65,7 @@
                         <div class="col-sm-10">
                             <input type="hidden" class="goodsid">
                             <input type="text" name="firstname" class="form-control" id="firstname"
-                                       placeholder="请输入商品名称">
+                                   placeholder="请输入商品名称">
                         </div>
                     </div>
                     <div class="form-group">
@@ -89,7 +78,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button onclick="saveData()" type="button" class="btn btn-primary save" data-dismiss="modal" id="save1">保存</button>
+                    <button onclick="saveData()" type="button" class="btn btn-primary save" data-dismiss="modal"
+                            id="save1">保存
+                    </button>
                 </div>
             </form>
         </div>
@@ -112,43 +103,5 @@
     </ul>
 </div>
 </body>
-
-
-<script th:inline="javascript">
-    function saveData() {
-        var id = $('.goodsid').val();
-        var goodsName = $('#firstname').val();
-        var goodsPrice = $('#secondname').val();
-        var url = '/goods/update';
-        $.ajax({
-            url: url,
-            type: 'get',
-            data: {
-                "id": id,
-                "goodsName": goodsName,
-                "goodsPrice": goodsPrice
-            },
-            success: function (data) {
-                console.log(data);
-                if (data == "success") {
-                    alert("修改成功！");
-                    window.location.href = "/goods/findAll?currPage=1";
-                }
-
-            }
-        })
-    }
-    function getData(id) {
-        $.ajax({
-            url: "/goods/getGoodsById?id=" + id,
-            type: "get",
-            dataType: "json",
-            success: function (goods) {
-                $('#firstname').val(goods.goodsName);
-                $('#secondname').val(goods.goodsPrice);
-            }
-        })
-    }
-
-</script>
+<script type="text/javascript" src="/js/goods/goods.js"></script>
 </html>

@@ -6,6 +6,7 @@ import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.GoodsExample;
 import com.connext.wms.service.GoodsService;
 import com.connext.wms.util.Page;
+import com.connext.wms.util.PageSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -31,14 +32,14 @@ public class GoodsServiceImpl implements GoodsService {
     public Page findAll(Integer currPage) {
         List<Goods> list = goodsMapper.selectByPage((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
         GoodsExample example = new GoodsExample();
-        Page page = new Page();
-        page.setTotalCount((long) goodsMapper.countByExample(example));
-        page.setCurrPage(currPage);
-        page.init();
-        page.setData(list);
-        return page;
+        return PageSet.setPage(list,currPage,(long) goodsMapper.countByExample(example));
     }
 
+    /**
+     * 根据sku获取商品
+     * @param sku
+     * @return 商品
+     */
     @Override
     public Goods getGoodsBySku(String sku) {
         GoodsExample example = new GoodsExample();
@@ -46,6 +47,11 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.selectByExample(example).get(0);
     }
 
+    /**
+     * 根据商品id获取商品
+     * @param id
+     * @return Goods
+     */
     @Override
     public Goods getGoodsById(Integer id) {
         GoodsExample example = new GoodsExample();
@@ -53,6 +59,11 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.selectByExample(example).get(0);
     }
 
+    /**
+     * 根据skulist返回商品list
+     * @param skuList
+     * @return List<Goods>
+     */
     @Override
     public List<Goods> getGoodsBySkuList(List<String> skuList) {
         GoodsExample goodsExample = new GoodsExample();
@@ -60,6 +71,10 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.selectByExample(goodsExample);
     }
 
+    /**
+     * 更新商品名称和价格并且调用同步接口传给OMS
+     * @param goods
+     */
     @Override
     public void updateGoodsNameAndPrice(Goods goods) {
         /*
@@ -72,8 +87,8 @@ public class GoodsServiceImpl implements GoodsService {
         List<GoodsDTO> goodsDTOSList = new ArrayList<>();
         String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
         goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
-        System.out.println(goodsDTOSList.toString());
-        restTemplate.postForObject("http://10.129.100.51:8502/updateGoods", goodsDTOSList, String.class);
+       // System.out.println(goodsDTOSList.toString());
+        restTemplate.postForObject("http://10.129.100.78:8502/updateGoods", goodsDTOSList, String.class);
     }
 
     /**
@@ -86,11 +101,6 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample example = new GoodsExample();
         example.or().andGoodsNameLike(newKey);
         List<Goods> list = goodsMapper.selectByExample(example);
-        Page page = new Page();
-        page.setTotalCount((long) goodsMapper.countByExample(example));
-        page.setCurrPage(currPage);
-        page.init();
-        page.setData(list);
-        return page;
+        return PageSet.setPage(list,currPage,(long) goodsMapper.countByExample(example));
     }
 }

@@ -65,7 +65,7 @@
             display: block;
             width: 16px;
             height: 16px;
-            background: url("../images/off.png") no-repeat;
+            background: url("/img/off.png") no-repeat;
           }
         }
         .list_dd {
@@ -111,7 +111,7 @@
       //  background: #4285F4;
       //}
       #open .list_dt_icon {
-        background: url("../images/open.png") no-repeat;
+        background: url("/img/open.png") no-repeat;
       }
     }
   }
@@ -126,12 +126,23 @@
       .user-list {
         position: absolute;
         right: 20px;
-        top: -6px;
+        .logoff {
+          display: none;
+          font-size: 15px;
+          width: 50px;
+          position: absolute;
+          top: 10px;
+          right: 15px;
+        }
+        &:hover .logoff{
+          display: block;
+        }
       }
       .user-list li {
         float: left;
         margin-left: 20px;
         color: rgba(0, 0, 0, .65);
+        cursor: pointer;
       }
       .shrink {
         cursor: pointer;
@@ -204,42 +215,27 @@
 .bTabs div.tab-content div.tab-pane {
   height: 100%;
   .home-page {
-    margin: 24px;
-    flex: auto;
-    .page-card {
-      width: 23%;
-      height: 180px;
-      //background-color: pink;
-      margin-left: 12px;
-      margin-bottom: 24px;
-      float: left;
-      background-color: white;
-      .card-body {
-        padding: 20px 24px 8px;
-        font-size: 14px;
-        .body-meta {
-          color: rgba(0,0,0,.45);
-          line-height: 22px;
-        }
-        .body-total {
-          overflow: hidden;
-          color: rgba(0,0,0,.85);
-          margin-top: 4px;
-          margin-bottom: 0;
-          font-size: 25px;
-          line-height: 38px;
-          height: 38px;
-        }
-        .body-content {
-          line-height: 22px;
-          height: 23px;
-        }
-        .body-footer {
-          color: #f5222d;
-          margin-top: 10px;
-        }
-      }
+    position: relative;
+    height: 100%;
+    .page-title {
+      position: absolute;
+      top: 50px;
+      right: 50px;
     }
+    .page-welcome {
+      //width: 100%;
+      //height: 100%;
+    }
+    .page-clock {
+      position:absolute;
+      right: 80px;
+      top:140px;
+      canvas{
+        border-radius: 50%;
+      }
+
+    }
+
   }
 }
 
