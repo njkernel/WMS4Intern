@@ -104,30 +104,39 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
         //通过新公司名称查找是否已经存在该条记录
         ExpressCompanyExample example = new ExpressCompanyExample();
         example.or().andExpressCompanyNameEqualTo(newName);
-        List<ExpressCompany> list = expressCompanyMapper.selectByExample(example);
+        List<ExpressCompany> list1 = expressCompanyMapper.selectByExample(example);
+        example.or().andExpressCompanyNameEqualTo(expressCompanyName);
+        List<ExpressCompany> list2 = expressCompanyMapper.selectByExample(example);
 
-        //1:该公司已存在;2：该公司不存在，可以添加；3：手机号格式错误;4:公司名称超出范围;5：信息不完整
+        //1:新公司已存在;2：新公司不存在，可以添加；3：手机号格式错误;4:公司名称超出范围;5：信息不完整
+        //6：原公司不存在
         if(("").equals(expressCompanyName)||("").equals(newName)||("").equals(contactWay)){
             flag = 5;
         }else{
-            if(list.size()==1){
-                flag = 1;
-            }else{
-                if(m1.matches()){
-                    if(m.matches()){
-                        ExpressCompany record = new ExpressCompany();
-                        record.setExpressCompanyName(newName);
-                        record.setContactWay(contactWay);
-                        example.or().andExpressCompanyNameEqualTo(expressCompanyName);
-                        expressCompanyMapper.updateByExample(record,example);
-                        flag = 2;
-                    }else{
-                        flag = 3;
-                    }
+            if(list2.size()==1){
+                if(list1.size()==1){
+                    flag = 1;
                 }else{
-                    flag = 4;
+                    if(m1.matches()){
+                        if(m.matches()){
+                            ExpressCompany record = new ExpressCompany();
+                            record.setExpressCompanyName(newName);
+                            record.setContactWay(contactWay);
+                            example.or().andExpressCompanyNameEqualTo(expressCompanyName);
+                            expressCompanyMapper.updateByExample(record,example);
+                            flag = 2;
+                        }else{
+                            flag = 3;
+                        }
+                    }else{
+                        flag = 4;
+                    }
                 }
+            }else{
+                flag = 6;
             }
+
+
         }
         return flag;
     }
