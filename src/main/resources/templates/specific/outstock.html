@@ -31,8 +31,8 @@
                                                                 th:text="${outRepoOrder.orderId}"></div>
                     <div class="title-content1-top2">渠道订单号：<input disabled="disabled"
                                                                   th:text="${outRepoOrder.channelId}"></div>
-                    <div class="title-content1-top3">订单状态：<input disabled="disabled"
-                                                                 th:text="${outRepoOrder.outRepoStatus}"></div>
+                    <div class="title-content1-top3">同步状态：<input disabled="disabled"
+                                                                 th:text="#{''+${outRepoOrder.SyncStatus}}"></div>
                 </div>
                 <div class="title-content2">
                     <div class="title-content1-top1">收货人：<input disabled="disabled"
@@ -44,7 +44,7 @@
                 </div>
                 <div class="title-content3">
                     <div class="title-content1-top1">出库单状态：<input disabled="disabled"
-                                                                  th:text="${outRepoOrder.outRepoStatus}"></div>
+                                                                  th:text="#{''+${outRepoOrder.outRepoStatus}}"></div>
                     <div class="title-content1-top2">收货地址：<input disabled="disabled"
                                                                  th:text="${outRepoOrder.receiverAddress}"></div>
                     <div class="title-content1-top3">创建时间：<input disabled="disabled"

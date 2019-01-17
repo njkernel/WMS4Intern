@@ -15,6 +15,8 @@ public interface OutRepertoryMapper {
 
     long countByExample(OutRepertoryExample example);
 
+    long countByConditions(String outRepoOrderId,String selectStatus);
+
     int deleteByExample(OutRepertoryExample example);
 
     int deleteByPrimaryKey(Integer id);
@@ -28,6 +30,8 @@ public interface OutRepertoryMapper {
     List<OutRepertory> selectByExample(OutRepertoryExample example);
 
     List<OutRepertory> selectByPage(Integer start,Integer size);
+
+    List<OutRepertory> unclearSelect(String outRepoOrderId,String selectStatus);
 
   /*  OutRepertory selectByExample(Integer outRepoId);*/
 
