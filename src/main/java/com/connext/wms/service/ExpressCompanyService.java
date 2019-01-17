@@ -32,5 +32,4 @@ public interface ExpressCompanyService {
     //修改快递公司信息
     Integer updateByExample(String newName,String expressCompanyName,String contactWay);
 
-
 }

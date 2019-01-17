@@ -20,6 +20,8 @@ function add() {
                 alert("手机号格式错误！")
             }else if(data==4){
                 alert("公司名称格式错误！")
+            }else if(data==5){
+                alert("填写信息不完整！")
             }
         }
     })
@@ -50,6 +52,8 @@ function update() {
                 alert("手机号格式错误！")
             }else if(data==4){
                 alert("公司名称格式错误！")
+            }else if(data==5){
+                alert("填写信息不完整！")
             }
         }
     })
