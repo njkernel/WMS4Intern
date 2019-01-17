@@ -16,11 +16,10 @@
 
 package com.connext.wms.config;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.connext.wms.entity.InRepertory;
+import com.connext.wms.service.GoodsRepertoryService;
 import com.connext.wms.service.InRepertoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,21 +35,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledTasks {
     private final InRepertoryService inRepertoryService;
+    private final GoodsRepertoryService goodsRepertoryService;
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
-    public ScheduledTasks(InRepertoryService inRepertoryService) {
+    public ScheduledTasks(InRepertoryService inRepertoryService, GoodsRepertoryService goodsRepertoryService) {
         this.inRepertoryService = inRepertoryService;
+        this.goodsRepertoryService = goodsRepertoryService;
     }
 
     /**
      * 定时检查入库超时，每日凌晨4点，每10分钟检查一次
      */
     @Scheduled(cron = "0 0/10 4 ? * *")
-    public void reportCurrentTime() {
+    public void checkInRepertoryExpired() {
         List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll());
         //推送通知
-        log.info("收货超时" + inRepertories.toString());
+        log.info("收货超时"  + inRepertories.toString());
         inRepertories.forEach(inRepertoryService::pushInRepertoryState);
+    }
+
+    /**
+     * 定时检查入库超时，每日凌晨4点，每10分钟检查一次
+     */
+    @Scheduled(cron = "0 0/10 4 ? * *")
+    public void updateGoodsRepertory() {
+        goodsRepertoryService.updateGoodsRepertory();
     }
 }
