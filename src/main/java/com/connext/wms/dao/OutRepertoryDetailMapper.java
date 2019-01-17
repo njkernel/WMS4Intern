@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Mapper
 @Repository
 public interface OutRepertoryDetailMapper {
+    List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId);
+
     long countByExample(OutRepertoryDetailExample example);
 
     int deleteByExample(OutRepertoryDetailExample example);

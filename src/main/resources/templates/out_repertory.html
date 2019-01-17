@@ -15,7 +15,7 @@
             $('.action').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
                 $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
-                $('#demoModal .modal-footer #receiveButtonId').attr("value",$(this).attr('id'));
+                $('#demoModal .modal-footer #receiveButtonId').attr("value", $(this).attr('id'));
                 $('#demoModal').modal();
             });
         });
@@ -24,7 +24,7 @@
             $('.cancel').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
                 $('#demoModal .modal-body').empty().text("确认进行" + $(this).text() + "操作？");
-                $('#demoModal .modal-footer #receiveButtonId').attr("value",$(this).attr('id'));
+                $('#demoModal .modal-footer #receiveButtonId').attr("value", $(this).attr('id'));
                 $('#demoModal').modal();
             });
         });
@@ -34,8 +34,8 @@
         $(function () {
             $('.btn-default').on("click", function () {
                 console.log($(this).attr('id'));
-                var id=$(this).attr('id');
-                document.getElementById('iframeId').src="../outRepoOrderController/toOutRepoDetail?outRepoOrderId="+id+"&xmx="+Math.random();
+                var id = $(this).attr('id');
+                document.getElementById('iframeId').src = "../outRepoOrderController/toOutRepoDetail?outRepoOrderId=" + id + "&xmx=" + Math.random();
             });
         });
 
@@ -43,8 +43,8 @@
         $(function () {
             $('.btn-danger').on("click", function () {
                 console.log($(this).attr('id'));
-                var id=$(this).attr('id');
-                document.getElementById('iframeId').src="../outRepoOrderController/preUpdateOutRepoOrder?outRepoOrderId="+id+"&xmx="+Math.random();
+                var id = $(this).attr('id');
+                document.getElementById('iframeId').src = "../outRepoOrderController/preUpdateOutRepoOrder?outRepoOrderId=" + id + "&xmx=" + Math.random();
             });
         });
 
@@ -53,10 +53,10 @@
             document.frm.submit();
         }
 
-        function closeIFrame(){
+        function closeIFrame() {
             console.log("关闭子页面");
-            $('#popup').css("display","none");
-            $('#mask_shadow').css("display","none");
+            $('#popup').css("display", "none");
+            $('#mask_shadow').css("display", "none");
         }
     </script>
 </head>
@@ -65,16 +65,16 @@
 </div>
 <div class="btn-div">
     <form name="frm" action="">
-        <input id="currPage" name="currPage" />
+        <input id="currPage" type="hidden" name="currPage"/>
     </form>
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
     <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
     <div class="search-box">
-        <form th:action="@{/outRepoOrderController/outRepoOrderList}" method="post">
+        <form th:action="@{/outRepoOrderController/unclearSelect}" method="post">
             <select name="selectStatus" id="selectStatus">
-                <option value=""></option>
+                <option></option>
                 <option value="waittingChecked">待检货</option>
                 <option value="waittingPackaged">待包装</option>
                 <option value="waittingShipped">待发货</option>
@@ -119,7 +119,13 @@
             <td th:text="${#dates.format(p.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td>
                 <button type="button" class="btn btn-default btn-xs" th:id="${p.id}">查看</button>
-                <button type="button" class="btn btn-danger btn-xs"  th:id="${p.id}">操作</button>
+                <t th:if="${p.outRepoStatus!='waittingShipped'}">
+                    <button type="button" class="btn btn-danger btn-xs" disabled="disabled" th:id="${p.id}">操作</button>
+                </t>
+                <t th:if="${p.outRepoStatus=='waittingShipped'}">
+                    <button type="button" class="btn btn-danger btn-xs" th:id="${p.id}">操作</button>
+                </t>
+
             </td>
         </tr>
 
@@ -137,7 +143,7 @@
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <input class="receiveButtonId" id="receiveButtonId">
+                <input class="receiveButtonId" id="receiveButtonId" type="hidden">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary"
                         th:onclick="'javascript:changeStatus()'" data-dismiss="modal">提交更改
@@ -152,9 +158,11 @@
         <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
         <!--<li class="active"><a href="#">1</a></li>
         <li class="disabled"><a href="#">2</a></li>-->
-        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
+               th:text="${page.currPage-1}"></a></li>
         <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+               th:text="${page.currPage+1}"></a></li>
         <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
             &raquo;</a>
         </li>
@@ -180,7 +188,8 @@
 </body>
 <script>
     function changeStatus() {
-        var receiveButtonIdValue=document.getElementById("receiveButtonId").value;
+        var flag;
+        var receiveButtonIdValue = document.getElementById("receiveButtonId").value;
         var checkBox = document.getElementsByName('checkboxName');
         var checkedArray = new Array();
         var checkedStatusArray = new Array();
@@ -188,71 +197,92 @@
         for (var i = 0; i < checkBox.length; i++) {
             if (checkBox[i].checked) {
                 checkedArray.push(checkBox[i].value);
-                var tr=checkBox[i].parentNode.parentNode;
+                var tr = checkBox[i].parentNode.parentNode;
                 checkedStatusArray.push(tr.cells[2].innerHTML);
                 checkedOutRepoNoArray.push(tr.cells[3].innerHTML);
             }
         }
 
-        if(receiveButtonIdValue=="waittingPackaged"){
-            for(var j=0;j<checkedStatusArray.length;j++){
-                if(checkedStatusArray[j]!="waittingChecked"){
+        if (receiveButtonIdValue == "waittingPackaged") {
+            for (var j = 0; j < checkedStatusArray.length; j++) {
+                if (checkedStatusArray[j] != "waittingChecked") {
                     alert("请选择符合状态的出库单！");
+                    flag=false;
                     break;
-                }else{
-                    $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
-                        if(data=="0"){
-                            alert("操作失败！");
-                        }else{
-                            location.href="../outRepoOrderController/outRepoOrderList";
-                        }
-                    })
                 }
+                flag=true;
             }
-        }else if(receiveButtonIdValue=="waittingShipped"){
-            for(var j=0;j<checkedStatusArray.length;j++){
-                if(checkedStatusArray[j]!="waittingPackaged"){
-                    alert("请选择符合状态的出库单！");
-                    break;
-                }else{
-                    $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
-                        if(data=="0"){
-                            alert("操作失败！");
-                        }else{
-                            location.href="../outRepoOrderController/outRepoOrderList";
-                        }
-                    })
-                }
+            if(flag==true){
+                $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus", {
+                    "status": receiveButtonIdValue,
+                    "outRepoOrderIdArray": JSON.stringify(checkedArray)
+                }, function (data) {
+                    if (data == "20190107") {
+                        alert("操作失败！");
+                    } else {
+                        location.href = "../outRepoOrderController/outRepoOrderList";
+                    }
+                })
             }
-        }else if(receiveButtonIdValue=="haveShipped"){
-            for(var j=0;j<checkedStatusArray.length;j++){
-                if(checkedStatusArray[j]!="waittingShipped"){
+        } else if (receiveButtonIdValue == "waittingShipped") {
+            for (var j = 0; j < checkedStatusArray.length; j++) {
+                if (checkedStatusArray[j] != "waittingPackaged") {
                     alert("请选择符合状态的出库单！");
+                    flag=false;
                     break;
-                }else{
-                    $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus",{"status":receiveButtonIdValue,"outRepoOrderIdArray":JSON.stringify(checkedArray)},function(data){
-                        if(data=="0"){
-                            alert("操作失败！");
-                        }else{
-                            location.href="../outRepoOrderController/outRepoOrderList";
-                        }
-                    })
                 }
+                flag=true;
             }
-        }else if(receiveButtonIdValue=="haveCanceled"){
-            for(var j=0;j<checkedStatusArray.length;j++){
-                if(checkedStatusArray[j]=="haveShipped"){
+            if(flag==true){
+                $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus", {
+                    "status": receiveButtonIdValue,
+                    "outRepoOrderIdArray": JSON.stringify(checkedArray)
+                }, function (data) {
+                    if (data == "20190107") {
+                        alert("操作失败！");
+                    } else {
+                        location.href = "../outRepoOrderController/outRepoOrderList";
+                    }
+                })
+            }
+        } else if (receiveButtonIdValue == "haveShipped") {
+            for (var j = 0; j < checkedStatusArray.length; j++) {
+                if (checkedStatusArray[j] != "waittingShipped") {
                     alert("请选择符合状态的出库单！");
+                    flag=false;
                     break;
-                }else{
-                    $.getJSON("../outRepoOrderController/cancelOutRepoOrder",{"outRepoOrderNoArray":JSON.stringify(checkedOutRepoNoArray)},function(data){
-                        if(data=="0"){
-                            alert("操作失败！");
-                        }else{
-                            location.href="../outRepoOrderController/outRepoOrderList";
-                        }
-                    })
                 }
+                flag=true;
+            }
+            if(flag==true){
+                $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus", {
+                    "status": receiveButtonIdValue,
+                    "outRepoOrderIdArray": JSON.stringify(checkedArray)
+                }, function (data) {
+                    if (data == "20190107") {
+                        alert("操作失败！");
+                    } else {
+                        location.href = "../outRepoOrderController/outRepoOrderList";
+                    }
+                })
+            }
+        } else if (receiveButtonIdValue == "haveCanceled") {
+            for (var j = 0; j < checkedStatusArray.length; j++) {
+                if (checkedStatusArray[j] == "haveShipped") {
+                    alert("请选择符合状态的出库单！");
+                    flag=false;
+                    break;
+                }
+                flag=true;
+            }
+            if(flag==true){
+                $.getJSON("../outRepoOrderController/cancelOutRepoOrder", {"outRepoOrderNoArray": JSON.stringify(checkedOutRepoNoArray)}, function (data) {
+                    if (data == "20190107") {
+                        alert("操作失败！");
+                    } else {
+                        location.href = "../outRepoOrderController/outRepoOrderList";
+                    }
+                })
             }
         }
         /**/
