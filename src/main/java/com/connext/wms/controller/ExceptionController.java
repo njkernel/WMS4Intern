@@ -1,11 +1,16 @@
 package com.connext.wms.controller;
 
 
+import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.service.ExceptionService;
+import com.connext.wms.service.OutRepertoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Chao.Sun
@@ -17,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ExceptionController {
     @Autowired
     private ExceptionService exceptionService;
+    @Autowired
+    private OutRepertoryService outRepertoryService;
 
 
     //查询所有异常的订单返回到列表
@@ -42,9 +49,14 @@ public class ExceptionController {
 
     //对异常订单进行再次发货
     @RequestMapping("/feedback")
-    public String toDeliver(){
+    public String toDeliver(Integer outRepoId){
         //调用出库service中的反馈发货信息方法，对在异常列表的订单进行再次信息反馈
-        return "发货信息";
+        List<Integer> list = new ArrayList<>();
+        list.add(outRepoId);
+        OutRepertory outRepertory = new OutRepertory();
+        outRepertory.setOutRepoStatus("haveCanceled");
+        outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
+        return "redirect:findList?currPage=1";
     }
 
 
