@@ -10,13 +10,6 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/details/warehouse/warehouse.css">
-
-    <script type="text/javascript">
-        function go(currPage) {
-            $('#currPage').val(currPage)
-            document.frm.submit();
-        }
-    </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div class="btn-div">
@@ -35,8 +28,6 @@
     <table class="table table-condensed">
         <thead>
         <tr>
-            <th class="number">序号</th>
-            <th class="batch">批量</th>
             <th>商品编号</th>
             <th>商品名称</th>
             <th>可用库存</th>
@@ -47,8 +38,6 @@
         </thead>
         <tbody>
         <tr th:each="p,i:${page.data}">
-            <td th:text="${i.count}"></td>
-            <td><input type="checkbox" th:name="${p.id}" th:id="${p.id}"></td>
             <td th:text="${p.sku}"></td>
             <td th:text="${p.goodsName}"></td>
             <td th:text="${p.realAvailableRepertory}"></td>
@@ -74,13 +63,6 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">补货</h4>
-                <script>
-                    $(function () {
-                        $('.btn-xs').on('click', function () {
-                            $('.goodsid').val($(this).attr('id'))
-                        })
-                    })
-                </script>
             </div>
 
             <div class="modal-body">
@@ -122,35 +104,5 @@
     </ul>
 </div>
 </body>
-<script th:inline="javascript">
-    function checkConfirmed() {
-        var RepertoryNum = $('#firstname').val();
-        var id = $('.goodsid').val();
-        var url = '/goodsRepertory/replenishRepertory';
-        $.ajax({
-            url: url,
-            type: 'get',
-            data: {
-                "id": id,
-                "num": RepertoryNum
-            },
-            success: function (data) {
-                console.log(data);
-                if (data == "success") {
-                    alert("补货成功！");
-                    window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
-                }
-
-            }
-        })
-    }
-</script>
-<script>
-    $('.table tbody tr td input').click(function () {
-        $(this).addClass('checkbox-style');
-    });
-    // 弹窗验证
-    // 传入表单对象
-
-</script>
+<script type="text/javascript" src="/js/repertory/wareHouse.js"></script>
 </html>

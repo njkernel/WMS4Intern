@@ -11,13 +11,6 @@
 
     <link rel="stylesheet" href="/css/search.css">
     <script type="text/javascript">
-        $(function() {
-            $('.action').on("click",function () {
-                $('#demoModal .modal-header .modal-title').empty().text($(this).text()+"操作");
-                $('#demoModal .modal-body').empty().text("确认进行"+$(this).text()+"操作？");
-                $('#demoModal').modal();
-            });
-        });
 
         $(function () {
             $('.ck1').on("click", function () {
@@ -25,12 +18,16 @@
                 document.getElementById('iframeId').src = "/exception/toDetail?id=" + $(this).attr('name');
             });
         });
+
+        function go(currPage) {
+            $('#currPage').val(currPage)
+            document.frm.submit();
+        }
     </script>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
     <div id="mask_shadow"></div>
     <div class="btn-div">
-        <button type="button" class="btn btn-primary action" data-toggle="modal" data-target="#demoModal">处理异常</button>
         <div class="search-box">
             <form action="/exception/findByKey" method="get">
                 <input name="key" type="text">
@@ -43,9 +40,9 @@
             <thead>
                 <tr>
                     <th>序号</th>
-                    <th>批量</th>
                     <th>出库单号</th>
                     <th>异常状态</th>
+                    <th>快递公司</th>
                     <th>创建时间</th>
                     <th>修改时间</th>
                     <th>修改人</th>
@@ -53,54 +50,41 @@
                 </tr>
             </thead>
             <tbody>
-                <!--/*@thymesVar id="exception" type="java.util.ArrayList"*/-->
-                <!--/*@thymesVar id="obj" type="com.connext.wms.entity.OutRepertory"*/-->
-                <tr th:each="obj,i:${exception}">
+                <tr th:each="obj,i:${page.getData()}">
                     <td th:text="${i.count}"></td>
-                    <td><input type="checkbox" name="" id=""></td>
-                    <!--/*@thymesVar id="outRepoId" type="com.connext.wms.entity.OutRepertory"*/-->
                     <td th:text="${obj.outRepoId}"></td>
-                    <td th:text="${obj.outRepoStatus}"></td>
-                    <td th:text="${obj.createTime}"></td>
-                    <td th:text="${obj.reviseTime}"></td>
+                    <td th:text="#{''+${obj.outRepoStatus}}"></td>
+                    <td th:text="${obj.expressCompany}"></td>
+                    <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
+                    <td th:text="${#dates.format(obj.reviseTime, 'YYYY/MM/DD HH:mm')}"></td>
                     <td th:text="${obj.reviser}"></td>
                     <td>
                         <a type="button" class="btn btn-default btn-xs ck1" th:name="${obj.id}">查看</a>
+                        <a type="button" class="btn btn-default" th:href="@{/exception/feedback(outRepoId=${obj.id})}">处理异常</a>
                     </td>
                 </tr>
 
             </tbody>
         </table>
     </div>
-    <!-- 弹出框 -->
-    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">title</h4>
-                </div>
-                <div class="modal-body">提示内容</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">提交更改</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
+    <form name="frm" action="" >
+        <input name="currPage" type="hidden" id="currPage"/>
+    </form>
     <div class="footer-pager">
-        <span>共<span>5</span>页，当前第<span>1</span>页</span>
+        <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
         <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li class="disabled"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
+            <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
+            <!--<li class="active"><a href="#">1</a></li>
+            <li class="disabled"><a href="#">2</a></li>-->
+            <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
+            <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+            <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
+            <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+                &raquo;</a>
+            </li>
         </ul>
     </div>
-    <div id="popup" class="popup" style="top: 1px">
+    <div id="popup" class="popup" style="top: -50px">
         <div class="title">
             <p>异常订单详情</p>
             <span></span>

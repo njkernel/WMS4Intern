@@ -24,7 +24,7 @@ body{
 }
 .main-body{
     background-color: rgb(255,255,255);
-    height: 850px;
+    /* height: 850px; */
     position: relative;
 }
 .main-content1{
@@ -55,13 +55,14 @@ body{
 }
 .title-content1-top2{
     float: left;
-    margin-left: 400px;
+    margin-left: 360px;
     position: absolute;
 }
 .title-content1-top3{
     float: left;
-    margin-left: 750px;
+    margin-left: 650px;
     position: absolute;
+    width: 100%;
 }
 .title-content2{
     height: 50px;
@@ -74,10 +75,10 @@ body{
 input{
     display: none;
 }
-.main-content2{
+/* .main-content2{
     height: 640px;
-    /* background-color: gold; */
-}
+    background-color: gold;
+} */
 .main-content2-title{
     height: 40px;
     /* border: 1px solid #000; */
@@ -92,6 +93,7 @@ input{
 }
 th{
     font-weight: normal;
+    text-align:center;
 }
 tr:hover td{
     background-color:rgb(230,247,255);
@@ -104,6 +106,7 @@ td{
     font-size: 15px;
     /* color:rgba(0,0,0,.65); */
     color:rgb(89, 89, 89);
+    line-height: 18px;
     border-collapse: collapse;
     border-bottom: 1px solid rgb(191,191,191);
 }

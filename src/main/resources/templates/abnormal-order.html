@@ -24,7 +24,7 @@
                                 <div class="title-content3">
                                     <div class="title-content1-top1">异常状态：<input th:text="${detail.outRepoStatus}" disabled="disabled"></div>
                                     <div class="title-content1-top2">修改人：<input th:text="${detail.reviser}" disabled="disabled"></div>
-                                    <div class="title-content1-top3">修改时间：<input th:text="${detail.reviseTime}" disabled="disabled"></div>
+                                    <div class="title-content1-top3">修改时间：<input th:text="${#dates.format(detail.reviseTime, 'YYYY/MM/DD HH:mm')}" disabled="disabled"></div>
                                 </div>
                             </div>
                         </div>

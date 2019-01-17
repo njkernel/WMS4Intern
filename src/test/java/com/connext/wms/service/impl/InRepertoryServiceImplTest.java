@@ -1,6 +1,10 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
+import com.connext.wms.entity.InRepertoryDetail;
+import com.connext.wms.entity.InRepertoryDetailExample;
+import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.util.Constant;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +37,19 @@ class InRepertoryServiceImplTest {
     Constant constant;
     @Autowired
     InRepertoryMapper inRepertoryMapper;
+    @Autowired
+    InRepertoryDetailMapper inRepertoryDetailMapper;
+
+    @Test
+    public void deleteInRe() {
+        inRepertoryMapper.deleteByExample(new InRepertoryExample());
+        inRepertoryDetailMapper.deleteByExample(new InRepertoryDetailExample());
+    }
 
     @Test
     public void init() {
         inRepertoryService.findAll().forEach(
-                u ->{
+                u -> {
                     u.setSyncStatus(constant.SYNC_FALSE_STATES);
                     u.setInRepoStatus(constant.INIT_STATUS);
                     inRepertoryMapper.updateByPrimaryKeySelective(u);

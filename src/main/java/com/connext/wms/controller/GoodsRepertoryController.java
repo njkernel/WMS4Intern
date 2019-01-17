@@ -26,12 +26,6 @@ public class GoodsRepertoryController {
     @Autowired
     private RepertoryRegulationService repertoryRegulationService;
 
-    //跳转index界面
-    @RequestMapping("/toIndex")
-    public String toIndex() {
-        return "index";
-    }
-
     //分页查询商品库存
     @RequestMapping("/showRealRepertory")
     public String showRealRepertoryPage(Integer currPage, Model model) {

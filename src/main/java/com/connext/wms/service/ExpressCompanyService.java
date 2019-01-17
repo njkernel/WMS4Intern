@@ -1,6 +1,7 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.ExpressCompany;
+import com.connext.wms.util.Page;
 
 import java.util.List;
 
@@ -14,20 +15,21 @@ import java.util.List;
 public interface ExpressCompanyService {
 
     //分页查询所有快递公司信息
-    List<ExpressCompany> selectByPage(Integer start,Integer size);
+    Page selectByPage(Integer currPage);
+
+/*   //检查公司是否存在
+    List<ExpressCompany> selectByExample(String key);*/
 
     //根据关键字查询
-    List<ExpressCompany> selectByExample(String key);
+    Page selectByKey(Integer currPage,String key);
 
     //添加快递公司信息
-    void insert(String expressCompanyName,String contactWay);
+    Integer insert(String expressCompanyName,String contactWay);
 
     //根据公司名称删除信息
     void deleteByExample(String expressCompanyName);
 
     //修改快递公司信息
-    void updateByExample(String newName,String expressCompanyName,String contactWay);
-
-
+    Integer updateByExample(String newName,String expressCompanyName,String contactWay);
 
 }

@@ -1,14 +1,15 @@
 package com.connext.wms.controller;
 
+
 import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.service.ExceptionService;
-import org.apache.ibatis.annotations.Param;
+import com.connext.wms.service.OutRepertoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,23 +22,22 @@ import java.util.List;
 public class ExceptionController {
     @Autowired
     private ExceptionService exceptionService;
+    @Autowired
+    private OutRepertoryService outRepertoryService;
 
 
     //查询所有异常的订单返回到列表
     @RequestMapping("/findList")
-    public String findList(Model model){
-        List<OutRepertory> list = exceptionService.selectByPage(1,5);
-        model.addAttribute("exception",list);
+    public String findList(Model model,Integer currPage){
+        model.addAttribute("page",exceptionService.selectByPage(currPage));
         return "error-order-list";
     }
 
     //按关键字查找相关异常的订单
     @RequestMapping("/findByKey")
-    public String findByKey(Model model,String key){
-        List<OutRepertory> list = exceptionService.selectByExampleToKey(key);
-        model.addAttribute("exception",list);
+    public String findByKey(Integer currPage,Model model,String key){
+        model.addAttribute("page",exceptionService.selectByExampleToKey(1,key));
         return "error-order-list";
-
     }
 
     //查看异常订单详情
@@ -49,9 +49,14 @@ public class ExceptionController {
 
     //对异常订单进行再次发货
     @RequestMapping("/feedback")
-    public String toDeliver(){
+    public String toDeliver(Integer outRepoId){
         //调用出库service中的反馈发货信息方法，对在异常列表的订单进行再次信息反馈
-        return "发货信息";
+        List<Integer> list = new ArrayList<>();
+        list.add(outRepoId);
+        OutRepertory outRepertory = new OutRepertory();
+        outRepertory.setOutRepoStatus("haveCanceled");
+        outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
+        return "redirect:findList?currPage=1";
     }
 
 

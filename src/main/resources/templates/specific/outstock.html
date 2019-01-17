@@ -48,7 +48,7 @@
                     <div class="title-content1-top2">收货地址：<input disabled="disabled"
                                                                  th:text="${outRepoOrder.receiverAddress}"></div>
                     <div class="title-content1-top3">创建时间：<input disabled="disabled"
-                                                                 th:text="${outRepoOrder.createTime}"></div>
+                                                                 th:text="${#dates.format(outRepoOrder.createTime,'yyyy-MM-dd HH:mm:ss')}"></div>
                 </div>
             </div>
         </div>
@@ -60,8 +60,8 @@
                 <table class="table table-condensed">
                    <thead>
                    <tr>
-                       <th>出库单号</th>
-                       <th>商品编码</th>
+                       <th style="width:150px;">出库单号</th>
+                       <th style="width:150px;">商品编码</th>
                        <th>商品名称</th>
                        <th>单价</th>
                        <th>数量</th>
@@ -69,7 +69,7 @@
                    </tr>
                    </thead>
                     <tr th:each="orod:${outRepoOrderDetail}">
-                        <td th:text="${orod.outRepoId}"></td>
+                        <td th:text="${outRepoOrder.outRepoId}"></td>
                         <td></td>
                         <td th:text="${orod.goodsName}"></td>
                         <td></td>
