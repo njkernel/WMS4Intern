@@ -19,7 +19,7 @@ body{
 }
 .main-body{
     background-color: rgb(255,255,255);
-    height: 850px;
+    /* height: 850px; */
     position: relative;
 }
 .main-content1{
@@ -59,7 +59,8 @@ body{
     position: absolute;
 }
 input{
-    display: none;
+    border: 0;
+    background-color: #FFFFFF;
 }
 .title-content2{
     height: 50px;
@@ -69,10 +70,10 @@ input{
     height: 50px;
     /* background-color: forestgreen; */
 }
-.main-content2{
+/* .main-content2{
     height: 640px;
-    /* background-color: gold; */
-}
+    background-color: gold;
+} */
 .main-content2-title{
     height: 40px;
     /* border: 1px solid #000; */
@@ -87,6 +88,7 @@ input{
 }
 th{
     font-weight: normal;
+    text-align:center;
 }
 tr:hover td{
     background-color:rgb(230,247,255);

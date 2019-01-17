@@ -18,7 +18,7 @@ public interface OutRepertoryService {
     //分页查询2
     List<OutRepertory> outRepoOrderListByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size);
     //更改出库单状态（通过出库单的id）
-    void updateOutRepoOrderStatus(OutRepertory outRepertory, List<Integer> outRepoOrderId,String[] shippingInfo);
+    void updateOutRepoOrderStatus(OutRepertory outRepertory, List<Integer> outRepoOrderId);
     //oms通过出库单编号主动取消wms出库单状态
     void omsUpdateOutRepoOrderStatus(OutRepertory outRepertory,List<String> outRepoOrderNo);
     //推送出库单时将出库单插入数据库
@@ -31,4 +31,6 @@ public interface OutRepertoryService {
     OutRepertory selectByOutRepoId(Integer outRepoId);
     //根据出库单id查询某一条出库单信息
     List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId);
+    //发货时需要更新出库单信息（填写发货信息）
+    void updateOutRepoOrder(OutRepertory outRepertory);
 }

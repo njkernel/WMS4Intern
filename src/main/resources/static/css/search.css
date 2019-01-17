@@ -156,10 +156,11 @@ background-color: rgba(0, 0, 0, 0.5);
 .popup {
 display: none;
 opacity: 0; 
-position: relative;
+position: fixed;
 margin: 0 auto;
 z-index: 3;
-top:  -543px;
+top:  0;
+left: 8%;
 width: 966px;
 height: 530px;
 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);

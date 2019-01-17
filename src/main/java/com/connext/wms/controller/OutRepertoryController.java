@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,13 +45,13 @@ public class OutRepertoryController {
     //更改出库单状态
     @RequestMapping("/updateOutRepoOrderStatus")
     @ResponseBody
-    public String updateOutRepoOrderStatus(@RequestParam(required = false) String[] shippingInfo, String status, String outRepoOrderIdArray) throws IOException {
+    public String updateOutRepoOrderStatus(String status, String outRepoOrderIdArray) throws IOException {
         OutRepertory outRepertory = new OutRepertory();
         outRepertory.setOutRepoStatus(status);
         JavaType javaType = objectMapper.getTypeFactory().constructParametricType(
                 List.class, String.class);
         List<Integer> list = objectMapper.readValue(outRepoOrderIdArray, javaType);
-        this.outRepertoryService.updateOutRepoOrderStatus(outRepertory, list, shippingInfo);
+        this.outRepertoryService.updateOutRepoOrderStatus(outRepertory, list);
         return "1";
     }
 
@@ -62,20 +63,33 @@ public class OutRepertoryController {
         return "/specific/outstock";
     }
 
-    //发货时可以修改出库单的信息
-    @RequestMapping("/updateOutRepoOrder")
-    public String updateOutRepoOrder(String outRepoOrderId,Model model){
+    //发货时可以修改出库单的信息（添加出库单信息）,这是跳转到更新页面
+    @RequestMapping("/preUpdateOutRepoOrder")
+    public String preUpdateOutRepoOrder(String outRepoOrderId,Model model){
         model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
         model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
         return "/specific/outstock_update";
     }
 
+    //发货时更新发货信息
+    @RequestMapping("/updateOutRepoOrder")
+    public String updateOutRepoOrder(OutRepertory outRepertory){
+        this.outRepertoryService.updateOutRepoOrder(outRepertory);
+        return "redirect:/outRepoOrderController/outRepoOrderList";
+    }
+
 
     //WMS批量取消出库单
     @RequestMapping("/cancelOutRepoOrder")
-    public String cancelOutRepoOrder(String[] outRepoOrderNo) {
-        this.outRepertoryService.cancelOutRepoOrder(outRepoOrderNo);
-        return "";
+    @ResponseBody
+    public String cancelOutRepoOrder(String outRepoOrderNoArray) throws IOException{
+        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(
+                List.class, String.class);
+        List<String> list=objectMapper.readValue(outRepoOrderNoArray, javaType);
+        String[] stringArray= list.toArray(new String[list.size()]);
+        this.outRepertoryService.cancelOutRepoOrder(stringArray);
+        return "1";
     }
+
 
 }

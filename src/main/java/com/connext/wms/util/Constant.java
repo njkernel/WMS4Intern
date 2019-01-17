@@ -19,4 +19,5 @@ public class Constant {
     public final String RECEIVING_REPERTORY = "nanjing";
     public final String REVISER="Marcus";
     public final String TOKENS="yonyong";
+    public final String PUSH_URL = "http://10.129.100.22:8502/Api/getReturnInputFeedback";
 }

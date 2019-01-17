@@ -211,14 +211,4 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="insertDetailList" parameterType="java.util.List">
-    insert into t_out_repo_items (out_repo_id, goods_id, goods_name, goods_num)
-      values
-    <foreach collection="outRepertoryDetailList" item="item" index="index" separator=",">
-      #{item.outRepoId},
-      #{item.goodsId},
-      #{item.goodsName},
-      #{item.goodsNum}
-    </foreach>
-  </insert>
 </mapper>

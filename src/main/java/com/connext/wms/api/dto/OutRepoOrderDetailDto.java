@@ -12,8 +12,4 @@ public class OutRepoOrderDetailDto extends ToMap {
     private String goodsCode;
     private Integer num;
 
-    public OutRepoOrderDetailDto(String goodsCode, Integer num) {
-        this.goodsCode = goodsCode;
-        this.num = num;
-    }
 }
