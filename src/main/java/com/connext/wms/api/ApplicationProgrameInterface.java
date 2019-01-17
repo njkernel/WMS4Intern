@@ -89,6 +89,13 @@ public class ApplicationProgrameInterface {
         return this.outRepertoryService.outRepoOrderInfo(outRepoOrderNo).getOutRepoStatus();
     }
 
+    @PostMapping(value = "/test")
+    @ResponseBody
+    public String test(@RequestBody Map map){
+        System.out.println(map);
+        return "200";
+    }
+
 
     //oms取消wms出库单，wms告知oms出库单是否取消成功
     @PostMapping("/cancelResult")

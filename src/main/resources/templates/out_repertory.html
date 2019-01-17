@@ -109,9 +109,9 @@
         <tr th:each="p,pstatus:${page.data}">
             <td><input type="checkbox" name="checkboxName" th:value="${p.id}"></td>
             <td th:text="${p.orderId}"></td>
-            <td th:text="${p.outRepoStatus}"></td>
+            <td th:text="#{''+${p.outRepoStatus}}"></td>
             <td th:text="${p.outRepoId}"></td>
-            <td th:text="${p.syncStatus}"></td>
+            <td th:text="#{''+${p.syncStatus}}"></td>
             <td th:text="${p.receiverName}"></td>
             <td th:text="${p.expressCompany}"></td>
             <td th:text="${p.expressId}"></td>
@@ -205,7 +205,7 @@
 
         if (receiveButtonIdValue == "waittingPackaged") {
             for (var j = 0; j < checkedStatusArray.length; j++) {
-                if (checkedStatusArray[j] != "waittingChecked") {
+                if (checkedStatusArray[j] != "待检货") {
                     alert("请选择符合状态的出库单！");
                     flag=false;
                     break;
@@ -226,7 +226,7 @@
             }
         } else if (receiveButtonIdValue == "waittingShipped") {
             for (var j = 0; j < checkedStatusArray.length; j++) {
-                if (checkedStatusArray[j] != "waittingPackaged") {
+                if (checkedStatusArray[j] != "待包装") {
                     alert("请选择符合状态的出库单！");
                     flag=false;
                     break;
@@ -247,7 +247,7 @@
             }
         } else if (receiveButtonIdValue == "haveShipped") {
             for (var j = 0; j < checkedStatusArray.length; j++) {
-                if (checkedStatusArray[j] != "waittingShipped") {
+                if (checkedStatusArray[j] != "待发货") {
                     alert("请选择符合状态的出库单！");
                     flag=false;
                     break;
@@ -268,7 +268,7 @@
             }
         } else if (receiveButtonIdValue == "haveCanceled") {
             for (var j = 0; j < checkedStatusArray.length; j++) {
-                if (checkedStatusArray[j] == "haveShipped") {
+                if (checkedStatusArray[j] == "已发货") {
                     alert("请选择符合状态的出库单！");
                     flag=false;
                     break;
