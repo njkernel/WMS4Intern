@@ -246,15 +246,11 @@
                 })
             }
         } else if (receiveButtonIdValue == "haveShipped") {
-            for (var j = 0; j < checkedStatusArray.length; j++) {
-                if (checkedStatusArray[j] != "待发货") {
-                    alert("请选择符合状态的出库单！");
-                    flag=false;
-                    break;
-                }
-                flag=true;
-            }
-            if(flag==true){
+            if(checkedArray.length!=1){
+                alert("请选择一条出库单进行操作！");
+            }else if(checkedStatusArray[0] != "待发货"){
+                alert("请选择符合状态的出库单！");
+            }else{
                 $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus", {
                     "status": receiveButtonIdValue,
                     "outRepoOrderIdArray": JSON.stringify(checkedArray)
@@ -285,7 +281,6 @@
                 })
             }
         }
-        /**/
 
     }
 
