@@ -28,6 +28,9 @@ function saveData() {
             if (data == "success") {
                 alert("修改成功！");
                 window.location.href = "/goods/findAll?currPage=1";
+            }else if(data =="error"){
+                alert("修改失败，价格应大于0");
+                window.location.href = "/goods/findAll?currPage=1";
             }
 
         }

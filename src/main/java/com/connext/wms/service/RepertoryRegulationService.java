@@ -1,4 +1,5 @@
 package com.connext.wms.service;
+
 /**
  * @Author: Yogurt7_
  * @Date: 2019/1/7 14:58
@@ -26,9 +27,11 @@ public interface RepertoryRegulationService {
 
     /**
      * 补货操作
+     *
      * @param id
      * @param num
+     * @return String
      */
-    void replenishRepertory(Integer id, Integer num);
+    String replenishRepertory(Integer id, Integer num);
 
 }

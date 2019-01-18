@@ -50,14 +50,12 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
         调用OMS接口，将总库存同步给OMS
          */
         List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
-        restTemplate.postForObject("http://10.129.100.78:8502/updateTotalStock", listCodeTotalStockDTO, String.class);
+        restTemplate.postForObject("http://169.254.221.89:8502/updateTotalStock", listCodeTotalStockDTO, String.class);
     }
 
     @Override
-    public Page showRealRepertory(Integer currPage) {
-        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
-
-        List<RealRepertoryVO> list = summaryRealRepertory(goodsRepertoryList);
+    public Page showRealRepertory(Integer currPage,String key) {
+        List<RealRepertoryVO> list = goodsRepertoryMapper.getRealVO(key,(currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
 
         return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCount());
     }

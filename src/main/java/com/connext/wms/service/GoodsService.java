@@ -43,7 +43,7 @@ public interface GoodsService {
      * 并且调用同步接口对OMS进行更新
      * @param goods
      */
-    void updateGoodsNameAndPrice(Goods goods);
+    String updateGoodsNameAndPrice(Goods goods);
 
     /**
      * 根据关键字查询相关的商品信息

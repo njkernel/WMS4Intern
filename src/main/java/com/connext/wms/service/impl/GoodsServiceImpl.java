@@ -32,11 +32,12 @@ public class GoodsServiceImpl implements GoodsService {
     public Page findAll(Integer currPage) {
         List<Goods> list = goodsMapper.selectByPage((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
         GoodsExample example = new GoodsExample();
-        return PageSet.setPage(list,currPage,(long) goodsMapper.countByExample(example));
+        return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
     }
 
     /**
      * 根据sku获取商品
+     *
      * @param sku
      * @return 商品
      */
@@ -49,6 +50,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 根据商品id获取商品
+     *
      * @param id
      * @return Goods
      */
@@ -61,6 +63,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 根据skulist返回商品list
+     *
      * @param skuList
      * @return List<Goods>
      */
@@ -73,22 +76,29 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 更新商品名称和价格并且调用同步接口传给OMS
+     *
      * @param goods
      */
     @Override
-    public void updateGoodsNameAndPrice(Goods goods) {
+    public String updateGoodsNameAndPrice(Goods goods) {
         /*
         根据商品id更改商品名称和价格
          */
-        goodsMapper.updateByPrimaryKeySelective(goods);
-        /*
+        if (goods.getGoodsPrice() <= 0) {
+            return "error";
+        } else {
+            goodsMapper.updateByPrimaryKeySelective(goods);
+            /*
         调用同步接口传给OMS
          */
-        List<GoodsDTO> goodsDTOSList = new ArrayList<>();
-        String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
-        goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
-       // System.out.println(goodsDTOSList.toString());
-        restTemplate.postForObject("http://10.129.100.78:8502/updateGoods", goodsDTOSList, String.class);
+            List<GoodsDTO> goodsDTOSList = new ArrayList<>();
+            String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
+            goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
+            // System.out.println(goodsDTOSList.toString());
+            restTemplate.postForObject("http://10.129.100.78:8502/updateGoods", goodsDTOSList, String.class);
+            return "success";
+        }
+
     }
 
     /**
@@ -101,6 +111,6 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample example = new GoodsExample();
         example.or().andGoodsNameLike(newKey);
         List<Goods> list = goodsMapper.selectByExample(example);
-        return PageSet.setPage(list,currPage,(long) goodsMapper.countByExample(example));
+        return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
     }
 }
