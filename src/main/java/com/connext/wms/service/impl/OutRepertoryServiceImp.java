@@ -52,10 +52,10 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         Page page = new Page();
         if (currPage == null) currPage = 1;
         page.setCurrPage(currPage);
-        page.setTotalCount(this.outRepertoryMapper.countByConditions(outRepoOrderId,selectStatus));
+        page.setTotalCount(this.outRepertoryMapper.countByConditions(outRepoOrderId, selectStatus));
         page.init();
         PageHelper.startPage(currPage, Page.PAGE_SIZE);
-        page.setData(this.outRepertoryMapper.unclearSelect(outRepoOrderId,selectStatus));
+        page.setData(this.outRepertoryMapper.unclearSelect(outRepoOrderId, selectStatus));
         return page;
     }
 
@@ -91,19 +91,23 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
             }
 
         }
+
         try {
-            String s = this.restTemplate.postForObject(constant.OUT_UPDATE_URL,map,String.class);
+            String s = this.restTemplate.postForObject(constant.OUT_UPDATE_URL, map, String.class);
             if ("200".equals(s)) {
                 outRepertory.setReviseTime(new Date());
                 outRepertory.setSyncStatus("haveSync");
                 this.outRepertoryMapper.updateByExampleSelective(outRepertory, outRepertoryExample);
-            } else if ("201".equals(s)) {
-                outRepertory.setOutRepoStatus("shipException");
-                this.outRepertoryMapper.updateByExampleSelective(outRepertory, outRepertoryExample);
             }
         } catch (RestClientException e) {
-            System.out.println("连接异常！");
+            OutRepertory outRepertory1=new OutRepertory();
+            outRepertory1.setSyncStatus("notSync");
+            if(("haveShipped").equals(outRepertory.getOutRepoStatus())){
+                outRepertory1.setOutRepoStatus("shipException");
+            }
+            this.outRepertoryMapper.updateByExampleSelective(outRepertory1,outRepertoryExample);
         }
+
     }
 
     //oms通过出库单编号主动取消wms出库单状态
@@ -137,6 +141,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         }
         String newStringBuffer = stringBuffer.toString();
         String outputCodeList = newStringBuffer.substring(0, newStringBuffer.length() - 1);
+
         try {
             String s = this.restTemplate.postForObject(constant.CANCEL_OUT_URL, outputCodeList, String.class);
             if ("200".equals(s)) {
@@ -160,8 +165,14 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
                 }
             }
         } catch (RestClientException e) {
-            System.out.println("连接异常！");
+            OutRepertory outRepertory1=new OutRepertory();
+            outRepertory1.setSyncStatus("notSync");
+            OutRepertoryExample outRepertoryExample=new OutRepertoryExample();
+            List<String> list = Arrays.asList(outRepoOrderNo);
+            outRepertoryExample.or().andOutRepoIdIn(list);
+            this.outRepertoryMapper.updateByExampleSelective(outRepertory1,outRepertoryExample);
         }
+
 
     }
 
