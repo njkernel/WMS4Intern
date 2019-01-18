@@ -3,7 +3,6 @@ package com.connext.wms.service;
 import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.util.Page;
 
-import java.util.List;
 
 /**
  * @Author: Chao.Sun
