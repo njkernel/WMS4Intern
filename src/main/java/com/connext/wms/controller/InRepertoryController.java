@@ -79,13 +79,7 @@ public class InRepertoryController {
     public boolean finish(@RequestParam Integer id, @RequestParam String list) throws IOException {
         List<InRepertoryDetailDTO> inRepertoryDetailDTOS = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetailDTO>>() {
         });
-        InRepertory inRepertory = inRepertoryService.findOne(id);
-        inRepertory.setRepertoryDetails(entityAndDto.idToEntity(String.valueOf(id), inRepertoryDetailDTOS));
-        boolean result = inRepertoryService.changeInRepertoryStatus(id, constant.SUCCESS_STATUS);
-        if (result) {
-            return inRepertoryService.pushInRepertoryState(inRepertory);
-        }
-        return false;
+        return inRepertoryService.actionException(id, inRepertoryDetailDTOS);
     }
 
     @PostMapping("/action/{status}")

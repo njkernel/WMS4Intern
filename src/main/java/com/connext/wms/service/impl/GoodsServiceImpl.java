@@ -5,6 +5,7 @@ import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.GoodsExample;
 import com.connext.wms.service.GoodsService;
+import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.connext.wms.util.PageSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class GoodsServiceImpl implements GoodsService {
     GoodsMapper goodsMapper;
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    Constant constant;
 
     /**
      * 分页查询所有商品并返回到列表
@@ -95,7 +98,7 @@ public class GoodsServiceImpl implements GoodsService {
             String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
             goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
             // System.out.println(goodsDTOSList.toString());
-            restTemplate.postForObject("http://10.129.100.78:8502/updateGoods", goodsDTOSList, String.class);
+            restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
             return "success";
         }
 
@@ -111,6 +114,6 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample example = new GoodsExample();
         example.or().andGoodsNameLike(newKey);
         List<Goods> list = goodsMapper.selectByExample(example);
-        return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
+        return PageSet.setPage(list,currPage,(long) goodsMapper.countByExample(example));
     }
 }

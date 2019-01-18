@@ -6,6 +6,7 @@ import com.connext.wms.dao.GoodsRepertoryMapper;
 import com.connext.wms.dao.RepertoryRegulationMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.GoodsRepertoryService;
+import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.connext.wms.util.PageSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
     RestTemplate restTemplate;
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    Constant constant;
 
 
     @Override
@@ -50,7 +53,7 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
         调用OMS接口，将总库存同步给OMS
          */
         List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
-        restTemplate.postForObject("http://169.254.221.89:8502/updateTotalStock", listCodeTotalStockDTO, String.class);
+        restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
     }
 
     @Override

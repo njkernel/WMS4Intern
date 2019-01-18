@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface OutRepertoryService {
     //分页查询出库单
-    Page outRepoOrderList(String outRepoOrderId,String selectStatus,Integer currPage);
-    //分页查询2
-    List<OutRepertory> outRepoOrderListByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size);
-    //更改出库单状态（通过出库单的id）
+    Page outRepoOrderList(Integer currPage);
+    //模糊查询
+    Page unclearSelect(String outRepoOrderId,String selectStatus,Integer currPage);
+    //批量更改出库单状态（通过出库单的id）检货，包装，发货
     void updateOutRepoOrderStatus(OutRepertory outRepertory, List<Integer> outRepoOrderId);
     //oms通过出库单编号主动取消wms出库单状态
     void omsUpdateOutRepoOrderStatus(OutRepertory outRepertory,List<String> outRepoOrderNo);
@@ -29,7 +29,7 @@ public interface OutRepertoryService {
     void cancelOutRepoOrder(String[] outRepoOrderNo);
     //根据出库单id查询某一条出库单信息
     OutRepertory selectByOutRepoId(Integer outRepoId);
-    //根据出库单id查询某一条出库单信息
+    //根据出库单id查询某一出库单详情
     List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId);
     //发货时需要更新出库单信息（填写发货信息）
     void updateOutRepoOrder(OutRepertory outRepertory);
