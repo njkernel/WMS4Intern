@@ -21,7 +21,7 @@ public interface GoodsRepertoryService {
      * 显示实时库存
      * @return 库存视图对象
      */
-    Page showRealRepertory(Integer currPage);
+    Page showRealRepertory(Integer currPage,String key);
 
     /**
      * 根据商品名称的关键字查询实时库存

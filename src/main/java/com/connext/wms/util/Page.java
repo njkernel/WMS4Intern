@@ -27,11 +27,7 @@ public class Page {
      * 计算总页数
      */
     public void init() {
-        if (this.totalCount % PAGE_SIZE == 0) {
-            this.totalPage = this.totalCount / PAGE_SIZE;
-        } else {
-            this.totalPage = this.totalCount / PAGE_SIZE + 1;
-        }
+        this.totalPage = new Double(Math.ceil(totalCount / (double) PAGE_SIZE)).longValue();
     }
 
     public int getCurrPage() {

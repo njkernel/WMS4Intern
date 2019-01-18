@@ -12,6 +12,14 @@
         <id column="goodsCode" property="goodsCode"/>
         <result column="totalStock" property="totalStock"></result>
     </resultMap>
+    <resultMap id="RealRepertoryVOMap" type="com.connext.wms.entity.RealRepertoryVO">
+        <id column="id" property="id"/>
+        <result column="sku" property="sku"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="realAvailableNum" property="realAvailableRepertory"/>
+        <result column="realLockedNum" property="realLockedRepertory"/>
+        <result column="realTotalNum" property="realTotalRepertory"/>
+    </resultMap>
     <update id="updateGoodsRepertory" parameterType="Integer">
         update t_goods_repertory set total_num=total_num+#{tnum},available_num=available_num+#{anum},locked_num=locked_num+#{lnum} where id=#{id}
     </update>
@@ -38,6 +46,43 @@
 
     <select id="getCountByKey" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(a.id) from t_goods_repertory a inner join t_goods b on a.goods_id=b.id where b.goods_name like #{key}
+    </select>
+
+    <select id="getRealVO" resultMap="RealRepertoryVOMap">
+        SELECT
+        m.id,
+        d.sku,
+        d.goods_name,
+        m.realAvailableNum,
+        m.realLockedNum,
+        m.realTotalNum
+        FROM
+        t_goods d
+        INNER JOIN (
+        SELECT
+        a.id,
+        a.goods_id,
+        a.total_num + IFNULL( cc.totalNum, 0 ) AS realTotalNum,
+        a.available_num + IFNULL( cc.availableNum, 0 ) AS realAvailableNum,
+        a.locked_num + IFNULL( cc.lockedNum, 0 ) AS realLockedNum
+        FROM
+        t_goods_repertory a
+        LEFT JOIN (
+        SELECT
+        c.goods_repertory_id,
+        SUM( IFNULL(c.total_num_regulation,0) ) AS totalNum,
+        SUM( IFNULL(c.available_num_regulation,0) ) AS availableNum,
+        SUM( IFNULL(c.locked_num_regulation,0) ) AS lockedNum
+        FROM
+        t_repertory_regulation c
+        GROUP BY
+        c.goods_repertory_id
+        ) AS cc ON a.id = cc.goods_repertory_id
+        ) AS m ON d.id = m.goods_id
+        <if test="key!=null">
+            where d.goods_name LIKE CONCAT(CONCAT('%',#{key}),'%')
+        </if>
+        order by m.id limit #{start},#{size}
     </select>
 
 </mapper>

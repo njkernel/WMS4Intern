@@ -15,11 +15,15 @@ function checkConfirmed() {
             if (data == "success") {
                 alert("补货成功！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
+            } else if (data == "error") {
+                alert("补货失败，补货数量不能为空！");
+                window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
             }
 
         }
     })
 }
+
 //分页跳转
 function go(currPage) {
     $('#currPage').val(currPage)
