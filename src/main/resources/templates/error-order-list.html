@@ -30,7 +30,7 @@
     <div class="btn-div">
         <div class="search-box">
             <form action="/exception/findByKey" method="get">
-                <input name="key" type="text">
+                <input name="key" type="text" placeholder="请输入公司名称">
                 <button  type="submit" class="btn btn-success">搜索</button>
             </form>
         </div>
@@ -60,7 +60,7 @@
                     <td th:text="${obj.reviser}"></td>
                     <td>
                         <a type="button" class="btn btn-default btn-xs ck1" th:name="${obj.id}">查看</a>
-                        <a type="button" class="btn btn-default" th:href="@{/exception/feedback(outRepoId=${obj.id})}">处理异常</a>
+                        <a type="button" class="btn btn-default" style="width: 36px;height: 22px;" th:href="@{/exception/feedback(outRepoId=${obj.id})}" th:text="处理"></a>
                     </td>
                 </tr>
 

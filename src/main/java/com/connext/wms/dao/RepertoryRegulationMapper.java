@@ -19,11 +19,46 @@ public interface RepertoryRegulationMapper {
      * @param id
      * @param num
      */
+    /**
+     * 增加可用库存
+     * @param id
+     * @param num
+     */
     void addAvailableRepertory(@Param("goodsRepertoryId") Integer id,@Param("availableNumRegulation") Integer num);
+
+    /**
+     * 减少可用库存
+     * @param id
+     * @param num
+     */
     void reduceAvailableRepertory(@Param("goodsRepertoryId") Integer id, @Param("availableNumRegulation") Integer num);
+
+    /**
+     * 增加总库存
+     * @param id
+     * @param num
+     */
     void addTotalRepertory(@Param("goodsRepertoryId") Integer id,@Param("totalNumRegulation") Integer num);
+
+    /**
+     * 减少总库存
+     * @param id
+     * @param num
+     */
     void reduceTotalRepertory(@Param("goodsRepertoryId") Integer id,@Param("totalNumRegulation") Integer num);
+
+    /**
+     * 增加锁定库存
+     * @param id
+     * @param num
+     */
     void addLockedRepertory(@Param("goodsRepertoryId") Integer id,@Param("lockedNumRegulation") Integer num);
+
+    /**
+     * 减少锁定库存
+     * @param id
+     * @param num
+     */
     void reduceLockedRepertory(@Param("goodsRepertoryId") Integer id,@Param("lockedNumRegulation") Integer num);
 
     /**

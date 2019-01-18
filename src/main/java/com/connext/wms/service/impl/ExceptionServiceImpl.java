@@ -23,6 +23,8 @@ public class ExceptionServiceImpl implements ExceptionService {
     public Page selectByPage(Integer currPage){
         List<OutRepertory> list = outRepertoryMapper.selectByPage((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
         OutRepertoryExample example = new OutRepertoryExample();
+        String status = "%shipException%";
+        example.or().andOutRepoStatusLike(status);
         return byPage(currPage,list,example);
     }
 

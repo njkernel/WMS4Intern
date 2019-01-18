@@ -11,7 +11,11 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface OutRepertoryMapper {
+    void updateWhenCancel(OutRepertory outRepertory);
+
     long countByExample(OutRepertoryExample example);
+
+    long countByConditions(String outRepoOrderId,String selectStatus);
 
     int deleteByExample(OutRepertoryExample example);
 
@@ -27,6 +31,8 @@ public interface OutRepertoryMapper {
 
     List<OutRepertory> selectByPage(Integer start,Integer size);
 
+    List<OutRepertory> unclearSelect(String outRepoOrderId,String selectStatus);
+
   /*  OutRepertory selectByExample(Integer outRepoId);*/
 
     OutRepertory selectByPrimaryKey(Integer id);
@@ -41,5 +47,5 @@ public interface OutRepertoryMapper {
 
     OutRepertory selectByOutRepoOrderNo(String outRepoOrderNo);
 
-    List<OutRepertory> selectOutRepoByPage(String outRepoOrderId,String selectStatus,Integer start,Integer size);
+    List<OutRepertory> selectOutRepoByPage(Integer start,Integer size);
 }

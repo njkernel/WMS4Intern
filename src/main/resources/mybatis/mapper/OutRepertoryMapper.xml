@@ -354,33 +354,14 @@
     </update>
 
     <select id="selectByOutRepoOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
+        select *
         from t_out_repo
         where out_repo_id=#{outRepoId,jdbcType=VARCHAR}
     </select>
 
     <select id="selectOutRepoByPage" resultMap="BaseResultMap">
-        <!--select
-        <include refid="Base_Column_List"/>
-        from t_out_repo limit
-             #{start},#{size}-->
         select *
-        from
-        (select * from t_out_repo
-        <where>
-            <if test="outRepoOrderId!=null and outRepoOrderId!='' ">
-                and out_repo_id like concat('%',#{outRepoOrderId},'%')
-            </if>
-            <if test="selectStatus!=null and selectStatus!='' ">
-                and out_repo_status like CONCAT('%',#{selectStatus},'%')
-            </if>
-        </where>
-        <!--<if test="">
-            WHERE out_repo_id like concat('%',#{outRepoOrderId},'%')
-        </if>
-            and out_repo_status like CONCAT('%',#{selectStatus},'%')-->
-        ) as a where out_repo_status not in('shipException')
+        from t_out_repo where out_repo_status not in('shipException')
         ORDER BY create_time ASC,revise_time DESC
         limit #{start},#{size}
     </select>
@@ -406,4 +387,25 @@
           and out_repo_status = 'shipException'
             limit #{start},#{size}
     </select>
+
+    <update id="updateWhenCancel" parameterType="com.connext.wms.entity.OutRepertory">
+        update t_out_repo set out_repo_status=#{outRepoStatus},revise_time=#{reviseTime} where out_repo_id=#{outRepoId}
+    </update>
+
+    <select id="unclearSelect" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from t_out_repo
+        <where>
+            <if test="outRepoOrderId!=null and outRepoOrderId!='' ">and out_repo_id like concat('%',#{outRepoOrderId},'%')</if>
+            <if test="selectStatus!=null and selectStatus!='' ">and out_repo_status=#{selectStatus}</if>
+        </where>
+    </select>
+
+    <select id="countByConditions" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(1) from t_out_repo
+        <where>
+            <if test="outRepoOrderId!=null and outRepoOrderId!='' ">and out_repo_id like concat('%',#{outRepoOrderId},'%')</if>
+            <if test="selectStatus!=null and selectStatus!='' ">and out_repo_status=#{selectStatus}</if>
+        </where>
+    </select>
+
 </mapper>
