@@ -48,11 +48,11 @@ public class EntityAndDto {
         return list;
     }
 
-    public List<InRepertoryDetail> idToEntity(String inRepoId, List<InRepertoryDetailDTO> repertoryDetailDTOS) {
+    public List<InRepertoryDetail> idToEntity(int inRepoId, List<InRepertoryDetailDTO> repertoryDetailDTOS) {
         List<InRepertoryDetail> inRepertoryDetails = new ArrayList<>();
         repertoryDetailDTOS.forEach(u -> {
             Goods goods = goodsService.getGoodsById(Integer.valueOf(u.getSku()));
-            inRepertoryDetails.add(new InRepertoryDetail(Integer.parseInt(inRepoId), goods.getId(), goods.getGoodsName(), u.getGoodsNum()));
+            inRepertoryDetails.add(new InRepertoryDetail(inRepoId, goods.getId(), goods.getGoodsName(), u.getGoodsNum()));
         });
         return inRepertoryDetails;
     }

@@ -1,5 +1,6 @@
 package com.connext.wms.service;
 
+import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.util.Page;
 import org.springframework.ui.Model;
@@ -96,4 +97,10 @@ public interface InRepertoryService {
      * @return a template
      */
     Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status);
+
+    /**
+     * Receiving goods abnormal
+     * @return true or false
+     */
+    boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS);
 }
