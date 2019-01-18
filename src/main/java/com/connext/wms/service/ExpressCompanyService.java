@@ -1,9 +1,7 @@
 package com.connext.wms.service;
 
-import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.util.Page;
 
-import java.util.List;
 
 /**
  * @Author: Chao.Sun
@@ -16,9 +14,6 @@ public interface ExpressCompanyService {
 
     //分页查询所有快递公司信息
     Page selectByPage(Integer currPage);
-
-/*   //检查公司是否存在
-    List<ExpressCompany> selectByExample(String key);*/
 
     //根据关键字查询
     Page selectByKey(Integer currPage,String key);
