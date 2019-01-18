@@ -5,6 +5,7 @@ import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.OutRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
+import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
     private RestTemplate restTemplate;
     @Autowired
     private RepertoryRegulationService repertoryRegulationService;
-
+    @Autowired
+    Constant constant;
 
     //分页查询出库单
     @Override
@@ -90,7 +92,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
 
         }
         try {
-            String s = this.restTemplate.postForObject("http://10.129.100.50:8502/synchronizeState",map,String.class);
+            String s = this.restTemplate.postForObject(constant.OUT_UPDATE_URL,map,String.class);
             if ("200".equals(s)) {
                 outRepertory.setReviseTime(new Date());
                 outRepertory.setSyncStatus("haveSync");
@@ -136,7 +138,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         String newStringBuffer = stringBuffer.toString();
         String outputCodeList = newStringBuffer.substring(0, newStringBuffer.length() - 1);
         try {
-            String s = this.restTemplate.postForObject("http://10.129.100.93:8502/cancelOrderOfWms", outputCodeList, String.class);
+            String s = this.restTemplate.postForObject(constant.CANCEL_OUT_URL, outputCodeList, String.class);
             if ("200".equals(s)) {
                 OutRepertory outRepertory = new OutRepertory();
                 outRepertory.setOutRepoStatus("haveCanceled");
