@@ -57,10 +57,8 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
     }
 
     @Override
-    public Page showRealRepertory(Integer currPage) {
-        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertory((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
-
-        List<RealRepertoryVO> list = summaryRealRepertory(goodsRepertoryList);
+    public Page showRealRepertory(Integer currPage,String key) {
+        List<RealRepertoryVO> list = goodsRepertoryMapper.getRealVO(key,(currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
 
         return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCount());
     }
