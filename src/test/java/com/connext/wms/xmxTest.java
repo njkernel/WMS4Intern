@@ -228,5 +228,10 @@ public class xmxTest {
         }
     }
 
+    @Test
+    public void getOneGoodDetail(){
+        System.out.println(this.outRepertoryService.selectListByOutRepoId(354));
+    }
+
 }
 

@@ -1,5 +1,6 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -22,6 +24,8 @@ import java.util.*;
  */
 @Service
 public class OutRepertoryServiceImp implements OutRepertoryService {
+    @Autowired
+    private GoodsMapper goodsMapper;
     @Autowired
     private OutRepertoryMapper outRepertoryMapper;
     @Autowired
@@ -185,10 +189,18 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
 
     //根据出库单id查询某一出库单详情
     @Override
-    public List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId) {
+    public List<OutRepoItem> selectListByOutRepoId(Integer outRepoId) {
+        List<OutRepoItem> outRepoItemList=new ArrayList<OutRepoItem>();
         OutRepertoryDetailExample example = new OutRepertoryDetailExample();
         example.or().andOutRepoIdEqualTo(outRepoId);
-        return this.outRepertoryDetailMapper.selectByExample(example);
+        for(OutRepertoryDetail outRepertoryDetail:this.outRepertoryDetailMapper.selectByExample(example)){
+            outRepertoryDetail.getGoodsId();//商品id
+            Goods goods=this.goodsMapper.selectByPrimaryKey(outRepertoryDetail.getGoodsId());
+            OutRepoItem outRepoItem=new OutRepoItem(goods.getSku(),goods.getGoodsName(),goods.getGoodsPrice(),outRepertoryDetail.getGoodsNum());
+            outRepoItemList.add(outRepoItem);
+        }
+        return outRepoItemList;
+
     }
 
     //发货时需要更新出库单信息（填写发货信息）
