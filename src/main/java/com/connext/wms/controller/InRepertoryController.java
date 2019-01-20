@@ -87,12 +87,6 @@ public class InRepertoryController {
     public boolean action(@RequestParam String list, @PathVariable String status) throws IOException {
         List<Integer> ids = objectMapper.readValue(list, new TypeReference<List<Integer>>() {
         });
-        ids.forEach(
-                u -> {
-                    inRepertoryService.changeInRepertoryStatus(u, status);
-                    inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(u));
-                }
-        );
-        return true;
+        return inRepertoryService.ChangeStatusAndPush(ids,status);
     }
 }

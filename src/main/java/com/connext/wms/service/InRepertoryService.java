@@ -90,6 +90,15 @@ public interface InRepertoryService {
     boolean pushInRepertoryState(InRepertory inRepertory);
 
     /**
+     * change the  Status of InRepertory which not complete and pushInRepertoryState
+     *
+     * @param ids the inRepertory id
+     * @param status  InRepertory status
+     * @return true or false
+     */
+    boolean ChangeStatusAndPush(List<Integer> ids,String status);
+
+    /**
      * get a page
      * @param page page number
      * @param inRepertoryList the list want to display
