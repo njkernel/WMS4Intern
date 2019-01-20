@@ -41,7 +41,7 @@ public class InRepertoryController {
     @GetMapping("detail/{id}")
     public String detail(@PathVariable Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
-        return "/specific/in-detail";
+        return "specific/in-detail";
     }
 
     @GetMapping("page/{page}")
@@ -71,7 +71,7 @@ public class InRepertoryController {
     @GetMapping("/action/exception")
     public String detailAction(@RequestParam Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
-        return "/specific/in-detail-action";
+        return "specific/in-detail-action";
     }
 
     @PostMapping("/action/exception")
