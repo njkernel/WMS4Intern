@@ -11,6 +11,13 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/search.css}">
     <script type="text/javascript">
+
+        $(document).ready(function(){
+            var saveStatusFromBack = document.getElementById("saveStatusFromBack").value;
+            console.log("sdfg")
+            $("#selectStatus").val(saveStatusFromBack);
+        });
+
         $(function () {
             $('.action').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
@@ -49,7 +56,7 @@
         });
 
         function go(currPage) {
-            $('#currPage').val(currPage)
+            $('#currPage').val(currPage);
             document.frm.submit();
         }
 
@@ -64,15 +71,15 @@
 <div id="mask_shadow">
 </div>
 <div class="btn-div">
-    <form name="frm" action="">
-        <input id="currPage" type="hidden" name="currPage"/>
-    </form>
+    <!--<form name="frm" th:action="@{/outRepoOrderController/unclearSelect}" method="post">
+        <input id="currPage" name="currPage"/>
+    </form>-->
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
     <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
     <div class="search-box">
-        <form th:action="@{/outRepoOrderController/unclearSelect}" method="post">
+        <form th:action="@{/outRepoOrderController/unclearSelect}" method="post" name="frm">
             <select name="selectStatus" id="selectStatus">
                 <option></option>
                 <option value="waittingChecked">待检货</option>
@@ -81,7 +88,9 @@
                 <option value="haveShipped">已发货</option>
                 <option value="haveCanceled">已取消</option>
             </select>
-            <input type="text" name="outRepoOrderId" placeholder="请输入出库单号">
+            <input type="text" id="outRepoOrderId" name="outRepoOrderId" th:value="${outRepoOrderId}" placeholder="请输入出库单号" />
+            <input type="hidden" id="saveStatusFromBack" th:value="${selectStatus}">
+            <input id="currPage" name="currPage" type="hidden" />
             <button type="submit" class="btn btn-success">搜索</button>
         </form>
     </div>
