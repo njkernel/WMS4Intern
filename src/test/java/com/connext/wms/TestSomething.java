@@ -74,7 +74,6 @@ public class TestSomething {
 
     @Test
     public void unquie() {
-        InRepertory inRepertory= inRepertoryMapper.selectByPrimaryKey(12);
-        inRepertory.getId();
+        inRepertoryMapper.findAllLike("success","%%").forEach(System.out::println);
     }
 }
