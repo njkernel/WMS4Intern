@@ -67,7 +67,8 @@ public class TestYogurt {
         }*/
         //goodsRepertoryService.updateGoodsRepertory();
         //System.out.println();
-        repertoryRegulationService.deliveryGoodsBeforeDelivery(9,40);
+        System.out.println(goodsMapper.selectByPrimaryKey(1).getGoodsName()+"01");
+        //repertoryRegulationService.deliveryGoodsBeforeDelivery(9,40);
     }
 
     @Test
