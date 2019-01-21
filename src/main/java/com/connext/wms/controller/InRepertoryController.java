@@ -84,7 +84,7 @@ public class InRepertoryController {
 
     @PostMapping("/action/{status}")
     @ResponseBody
-    public boolean action(@RequestParam String list, @PathVariable String status) throws IOException {
+    public int action(@RequestParam String list, @PathVariable String status) throws IOException {
         List<Integer> ids = objectMapper.readValue(list, new TypeReference<List<Integer>>() {
         });
         return inRepertoryService.changeStatusAndPush(ids, status);
