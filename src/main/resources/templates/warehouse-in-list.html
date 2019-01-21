@@ -39,7 +39,12 @@
             $('#demoModal')
             var status = $('#getStatus').val()
             var ids = [];
-            $('input:checkbox:checked').each(function () {
+            var checked = $('input:checkbox:checked')
+            if (0 >= checked.length) {
+                alert("请选择您要操作的项目")
+                return;
+            }
+            checked.each(function () {
                 ids.push(parseInt($(this).val()));
             });
             $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function (res) {
