@@ -70,11 +70,11 @@
                    </thead>
                     <tr th:each="orod:${outRepoOrderDetail}">
                         <td th:text="${outRepoOrder.outRepoId}"></td>
-                        <td></td>
+                        <td th:text="${orod.goodsSku}"></td>
                         <td th:text="${orod.goodsName}"></td>
-                        <td></td>
-                        <td th:text="${orod.goodsNum}"></td>
-                        <td></td>
+                        <td th:text="${orod.price}"></td>
+                        <td th:text="${orod.num}"></td>
+                        <td th:text="${orod.price*orod.num}"></td>
                     </tr>
 
                 </table>

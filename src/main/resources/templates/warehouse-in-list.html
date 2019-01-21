@@ -39,7 +39,12 @@
             $('#demoModal')
             var status = $('#getStatus').val()
             var ids = [];
-            $('input:checkbox:checked').each(function () {
+            var checked = $('input:checkbox:checked')
+            if (0 >= checked.length) {
+                alert("请选择您要操作的项目")
+                return;
+            }
+            checked.each(function () {
                 ids.push(parseInt($(this).val()));
             });
             $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function (res) {
@@ -70,6 +75,7 @@
                 <option value="fail">收货失败</option>
                 <option value="over">超15天未收货</option>
             </select>
+            <input type="hidden" name="status" id="likeSth" th:value="${page.status}">
             <input type="text" name="like" placeholder="请输入单号">
             <button type="submit" class="btn btn-success">搜索</button>
         </form>
@@ -103,7 +109,12 @@
             <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
             <td>
                 <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情</button>
-                <button type="button" id="exception" th:name="${obj.id}" class="btn btn-danger btn-xs cad">异常</button>
+                <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"
+                        class="btn btn-danger btn-xs cad">异常
+                </button>
+                <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"
+                        class="btn btn-danger btn-xs cad" disabled>异常
+                </button>
             </td>
         </tr>
 
@@ -130,16 +141,25 @@
 <div class="footer-pager">
     <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
     <ul class="pagination">
-        <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
-        <!--<li class="active"><a href="#">1</a></li>
-        <li class="disabled"><a href="#">2</a></li>-->
+        <li>
+            <a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a>
+            <a th:if="${page.currPage}==1" th:href="'javascript:go('+${page.currPage}+');'">&laquo;</a>
+        </li>
+        <!--<li th:if="${page.currPage+2}>${page.totalPage}"><a th:if="${page.currPage-2}>0"-->
+                                                             <!--th:href="'javascript:go('+${page.currPage-2}+');'"-->
+                                                             <!--th:text="${page.currPage-2}"></a></li>-->
         <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
                th:text="${page.currPage-1}"></a></li>
-        <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+        <li class="active"><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
+        <li><a th:if="${page.currPage+1}<=${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
                th:text="${page.currPage+1}"></a></li>
+        <li th:if="${page.currPage}==1"><a th:if="${page.currPage+2}<=${page.totalPage}"
+                                           th:href="'javascript:go('+${page.currPage+1}+');'"
+                                           th:text="${page.currPage+2}"></a></li>
         <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
             &raquo;</a>
+            <a th:if="${page.currPage}==${page.totalPage}" th:href="'javascript:go('+${page.currPage}+');'">
+                &raquo;</a>
         </li>
     </ul>
 </div>

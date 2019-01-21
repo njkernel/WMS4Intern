@@ -55,24 +55,6 @@ $(document).ready(function () {
             check3 = 1;
         }
     });
-    //   监听电话号码变化
-    $('#phone1').on('input propertychange', function () {
-        phonenumber = $('#phone1').val();
-    });
-    //  离开焦点后发生变化  
-    //手机号码正则表达式
-    var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
-    $('#phone1').blur(function () {
-        //   手机号码的要求
-        if (!reg.test(phonenumber)) {
-            $('#phone-1').hide();
-            $('#phone-1-01').show();
-        } else {
-            $('#phone-1-01').hide();
-            $('#phone-1').show();
-            check4 = 1;
-        }
-    });
     //   监听验证码变化
     $('#code1').on('input propertychange', function () {
         code001 = $('#code1').val();
@@ -89,37 +71,6 @@ $(document).ready(function () {
             check5 = 1;
         }
     });
-    //获取动态的手机验证码
-    // var code1;
-    // $('.phone-code').click(function () {
-    //     code1 = "";
-    //     var codeLength = 5;
-    //     var checkCode = document.getElementById("checkCode");
-    //     var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-    //         'W', 'X', 'Y', 'Z');
-    //     for (var i = 0; i < codeLength; i++) {
-    //         var charIndex = Math.floor(Math.random() * 36);
-    //         code1 += random[charIndex];
-    //     }
-    //     alert(code1)
-    // });
-    //   监听手机验证码变化
-    // $('#messager1').on('input propertychange', function () {
-    //     code002 = $('#messager1').val();
-    // });
-    //  离开焦点后发生变化
-    // 检验手机的验证码
-    // $('#messager1').blur(function () {
-    //     if (code002 !== code1) {
-    //         $('#messager-01').hide();
-    //         $('#messager-01-01').show();
-    //     }
-    //     else {
-    //         $('#messager-01-01').hide();
-    //         $('#messager-01').show();
-    //         check6 = 1;
-    //     }
-    // });
     //    同意按钮的检验
     $('#checkOne').click(function () {
         check7 = 1;
@@ -190,6 +141,10 @@ function insert() {
             if (result.resultCode == 200) {
                 alert("SUCCESS");
             }
+            window.location.href = "/user/queryAll";
+        },
+        error: function (result) {
+            window.location.href = "/user/queryAll";
         }
     })
 }
@@ -232,6 +187,10 @@ function modify() {
             if (result.resultCode == 200) {
                 alert("SUCCESS");
             }
+            window.location.href = "/user/queryAll";
+        },
+        error: function (result) {
+            window.location.href = "/user/queryAll";
         }
     })
 }
@@ -259,6 +218,10 @@ function deleteUser() {
             if (result.resultCode == 200) {
                 alert("SUCCESS");
             }
+            window.location.href = "/user/queryAll";
+        },
+        error: function (result) {
+            window.location.href = "/user/queryAll";
         }
     })
 }
@@ -266,11 +229,13 @@ function deleteUser() {
 function checkPhone1() {
     var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
     if (!reg.test($("#telephone").val())) {
-        document.getElementById("user_phone").style.visibility = "visible";
+        document.getElementById("user_phone").style.display = "block";
         $("#user_phone").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
+        $("#save").attr("disabled", true);
         return false;
     } else {
-        document.getElementById("user_phone").style.visibility = "hidden";
+        document.getElementById("user_phone").style.display = "none";
+        $("#save").attr("disabled", false);
         return true;
     }
 }
@@ -278,11 +243,13 @@ function checkPhone1() {
 function checkPhone2() {
     var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
     if (!reg.test($("#lastname-1").val())) {
-        document.getElementById("user_phone1").style.visibility = "visible";
+        document.getElementById("user_phone1").style.display = "block";
         $("#user_phone1").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
+        $("#save1").attr("disabled", true);
         return false;
     } else {
-        document.getElementById("user_phone1").style.visibility = "hidden";
+        document.getElementById("user_phone1").style.display = "none";
+        $("#save1").attr("disabled", false);
         return true;
     }
 }
@@ -290,25 +257,64 @@ function checkPhone2() {
 function checkName1() {
     var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
     if (!reg.test($("#username").val())) {
-        document.getElementById("user_name1").style.visibility = "visible";
+        document.getElementById("user_name1").style.display = "block";
         $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误</font>");
+        $("#save").attr("disabled", true);
         return false;
     } else {
-        document.getElementById("user_name1").style.visibility = "hidden";
+        document.getElementById("user_name1").style.display = "none";
+        $("#save").attr("disabled", false);
         return true;
     }
 }
 
-function checksel1() {
-    if (checkName1() == false) {
+function checkName2() {
+    var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
+    if (!reg.test($("#firstname-1").val())) {
+        document.getElementById("user_name2").style.display = "block";
+        $("#user_name2").html("<font style='color:red' size='1px'>用户名格式错误</font>");
+        $("#save1").attr("disabled", true);
         return false;
     } else {
-
+        document.getElementById("user_name1").style.display = "none";
+        $("#save1").attr("disabled", false);
+        return true;
     }
-    if (checkPhone1() == false) {
+}
+
+function checkPass1() {
+    var reg = /^\w{6,18}$/;
+    if (!reg.test($("#password").val())) {
+        document.getElementById("password1").style.display = "block";
+        $("#password1").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
+        $("#save").attr("disabled", true);
         return false;
     } else {
+        document.getElementById("password1").style.display = "none";
+        $("#save").attr("disabled", false);
+        return true;
+    }
+}
+
+function checkPass2() {
+    var reg = /^\w{6,18}$/;
+    if (!reg.test($("#userpassword").val())) {
+        document.getElementById("password2").style.display = "block";
+        $("#password2").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
+        $("#save1").attr("disabled", true);
+        return false;
+    } else {
+        document.getElementById("password2").style.display = "none";
+        $("#save1").attr("disabled", false);
+        return true;
     }
 }
 
 
+//表单重新编号
+$(function () {
+    var len = $('table tr').length;
+    for (var i = 1; i < len; i++) {
+        $('table tr:eq(' + i + ') td:first').text(i);
+    }
+});

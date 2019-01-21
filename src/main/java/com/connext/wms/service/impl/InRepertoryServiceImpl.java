@@ -60,12 +60,11 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public List<InRepertory> findAllLike(String like) {
-        InRepertoryExample example = new InRepertoryExample();
-        example.or().andInRepoIdLike(like);
-        example.or().andOrderIdLike(like);
-        example.or().andExpressIdLike(like);
-        return inRepertoryMapper.selectByExample(example);
+    public List<InRepertory> findAllLike(String status, String like) {
+        if ("".equals(status)) {
+            status = null;
+        }
+        return inRepertoryMapper.findAllLike(status, like);
     }
 
     @Override
@@ -143,12 +142,27 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status) {
+    public boolean changeStatusAndPush(List<Integer> ids, String status) {
+        ids.forEach(
+                u -> {
+                    changeInRepertoryStatus(u, status);
+                    pushInRepertoryState(findOne(u));
+                }
+        );
+        return true;
+    }
+
+
+    @Override
+    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status, String like) {
         Page pageModel = new Page();
         pageModel.setCurrPage(page);
         pageModel.setData(inRepertoryList);
         InRepertoryExample example = new InRepertoryExample();
         long count;
+        if ("%%".equals(like)) {
+            count = inRepertoryList.size();
+        }
         if ("".equals(status)) {
             count = inRepertoryMapper.countByExample(example);
         } else {

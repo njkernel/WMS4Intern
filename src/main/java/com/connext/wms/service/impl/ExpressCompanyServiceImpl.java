@@ -5,6 +5,7 @@ import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.entity.ExpressCompanyExample;
 import com.connext.wms.service.ExpressCompanyService;
 import com.connext.wms.util.Page;
+import com.connext.wms.util.PageSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,22 +30,27 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
 
 
     //分页查询所有快递公司信息
+    @Override
     public Page selectByPage(Integer currPage){
         List<ExpressCompany> list = expressCompanyMapper.selectByPage((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
         ExpressCompanyExample example = new ExpressCompanyExample();
-        return byPage(currPage,list,example);
+        /*return byPage(currPage,list,example);*/
+        return PageSet.setPage(list,currPage,expressCompanyMapper.countByExample(example));
     }
 
     //根据关键字查询
+    @Override
     public Page selectByKey(Integer currPage,String key){
         String newKey = "%" + key + "%";
         List<ExpressCompany> list = expressCompanyMapper.selectByKey((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE,newKey);
         ExpressCompanyExample example = new ExpressCompanyExample();
         example.or().andExpressCompanyNameLike(newKey);
-        return byPage(currPage,list,example);
+        /*return byPage(currPage,list,example);*/
+        return PageSet.setPage(list,currPage,expressCompanyMapper.countByExample(example));
     }
 
     //添加快递公司信息
+    @Override
     public Integer insert(String expressCompanyName,String contactWay){
         //1:该公司已存在；2：该公司不存在，可以添加；3：手机号格式错误;4:公司名称超出范围;5:信息不完整
         if(expressCompanyName.isEmpty()||contactWay.isEmpty()){
@@ -76,6 +82,7 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
     }
 
     //删除快递公司信息
+    @Override
     public void deleteByExample(String expressCompanyName){
         ExpressCompanyExample example = new ExpressCompanyExample();
         example.createCriteria().andExpressCompanyNameEqualTo(expressCompanyName);
@@ -83,6 +90,7 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
     }
 
     //修改快递公司信息
+    @Override
     public Integer updateByExample(String newName,String expressCompanyName,String contactWay){
          //1:新公司已存在;2：新公司不存在，可以添加；3：手机号格式错误;4:公司名称超出范围;
          //5：信息不完整;6：原公司不存在
@@ -121,13 +129,4 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
         return flag;
     }
 
-    //分页实现方法
-    private Page byPage(Integer currPage,List<ExpressCompany> list,ExpressCompanyExample example){
-        Page page = new Page();
-        page.setTotalCount((long)expressCompanyMapper.countByExample(example));
-        page.setCurrPage(currPage);
-        page.init();
-        page.setData(list);
-        return page;
-    }
 }
