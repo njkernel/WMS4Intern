@@ -143,6 +143,18 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
+    public boolean ChangeStatusAndPush(List<Integer> ids, String status) {
+        ids.forEach(
+                u -> {
+                    changeInRepertoryStatus(u, status);
+                    pushInRepertoryState(findOne(u));
+                }
+        );
+        return true;
+    }
+
+
+    @Override
     public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status) {
         Page pageModel = new Page();
         pageModel.setCurrPage(page);

@@ -41,7 +41,7 @@ public class InRepertoryController {
     @GetMapping("detail/{id}")
     public String detail(@PathVariable Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
-        return "/specific/in-detail";
+        return "specific/in-detail";
     }
 
     @GetMapping("page/{page}")
@@ -71,7 +71,7 @@ public class InRepertoryController {
     @GetMapping("/action/exception")
     public String detailAction(@RequestParam Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
-        return "/specific/in-detail-action";
+        return "specific/in-detail-action";
     }
 
     @PostMapping("/action/exception")
@@ -87,12 +87,6 @@ public class InRepertoryController {
     public boolean action(@RequestParam String list, @PathVariable String status) throws IOException {
         List<Integer> ids = objectMapper.readValue(list, new TypeReference<List<Integer>>() {
         });
-        ids.forEach(
-                u -> {
-                    inRepertoryService.changeInRepertoryStatus(u, status);
-                    inRepertoryService.pushInRepertoryState(inRepertoryService.findOne(u));
-                }
-        );
-        return true;
+        return inRepertoryService.ChangeStatusAndPush(ids,status);
     }
 }
