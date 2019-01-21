@@ -228,6 +228,22 @@ function deleteUser() {
 
 function checkPhone1() {
     var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
+    $.ajax({
+        url: "/user/delete",
+        type: "post",
+        dataType: "json",
+        data: user,
+        success: function (result) {
+            console.log(result);
+            if (result.resultCode == 200) {
+                alert("SUCCESS");
+            }
+            window.location.href = "/user/queryAll";
+        },
+        error: function (result) {
+            window.location.href = "/user/queryAll";
+        }
+    })
     if (!reg.test($("#telephone").val())) {
         document.getElementById("user_phone").style.display = "block";
         $("#user_phone").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");

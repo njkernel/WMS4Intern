@@ -21,7 +21,7 @@
     <select id="selectUserByPhone" resultType="com.connext.wms.entity.User">
         select *
         from t_user
-        where telephone = #{Phone}
+        where telephone = #{telephone}
     </select>
 
     <!--注册验证-->
@@ -30,6 +30,13 @@
         from
             t_user
         where telephone = #{telephone}
+    </select>
+
+    <select id="checkRegisterByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(username)
+        from
+            t_user
+        where username = #{username}
     </select>
 
     <!--用户登录-->
