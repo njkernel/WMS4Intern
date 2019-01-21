@@ -57,8 +57,8 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
     }
 
     @Override
-    public Page showRealRepertory(Integer currPage,String key) {
-        List<RealRepertoryVO> list = goodsRepertoryMapper.getRealVO(key,(currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
+    public Page showRealRepertory(Integer currPage, String key) {
+        List<RealRepertoryVO> list = goodsRepertoryMapper.getRealVO(key, (currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
 
         return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCount());
     }
@@ -104,8 +104,9 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
     public Page getGoodsRepertoryByGoodsName(String key) {
         String newKey = "%" + key + "%";
         Integer currPage = 1;
-        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertoryByGoodsName((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE, newKey);
+        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertoryByGoodsName(0, goodsRepertoryMapper.getCountByKey(newKey), newKey);
         List<RealRepertoryVO> list = summaryRealRepertory(goodsRepertoryList);
+        // System.out.println(goodsRepertoryMapper.getCountByKey(newKey));
         return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCountByKey(newKey));
     }
 }

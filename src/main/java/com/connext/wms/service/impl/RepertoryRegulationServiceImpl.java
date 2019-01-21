@@ -70,13 +70,16 @@ public class RepertoryRegulationServiceImpl implements RepertoryRegulationServic
      */
     @Override
     public String replenishRepertory(Integer id, Integer num) {
-        if (num <= 0) {
+        try {
+            if (num <= 0 || num == null) {
+                return "error";
+            } else {
+                repertoryRegulationMapper.addAvailableRepertory(id, num);
+                repertoryRegulationMapper.addTotalRepertory(id, num);
+                return "success";
+            }
+        } catch (Exception e) {
             return "error";
-        } else {
-            repertoryRegulationMapper.addAvailableRepertory(id, num);
-            repertoryRegulationMapper.addTotalRepertory(id, num);
-            return "success";
         }
-
     }
 }
