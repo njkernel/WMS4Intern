@@ -13,6 +13,7 @@ public interface UserService {
     void register(User user);
     //注册验证
     int checkRegister(@Param("telephone") String telephone);
+    int checkRegisterByName(@Param("username") String username);
     //登陆
     User login(Map<String, String> map);
     //删除用户
