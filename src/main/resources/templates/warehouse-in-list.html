@@ -75,6 +75,7 @@
                 <option value="fail">收货失败</option>
                 <option value="over">超15天未收货</option>
             </select>
+            <input type="hidden" name="status" id="likeSth" th:value="${page.status}">
             <input type="text" name="like" placeholder="请输入单号">
             <button type="submit" class="btn btn-success">搜索</button>
         </form>

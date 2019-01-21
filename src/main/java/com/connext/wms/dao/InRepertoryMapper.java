@@ -73,8 +73,10 @@ public interface InRepertoryMapper {
 
   /**
    * select all by page by conditions
+   *
    * @param start start
    * @param size page size
+   * @param status status
    * @return a page of InRepertory
    */
   List<InRepertory> getPageBy(String status,int start,int size);
@@ -114,4 +116,12 @@ public interface InRepertoryMapper {
    * @return affect rows
    */
   int updateByPrimaryKey(InRepertory record);
+
+  /**
+   * find all InRepertory like sth
+   * @param status InRepertory status
+   * @param like search pattern
+   * @return list of InRepertory
+   */
+  List<InRepertory> findAllLike(String status,String like);
 }
