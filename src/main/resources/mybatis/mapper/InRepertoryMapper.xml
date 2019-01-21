@@ -78,9 +78,19 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, in_repo_id, order_id, channel_id, express_id, express_company, in_repo_status, 
-    sync_status, receiving_repo, create_time, reviser, revise_time
-  </sql>
+        id,
+        in_repo_id,
+        order_id,
+        channel_id,
+        express_id,
+        express_company,
+        in_repo_status,
+        sync_status,
+        receiving_repo,
+        create_time,
+        reviser,
+        revise_time
+    </sql>
     <select id="selectByExample" parameterType="com.connext.wms.entity.InRepertoryExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
@@ -101,6 +111,17 @@
         from t_in_repo
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="findAllLike" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_in_repo
+        where
+        <if test="status!=null">
+            in_repo_status=#{status} and
+        </if>
+        (in_repo_id like #{like} OR order_id like #{like} or express_id like #{like})
+        order by revise_time DESC
+    </select>
     <select id="getPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -116,9 +137,10 @@
         limit #{start},#{size}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_in_repo
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+        delete
+        from t_in_repo
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
     <delete id="deleteByExample" parameterType="com.connext.wms.entity.InRepertoryExample">
         delete from t_in_repo
         <if test="_parameter != null">
@@ -126,17 +148,15 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.connext.wms.entity.InRepertory">
-    insert into t_in_repo (id, in_repo_id, order_id, 
-      channel_id, express_id, express_company, 
-      in_repo_status, sync_status, receiving_repo, 
-      create_time, reviser, revise_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{inRepoId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
-      #{channelId,jdbcType=VARCHAR}, #{expressId,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, 
-      #{inRepoStatus,jdbcType=VARCHAR}, #{syncStatus,jdbcType=VARCHAR}, #{receivingRepo,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=VARCHAR}, #{reviseTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
+        insert into t_in_repo (id, in_repo_id, order_id,
+                               channel_id, express_id, express_company,
+                               in_repo_status, sync_status, receiving_repo,
+                               create_time, reviser, revise_time)
+        values (#{id,jdbcType=INTEGER}, #{inRepoId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR},
+                #{channelId,jdbcType=VARCHAR}, #{expressId,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR},
+                #{inRepoStatus,jdbcType=VARCHAR}, #{syncStatus,jdbcType=VARCHAR}, #{receivingRepo,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=VARCHAR}, #{reviseTime,jdbcType=TIMESTAMP})
+    </insert>
     <insert id="insertSelective" parameterType="com.connext.wms.entity.InRepertory">
         insert into t_in_repo
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -324,18 +344,18 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.InRepertory">
-    update t_in_repo
-    set in_repo_id = #{inRepoId,jdbcType=VARCHAR},
-      order_id = #{orderId,jdbcType=VARCHAR},
-      channel_id = #{channelId,jdbcType=VARCHAR},
-      express_id = #{expressId,jdbcType=VARCHAR},
-      express_company = #{expressCompany,jdbcType=VARCHAR},
-      in_repo_status = #{inRepoStatus,jdbcType=VARCHAR},
-      sync_status = #{syncStatus,jdbcType=VARCHAR},
-      receiving_repo = #{receivingRepo,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=VARCHAR},
-      revise_time = #{reviseTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update t_in_repo
+        set in_repo_id      = #{inRepoId,jdbcType=VARCHAR},
+            order_id        = #{orderId,jdbcType=VARCHAR},
+            channel_id      = #{channelId,jdbcType=VARCHAR},
+            express_id      = #{expressId,jdbcType=VARCHAR},
+            express_company = #{expressCompany,jdbcType=VARCHAR},
+            in_repo_status  = #{inRepoStatus,jdbcType=VARCHAR},
+            sync_status     = #{syncStatus,jdbcType=VARCHAR},
+            receiving_repo  = #{receivingRepo,jdbcType=VARCHAR},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            reviser         = #{reviser,jdbcType=VARCHAR},
+            revise_time     = #{reviseTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

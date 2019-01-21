@@ -1,20 +1,17 @@
 package com.connext.wms.controller;
 
+import com.connext.wms.aop.OutRepoAnnotation;
 import com.connext.wms.entity.OutRepertory;
-import com.connext.wms.entity.OutRepertoryExample;
 import com.connext.wms.service.OutRepertoryService;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +28,7 @@ public class OutRepertoryController {
 
     //分页查询展示出库单
     @RequestMapping("/outRepoOrderList")
+    @OutRepoAnnotation(value = "出库单列表初始化时分页查看")
     public String outRepoOrderList(Integer currPage, Model model) {
         model.addAttribute("page", this.outRepertoryService.outRepoOrderList(currPage));
         return "out_repertory";
@@ -38,14 +36,17 @@ public class OutRepertoryController {
 
     //模糊查询
     @RequestMapping("/unclearSelect")
+    @OutRepoAnnotation(value = "模糊查询即关键字搜索")
     public String unclearSelect(Integer currPage, String selectStatus, String outRepoOrderId, Model model) {
-        System.out.println(selectStatus+"^^^^^^"+outRepoOrderId);
+        model.addAttribute("selectStatus",selectStatus);
+        model.addAttribute("outRepoOrderId",outRepoOrderId);
         model.addAttribute("page", this.outRepertoryService.unclearSelect(outRepoOrderId, selectStatus, currPage));
         return "out_repertory";
     }
 
 
     //更改出库单状态
+    @OutRepoAnnotation(value = "检货包装发货操作")
     @RequestMapping("/updateOutRepoOrderStatus")
     @ResponseBody
     public String updateOutRepoOrderStatus(String status, String outRepoOrderIdArray) throws IOException {
@@ -64,10 +65,11 @@ public class OutRepertoryController {
 
     //查看出库单商品详情
     @RequestMapping("/toOutRepoDetail")
+    @OutRepoAnnotation(value = "查看出库单详情")
     public String outRepoOrderDetail(String outRepoOrderId, Model model) {
         model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
         model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
-        return "/specific/outstock";
+        return "specific/outstock";
     }
 
     //发货时可以修改出库单的信息（添加出库单信息）,这是跳转到更新页面
@@ -75,11 +77,12 @@ public class OutRepertoryController {
     public String preUpdateOutRepoOrder(String outRepoOrderId, Model model) {
         model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
         model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
-        return "/specific/outstock_update";
+        return "specific/outstock_update";
     }
 
     //发货时更新发货信息
     @RequestMapping("/updateOutRepoOrder")
+    @OutRepoAnnotation(value = "填写发货信息")
     public String updateOutRepoOrder(OutRepertory outRepertory) {
         this.outRepertoryService.updateOutRepoOrder(outRepertory);
         return "redirect:/outRepoOrderController/outRepoOrderList";
@@ -89,6 +92,7 @@ public class OutRepertoryController {
     //WMS批量取消出库单
     @RequestMapping("/cancelOutRepoOrder")
     @ResponseBody
+    @OutRepoAnnotation(value = "取消操作")
     public String cancelOutRepoOrder(String outRepoOrderNoArray) throws IOException {
         try {
             JavaType javaType = objectMapper.getTypeFactory().constructParametricType(

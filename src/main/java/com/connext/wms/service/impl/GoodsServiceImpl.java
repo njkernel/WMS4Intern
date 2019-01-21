@@ -87,19 +87,24 @@ public class GoodsServiceImpl implements GoodsService {
         /*
         根据商品id更改商品名称和价格
          */
-        if (goods.getGoodsPrice() <= 0) {
-            return "error";
-        } else {
-            goodsMapper.updateByPrimaryKeySelective(goods);
+        if (!goods.getGoodsName().isEmpty() && goods.getGoodsName() != null && !goods.getGoodsName().equals("")) {
+            if (goods.getGoodsPrice() == null || goods.getGoodsPrice() <= 0) {
+                return "error";
+            } else {
+                goodsMapper.updateByPrimaryKeySelective(goods);
             /*
         调用同步接口传给OMS
          */
-            List<GoodsDTO> goodsDTOSList = new ArrayList<>();
-            String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
-            goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
-            // System.out.println(goodsDTOSList.toString());
-            restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
-            return "success";
+                List<GoodsDTO> goodsDTOSList = new ArrayList<>();
+                String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
+                goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
+                // System.out.println(goodsDTOSList.toString());
+                restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+                return "success";
+            }
+
+        } else {
+            return "fail";
         }
 
     }
@@ -114,6 +119,6 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsExample example = new GoodsExample();
         example.or().andGoodsNameLike(newKey);
         List<Goods> list = goodsMapper.selectByExample(example);
-        return PageSet.setPage(list,currPage,(long) goodsMapper.countByExample(example));
+        return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
     }
 }

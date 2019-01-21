@@ -164,9 +164,9 @@ public class xmxTest {
     @Test
     public void sendStatus(){
         OutRepertory outRepertory=new OutRepertory();
-        outRepertory.setOutRepoStatus("have checked");
+        outRepertory.setOutRepoStatus("waittingShipped");
         List<Integer> list=new ArrayList<Integer>();
-        list.add(41);
+        list.add(10);
         String[] shippingInfo=null;
         //String[] shippingInfo={"shentong","1234324",new Date().toString(),new Date().toString()};
         this.outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
@@ -226,6 +226,11 @@ public class xmxTest {
             outRepertoryDetail.getGoodsId();
             this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(),outRepertoryDetail.getGoodsNum());
         }
+    }
+
+    @Test
+    public void getOneGoodDetail(){
+        System.out.println(this.outRepertoryService.selectListByOutRepoId(354));
     }
 
 }

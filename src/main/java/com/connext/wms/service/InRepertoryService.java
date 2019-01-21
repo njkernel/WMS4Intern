@@ -24,10 +24,11 @@ public interface InRepertoryService {
     /**
      * find some InRepertory
      *
+     * @param status status
      * @param value like
      * @return list of InRepertory
      */
-    List<InRepertory> findAllLike(String value);
+    List<InRepertory> findAllLike(String status,String value);
 
 
     /**
@@ -90,13 +91,23 @@ public interface InRepertoryService {
     boolean pushInRepertoryState(InRepertory inRepertory);
 
     /**
+     * change the  Status of InRepertory which not complete and pushInRepertoryState
+     *
+     * @param ids the inRepertory id
+     * @param status  InRepertory status
+     * @return true or false
+     */
+    boolean changeStatusAndPush(List<Integer> ids,String status);
+
+    /**
      * get a page
      * @param page page number
      * @param inRepertoryList the list want to display
      * @param status inRepertory status
+     * @param like  like
      * @return a template
      */
-    Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status);
+    Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status,String like);
 
     /**
      * Receiving goods abnormal

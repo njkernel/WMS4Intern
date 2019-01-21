@@ -21,6 +21,7 @@ import java.util.List;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.service.GoodsRepertoryService;
 import com.connext.wms.service.InRepertoryService;
+import com.connext.wms.util.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,14 @@ import org.springframework.stereotype.Component;
 public class ScheduledTasks {
     private final InRepertoryService inRepertoryService;
     private final GoodsRepertoryService goodsRepertoryService;
+    private final Constant constant;
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
-    public ScheduledTasks(InRepertoryService inRepertoryService, GoodsRepertoryService goodsRepertoryService) {
+    public ScheduledTasks(InRepertoryService inRepertoryService, GoodsRepertoryService goodsRepertoryService, Constant constant) {
         this.inRepertoryService = inRepertoryService;
         this.goodsRepertoryService = goodsRepertoryService;
+        this.constant = constant;
     }
 
     /**
@@ -51,8 +54,11 @@ public class ScheduledTasks {
     public void checkInRepertoryExpired() {
         List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll());
         //推送通知
-        log.info("收货超时"  + inRepertories.toString());
-        inRepertories.forEach(inRepertoryService::pushInRepertoryState);
+        log.info("收货超时" + inRepertories.toString());
+        inRepertories.forEach(u -> {
+            inRepertoryService.changeInRepertoryStatus(u.getId(), constant.OVER_STATUS);
+            inRepertoryService.pushInRepertoryState(u);
+        });
     }
 
     /**
