@@ -2,6 +2,7 @@ package com.connext.wms.dao;
 
 import com.connext.wms.api.dto.CodeTotalStockDTO;
 import com.connext.wms.entity.GoodsRepertory;
+import com.connext.wms.entity.RealRepertoryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -57,5 +58,9 @@ public interface GoodsRepertoryMapper {
      */
     GoodsRepertory getIdByGoodsId(Integer goodsId);
 
-
+    /**
+     * 查看实时库存
+     * @return
+     */
+    List<RealRepertoryVO> getRealVO(String key,Integer start,Integer size);
 }

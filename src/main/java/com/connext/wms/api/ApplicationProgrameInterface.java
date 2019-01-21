@@ -50,7 +50,7 @@ public class ApplicationProgrameInterface {
     ) throws IOException {
         try {
             //先将出库单插入出库单表
-            OutRepertory outRepertory = new OutRepertory(outRepoId, orderId, channelId, receiverName, receiverAddress, expressCompany,new Date(),"waittingChecked");
+            OutRepertory outRepertory = new OutRepertory(outRepoId, orderId, channelId, receiverName, receiverAddress, expressCompany,new Date(),"waittingChecked","notSync");
             this.outRepertoryService.addOutRepoOrder(outRepertory);
 
             List<OutRepoOrderDetailDto> outRepoOrderDetailDtoList = objectMapper.readValue(outRepoOrderDetailDto,
@@ -107,6 +107,7 @@ public class ApplicationProgrameInterface {
             List<String> integerList = Arrays.asList(str);
             OutRepertory outRepertory=new OutRepertory();
             outRepertory.setOutRepoStatus("haveCanceled");
+            outRepertory.setSyncStatus("haveSync");
             this.outRepertoryService.omsUpdateOutRepoOrderStatus(outRepertory, integerList);
         } catch (Exception e) {
             return "201";

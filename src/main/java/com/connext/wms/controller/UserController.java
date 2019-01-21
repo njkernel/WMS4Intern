@@ -39,37 +39,36 @@ public class UserController {
         return "register";
     }
 
-    //注册
+    //新增
     @RequestMapping("/register")
     public String register(@RequestParam String telephone, @RequestParam String username, @RequestParam String password, @RequestParam String role, HttpServletRequest req) {
         User user = new User();
         password = new BCryptPasswordEncoder().encode(req.getParameter("password"));
         boolean validation = (telephone.equals("") || telephone == null) || (username.equals("") || username == null) || (password.equals("") || password == null);
-        if (!validation) {
+        int count = userService.checkRegister(telephone);
+        if (!validation && count == 0) {
             user.setTelephone(telephone);
             user.setPassword(password);
             user.setUsername(username);
             user.setRole(role);
             userService.register(user);
         }
-
-        return "specific/administrator";
+        return "redirect:/user/queryAll";
     }
 
     //验证注册
     @RequestMapping("/checkReg")
     @ResponseBody
-    public Map<String, Object> checkReg(@RequestParam(value = "phone", required = false) String phone, HttpServletRequest request) {
+    public Map<String, Object> checkReg(@RequestParam(value = "telephone", required = false) String telephone, HttpServletRequest request) {
         final Map<String, Object> result = new HashMap<>();
-        request.getSession().setAttribute("phone", phone);
-        if (userService.checkRegister(phone) == 0) {
+        request.getSession().setAttribute("telephone", telephone);
+        if (userService.checkRegister(telephone) == 0) {
             result.put("flag", true);
         } else {
             result.put("flag", false);
         }
         return result;
     }
-
 
     //用户列表
     @RequestMapping("/queryAll")
@@ -83,16 +82,16 @@ public class UserController {
     @RequestMapping("/delete")
     public String delete(Integer id) {
         this.userService.delete(id);
-        return "specific/administrator";
+        return "redirect:/user/queryAll";
     }
 
     //按序号修改
     @RequestMapping("/updateById")
-    public String updateById(int id, Model model) {
+    @ResponseBody
+    public User updateById(int id, Model model) {
         User user = this.userService.updateById(id);
         model.addAttribute("user1", user);
-        model.addAttribute("userlist", userService.updateById(id));
-        return "redirect:specific/administrator";
+        return user;
     }
 
     //按序号获取用户信息
@@ -112,7 +111,7 @@ public class UserController {
         user.setTelephone(telephone);
         user.setRole(role);
         userService.updateByPrimaryKey(user);
-        return "specific/administrator";
+        return "redirect:/user/queryAll";
     }
 
     //忘记密码

@@ -39,7 +39,8 @@ public class OutRepertoryController {
     //模糊查询
     @RequestMapping("/unclearSelect")
     public String unclearSelect(Integer currPage, String selectStatus, String outRepoOrderId, Model model) {
-        System.out.println(selectStatus+"^^^^^^"+outRepoOrderId);
+        model.addAttribute("selectStatus",selectStatus);
+        model.addAttribute("outRepoOrderId",outRepoOrderId);
         model.addAttribute("page", this.outRepertoryService.unclearSelect(outRepoOrderId, selectStatus, currPage));
         return "out_repertory";
     }

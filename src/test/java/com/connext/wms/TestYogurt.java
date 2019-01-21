@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.connext.wms.util.Page.PAGE_SIZE;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestYogurt {
@@ -63,13 +65,15 @@ public class TestYogurt {
             System.out.println(repertoryRegulation.getGoodsRepertoryId());
             System.out.println(repertoryRegulation.getLockedResult());
         }*/
-        goodsRepertoryService.updateGoodsRepertory();
+        //goodsRepertoryService.updateGoodsRepertory();
         //System.out.println();
+        repertoryRegulationService.deliveryGoodsBeforeDelivery(9,40);
     }
 
     @Test
     public void getOne() {
         //System.out.println(goodsMapper.selectByExample(new GoodsExample()));
+        System.out.println(new Double(Math.ceil(15/(double)PAGE_SIZE)).longValue());
         //System.out.println(goodsService.getGoodsBySku("00001"));
         //List<CodeTotalStockDTO> list = goodsRepertoryMapper.getCodeTotalStockDTO();
         //System.out.println(list.toString());
@@ -90,6 +94,7 @@ public class TestYogurt {
             System.out.println(realTotalRepertory);
         }*/
       //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
+
        // repertoryRegulationService.replenishRepertory(2,100);
         //List<RealRepertoryVO> list = goodsRepertoryService.getGoodsRepertoryByGoodsName(0,2,"王中王");
        // System.out.println(list.toString());
