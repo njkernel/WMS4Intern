@@ -9,6 +9,7 @@ import com.connext.wms.util.Constant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -38,13 +39,13 @@ public class InRepertoryApi {
     }
 
     @PostMapping("/inRepertoryOrder")
-    public void inRepertoryOrder(@RequestParam String tokens,
-                                 @RequestParam String inRepoId,
-                                 @RequestParam String orderId,
-                                 @RequestParam String channelId,
-                                 @RequestParam String expressId,
-                                 @RequestParam String expressCompany,
-                                 @RequestParam String detailDTOS
+    public HttpStatus inRepertoryOrder(@RequestParam String tokens,
+                                       @RequestParam String inRepoId,
+                                       @RequestParam String orderId,
+                                       @RequestParam String channelId,
+                                       @RequestParam String expressId,
+                                       @RequestParam String expressCompany,
+                                       @RequestParam String detailDTOS
     ) throws IOException {
         //token校验
         if (Objects.equals(AES.AESDncode(constant.TOKENS, tokens), inRepoId) && validData(inRepoId, orderId, channelId, expressId, expressCompany, detailDTOS)) {
@@ -53,8 +54,9 @@ public class InRepertoryApi {
             Date nowTime = new Date();
             InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, constant.INIT_STATUS, constant.SYNC_FALSE_STATES, constant.RECEIVING_REPERTORY, nowTime, constant.REVISER, nowTime, entityAndDto.toEntity(inRepoId, repertoryDetailDTOS));
             inRepertoryService.initInRepertory(inRepertory);
+            return HttpStatus.valueOf(201);
         } else {
-            throw new IOException("tokens error or data illegal");
+            return HttpStatus.valueOf(400);
         }
     }
 
