@@ -47,16 +47,16 @@ public class GoodsRepertoryController {
     public String replenishRepertory(Integer id, Integer num) {
         return repertoryRegulationService.replenishRepertory(id, num);
     }
-/*
-    *//**根据输入的商品名称的关键字查询商品库存
+
+  /*  *根据输入的商品名称的关键字查询商品库存
      *
      * @param model
      * @param key
-     * @return
-     *//*
+     * @return*/
+
     @RequestMapping("/findByKey")
     public String findByKey(Model model, String key) {
         model.addAttribute("page", goodsRepertoryService.getGoodsRepertoryByGoodsName(key));
         return "wareHouse";
-    }*/
+    }
 }

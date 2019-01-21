@@ -47,7 +47,7 @@ public class InRepertoryController {
     @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model, @RequestParam(required = false, defaultValue = "") String status) {
         List<InRepertory> inRepertories = inRepertoryService.findPage(page, SIZE);
-        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status);
+        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status, "");
         model.addAttribute("page", pageModel);
         return "warehouse-in-list";
     }
@@ -55,15 +55,15 @@ public class InRepertoryController {
     @GetMapping("page/{page}/{status}")
     public String listBy(@PathVariable Integer page, @PathVariable String status, Model model) {
         List<InRepertory> inRepertories = inRepertoryService.findPageBy(status, page, SIZE);
-        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status);
+        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status, "");
         model.addAttribute("page", pageModel);
         return "warehouse-in-list";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam String like, Model model) {
+    public String search(@RequestParam String like, @RequestParam String status, Model model) {
         String likeSth = "%" + like + "%";
-        Page pageModel = inRepertoryService.getPageInfo(0, inRepertoryService.findAllLike(likeSth), "");
+        Page pageModel = inRepertoryService.getPageInfo(0, inRepertoryService.findAllLike(status, likeSth), status, like);
         model.addAttribute("page", pageModel);
         return "warehouse-in-list";
     }
@@ -87,6 +87,6 @@ public class InRepertoryController {
     public boolean action(@RequestParam String list, @PathVariable String status) throws IOException {
         List<Integer> ids = objectMapper.readValue(list, new TypeReference<List<Integer>>() {
         });
-        return inRepertoryService.ChangeStatusAndPush(ids,status);
+        return inRepertoryService.changeStatusAndPush(ids, status);
     }
 }
