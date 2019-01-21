@@ -31,23 +31,17 @@ public class GoodsController {
         return "goods-list";
     }
 
-    /*    //修改商品信息
-        @RequestMapping("/update")
-        public Integer toUpdate(Integer id,String goodsName,String goodsPrice1){
-            Float goodsPrice = Float.valueOf(goodsPrice1);
-            goodsService.updateGoodsNameAndPrice(id,goodsName,goodsPrice);
-            return 1;
-        }*/
+
     //修改商品信息
     @ResponseBody
     @RequestMapping("/update")
     public String updateGoods(Goods goods) {
-        goodsService.updateGoodsNameAndPrice(goods);
-        return "success";
+        return goodsService.updateGoodsNameAndPrice(goods);
     }
 
     /**
      * 显示编辑页面的商品信息
+     *
      * @param id
      * @return
      */

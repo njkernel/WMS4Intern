@@ -199,3 +199,5 @@ classes/production/wms/com/connext/wms/entity/OutRepertoryDetailExample$Criterio
 classes/production/wms/com/connext/wms/entity/OutRepertoryDetailExample$Criteria.class
 classes/production/wms/com/connext/wms/entity/OutRepertoryDetail.class
 classes/production/wms/com/connext/wms/entity/OutRepertory.class
+src/main/java/META-INF/MANIFEST.MF
+classes/artifacts/wms_jar/wms.jar

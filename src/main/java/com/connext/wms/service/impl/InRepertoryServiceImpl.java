@@ -1,5 +1,6 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.dto.InputFeedback;
 import com.connext.wms.api.dto.InputFeedbackDetail;
 import com.connext.wms.api.util.EntityAndDto;
@@ -18,7 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +33,6 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class InRepertoryServiceImpl implements InRepertoryService {
     private final InRepertoryMapper inRepertoryMapper;
     private final InRepertoryDetailMapper inRepertoryDetailMapper;
@@ -86,6 +90,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void initInRepertory(InRepertory inRepertory) {
         inRepertoryMapper.insert(inRepertory);
         inRepertory.getRepertoryDetails().forEach(inRepertoryDetailMapper::insert);
@@ -104,6 +109,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean changeInRepertoryStatus(Integer id, String status) {
         InRepertory inRepertory = new InRepertory();
         inRepertory.setId(id);
@@ -116,7 +122,6 @@ public class InRepertoryServiceImpl implements InRepertoryService {
                 InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
                 detailExample.or().andInRepoIdEqualTo(id);
                 inRepertoryDetailMapper.selectByExample(detailExample).forEach(
-                        //增加库存
                         u -> regulationService.rejectedGoodsSuccess(u.getGoodsId(), u.getGoodsNum())
                 );
             }
@@ -138,6 +143,18 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
+    public boolean ChangeStatusAndPush(List<Integer> ids, String status) {
+        ids.forEach(
+                u -> {
+                    changeInRepertoryStatus(u, status);
+                    pushInRepertoryState(findOne(u));
+                }
+        );
+        return true;
+    }
+
+
+    @Override
     public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status) {
         Page pageModel = new Page();
         pageModel.setCurrPage(page);
@@ -156,13 +173,25 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         return pageModel;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS) {
+        boolean result = changeInRepertoryStatus(id, constant.SUCCESS_STATUS);
+        if (result) {
+            InRepertory inRepertory = findOne(id);
+            inRepertory.setRepertoryDetails(entityAndDto.idToEntity(id, inRepertoryDetailDTOS));
+            return pushInRepertoryState(inRepertory);
+        }
+        return false;
+    }
+
     /**
      * if InRepertory over 15 days then return true
      *
      * @param inRepertory InRepertory
      * @return boolean
      */
-    boolean isExpired(InRepertory inRepertory) {
+    private boolean isExpired(InRepertory inRepertory) {
         double days = 1.296E9;
         long creatTime = inRepertory.getCreateTime().getTime();
         long now = System.currentTimeMillis();

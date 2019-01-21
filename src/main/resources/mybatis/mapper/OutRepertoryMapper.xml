@@ -389,7 +389,7 @@
     </select>
 
     <update id="updateWhenCancel" parameterType="com.connext.wms.entity.OutRepertory">
-        update t_out_repo set out_repo_status=#{outRepoStatus},revise_time=#{reviseTime} where out_repo_id=#{outRepoId}
+        update t_out_repo set out_repo_status=#{outRepoStatus},sync_status=#{syncStatus},revise_time=#{reviseTime} where out_repo_id=#{outRepoId}
     </update>
 
     <select id="unclearSelect" parameterType="java.lang.String" resultMap="BaseResultMap">

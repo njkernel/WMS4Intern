@@ -1,8 +1,7 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.OutRepertory;
-import com.connext.wms.entity.OutRepertoryDetail;
-import com.connext.wms.entity.OutRepertoryExample;
+import com.connext.wms.entity.OutRepoItem;
 import com.connext.wms.util.Page;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public interface OutRepertoryService {
     //根据出库单id查询某一条出库单信息
     OutRepertory selectByOutRepoId(Integer outRepoId);
     //根据出库单id查询某一出库单详情
-    List<OutRepertoryDetail> selectListByOutRepoId(Integer outRepoId);
+    List<OutRepoItem> selectListByOutRepoId(Integer outRepoId);
     //发货时需要更新出库单信息（填写发货信息）
     void updateOutRepoOrder(OutRepertory outRepertory);
 }

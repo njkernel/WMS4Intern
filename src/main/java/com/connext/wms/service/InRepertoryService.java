@@ -1,5 +1,6 @@
 package com.connext.wms.service;
 
+import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.util.Page;
 import org.springframework.ui.Model;
@@ -89,6 +90,15 @@ public interface InRepertoryService {
     boolean pushInRepertoryState(InRepertory inRepertory);
 
     /**
+     * change the  Status of InRepertory which not complete and pushInRepertoryState
+     *
+     * @param ids the inRepertory id
+     * @param status  InRepertory status
+     * @return true or false
+     */
+    boolean ChangeStatusAndPush(List<Integer> ids,String status);
+
+    /**
      * get a page
      * @param page page number
      * @param inRepertoryList the list want to display
@@ -96,4 +106,10 @@ public interface InRepertoryService {
      * @return a template
      */
     Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status);
+
+    /**
+     * Receiving goods abnormal
+     * @return true or false
+     */
+    boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS);
 }
