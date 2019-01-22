@@ -19,13 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: Marcus
@@ -142,14 +139,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public boolean changeStatusAndPush(List<Integer> ids, String status) {
+    public int changeStatusAndPush(List<Integer> ids, String status) {
+        AtomicInteger rows = new AtomicInteger();
         ids.forEach(
                 u -> {
-                    changeInRepertoryStatus(u, status);
+                    if (changeInRepertoryStatus(u, status)) {
+                        rows.addAndGet(1);
+                    }
                     pushInRepertoryState(findOne(u));
                 }
         );
-        return true;
+        return rows.get();
     }
 
 

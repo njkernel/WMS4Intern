@@ -95,9 +95,9 @@ public interface InRepertoryService {
      *
      * @param ids the inRepertory id
      * @param status  InRepertory status
-     * @return true or false
+     * @return effected rows
      */
-    boolean changeStatusAndPush(List<Integer> ids,String status);
+    int changeStatusAndPush(List<Integer> ids,String status);
 
     /**
      * get a page
