@@ -39,8 +39,9 @@
                 <div class="title-content2">
                     <div class="title-content1-top1">收货人：<input disabled="disabled" style="display:inline-block"
                                                                 th:value="${outRepoOrder.receiverName}"></div>
-                    <div class="title-content1-top2">快递公司：<input name="expressCompany"
-                                                                 style="display:inline-block" th:value="${outRepoOrder.expressCompany}"></div>
+                    <div class="title-content1-top2">快递公司：<select>
+                                                                  <option></option>
+                                                              </select></div>
                     <div class="title-content1-top3">快递单号：<input name="expressId"
                                                                  style="display:inline-block" /></div>
                 </div>
@@ -91,8 +92,6 @@
     $(function(){
         $("#close").click(function (){
             parent.closeIFrame();
-            //parent.window.location.replace("/outRepoOrderController/outRepoOrderList");
-            parent.document.getElementById("saveFlag").value=2;
         })
     });
 </script>

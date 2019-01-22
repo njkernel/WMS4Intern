@@ -12,18 +12,11 @@
     <link rel="stylesheet" th:href="@{/css/search.css}">
     <script type="text/javascript">
 
-
-
         $(document).ready(function(){
             var saveStatusFromBack = document.getElementById("saveStatusFromBack").value;
             $("#selectStatus").val(saveStatusFromBack);
-            document.getElementById("saveFlag").value=1;
-            //console.log("jiance");
-            //window.location.replace("/outRepoOrderController/outRepoOrderList");
-            /*$.getJSON("../outRepoOrderController/outRepoOrderList",{"currPage":1},function(data){
-                console.log("getJSON")
-            })*/
         });
+
 
         $(function () {
             $('.action').on("click", function () {
@@ -68,6 +61,7 @@
         function closeIFrame() {
             $('#popup').css("display", "none");
             $('#mask_shadow').css("display", "none");
+            window.location.reload("/outRepoOrderController/outRepoOrderList");
         }
     </script>
 </head>
@@ -82,7 +76,6 @@
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
     <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
     <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
-    <input id="saveFlag" name="saveFlag" />
     <div class="search-box">
         <form th:action="@{/outRepoOrderController/unclearSelect}" method="post" name="frm">
             <select name="selectStatus" id="selectStatus">
