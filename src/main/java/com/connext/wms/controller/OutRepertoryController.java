@@ -46,6 +46,13 @@ public class OutRepertoryController {
         return "out_repertory";
     }
 
+    //跳转值加载界面
+    @RequestMapping("/toLoad")
+    public String toLoad(Integer currPage,Model model){
+        model.addAttribute("currPage",currPage);
+        return "loading_data";
+    }
+
 
     //更改出库单状态
     @OutRepoAnnotation(value = "检货包装发货操作")
@@ -79,7 +86,7 @@ public class OutRepertoryController {
     public String preUpdateOutRepoOrder(String outRepoOrderId, Model model) {
         model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
         model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
-        //model.addAttribute("expressCompany",this.);
+        model.addAttribute("expressCompany",this.expressCompanyService.findAll());
         return "specific/outstock_update";
     }
 
