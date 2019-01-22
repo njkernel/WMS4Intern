@@ -116,7 +116,7 @@
         <include refid="Base_Column_List"/>
         from t_in_repo
         where
-        <if test="status!=null">
+        <if test="status!='null'">
             in_repo_status=#{status} and
         </if>
        (in_repo_id like #{like} OR order_id like #{like} or express_id like #{like})

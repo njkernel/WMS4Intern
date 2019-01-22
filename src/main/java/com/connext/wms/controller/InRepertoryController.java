@@ -57,9 +57,6 @@ public class InRepertoryController {
 
     @GetMapping("/search/{status}/{page}")
     public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false,defaultValue = "") String like, Model model) {
-        if ("".equals(status) || "null".equals(status)) {
-            status = null;
-        }
         model.addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE));
         model.addAttribute("status", status);
         model.addAttribute("like",like);
