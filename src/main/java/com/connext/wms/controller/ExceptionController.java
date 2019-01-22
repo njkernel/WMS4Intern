@@ -44,6 +44,7 @@ public class ExceptionController {
     @RequestMapping("/toDetail")
     public String toDetail(Integer id, Model model){
         model.addAttribute("detail",exceptionService.selectByPrimaryKey(id));
+        model.addAttribute("good",outRepertoryService.selectListByOutRepoId(id));
         return "abnormal-order";
     }
 

@@ -1,5 +1,6 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.ExceptionService;
@@ -19,6 +20,8 @@ import java.util.List;
 public class ExceptionServiceImpl implements ExceptionService {
     @Autowired
     private OutRepertoryMapper outRepertoryMapper;
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     //分页查询所有异常订单信息返回列表
     @Override

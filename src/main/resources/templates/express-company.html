@@ -32,8 +32,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!--/*@thymesVar id="express" type="java.util.ArrayList"*/-->
-                <!--/*@thymesVar id="obj" type="com.connext.wms.entity.ExpressCompany"*/-->
                 <tr th:each="obj,i:${page.getData()}">
                     <td th:text="${i.count}"></td>
                     <td id="expressCompanyName" th:text="${obj.expressCompanyName}"></td>
