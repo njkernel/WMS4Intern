@@ -2,6 +2,7 @@ package com.connext.wms.service.impl;
 
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
+import com.connext.wms.entity.InRepertory;
 import com.connext.wms.entity.InRepertoryDetail;
 import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.entity.InRepertoryExample;
@@ -13,56 +14,49 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Author: Marcus
- * @Date: 2019/1/7 15:46
+ * @Date: 2019/1/22 11:01
  * @Version 1.0
  */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@Transactional
 class InRepertoryServiceImplTest {
+    @Autowired
+    InRepertoryMapper inRepertoryMapper;
+
     @Autowired
     InRepertoryService inRepertoryService;
     @Autowired
-    Constant constant;
-    @Autowired
-    InRepertoryMapper inRepertoryMapper;
-    @Autowired
     InRepertoryDetailMapper inRepertoryDetailMapper;
+    @Autowired
+    Constant constant;
 
     @Test
-    public void deleteInRe() {
+    void init() {
         inRepertoryMapper.deleteByExample(new InRepertoryExample());
         inRepertoryDetailMapper.deleteByExample(new InRepertoryDetailExample());
     }
 
     @Test
-    public void init() {
-        inRepertoryService.findAll().forEach(
-                u -> {
-                    u.setSyncStatus(constant.SYNC_FALSE_STATES);
-                    u.setInRepoStatus(constant.INIT_STATUS);
-                    inRepertoryMapper.updateByPrimaryKeySelective(u);
-                }
-        );
+    void initState() {
+        InRepertory inRepertory=new InRepertory();
+        inRepertory.setInRepoStatus(constant.INIT_STATUS);
+        inRepertory.setSyncStatus(constant.SYNC_FALSE_STATES);
+        inRepertoryMapper.updateByExampleSelective(inRepertory,new InRepertoryExample());
     }
 
     @Test
-    void findAll() {
+    void findAllWait() {
     }
 
     @Test
     void findAllLike() {
+        inRepertoryService.findAllLike(null,"3",1,10).getList().forEach(System.out::println);
     }
 
     @Test
@@ -71,12 +65,10 @@ class InRepertoryServiceImplTest {
 
     @Test
     void findPageBy() {
-        inRepertoryService.findPageBy("success", 0, 5).forEach(System.out::println);
     }
 
     @Test
     void findOne() {
-        inRepertoryService.findAll().forEach(System.out::println);
     }
 
     @Test
@@ -89,8 +81,6 @@ class InRepertoryServiceImplTest {
 
     @Test
     void changeInRepertoryStatus() {
-        inRepertoryService.changeInRepertoryStatus(47, "success");
-        inRepertoryService.changeInRepertoryStatus(50, "success");
     }
 
     @Test
@@ -98,6 +88,10 @@ class InRepertoryServiceImplTest {
     }
 
     @Test
-    void isExpired() {
+    void changeStatusAndPush() {
+    }
+
+    @Test
+    void actionException() {
     }
 }

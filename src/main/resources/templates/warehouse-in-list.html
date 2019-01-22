@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/pager.css">
     <script src="/js/pager.js"></script>
-    <script type="text/javascript">
+    <script th:inline="javascript">
         $(function () {
             $('.action').on("click", function () {
                 $('#demoModal .modal-header .modal-title').empty().text($(this).text() + "操作");
@@ -23,7 +23,11 @@
         });
 
         function list(status) {
-            window.location.replace("/inRepertory/page/1/" + status)
+            if (status == 'all') {
+                window.location.replace("/inRepertory/page/1")
+            } else {
+                window.location.replace("/inRepertory/page/" + status + "/1")
+            }
         }
 
         $(document).ready(function () {
@@ -56,129 +60,134 @@
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow"></div>
-<div class="btn-div">
-    <button type="button" class="btn btn-primary" onclick="window.location.reload('/inRepertory/page/1')">刷新</button>
-    <button type="button" value="success" id="success" class="btn btn-primary action">确认收货</button>
-    <button type="button" value="fail" id="fail" class="btn btn-primary action">收货失败</button>
-    <div class="search-box">
-        <form action="/inRepertory/search" method="get">
-            <select name="" id="" onchange="list(this.options[this.selectedIndex].value)">
-                <option value="" th:if="${page.status}==''"></option>
-                <option value="" th:if="${page.status}!=''" th:text="#{''+${page.status}}"></option>
-                <option value="">全部</option>
-                <option value="wait">等待收货</option>
-                <option value="success">收货成功</option>
-                <option value="fail">收货失败</option>
-                <option value="over">超15天未收货</option>
-            </select>
-            <input type="hidden" name="status" id="likeSth" th:value="${page.status}">
-            <input type="text" name="like" placeholder="请输入单号">
-            <button type="submit" class="btn btn-success">搜索</button>
-        </form>
+<!--/*@thymesVar id="status" type="java.lang.String"*/-->
+<!--/*@thymesVar id="page" type="com.github.pagehelper.PageInfo"*/-->
+<td><!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
+    <div class="btn-div">
+        <button type="button" class="btn btn-primary" onclick="window.location.reload('${url}+/1')">刷新
+        </button>
+        <button type="button" value="success" id="success" class="btn btn-primary action">确认收货</button>
+        <button type="button" value="fail" id="fail" class="btn btn-primary action">收货失败</button>
+        <div class="search-box">
+            <form th:action="|/inRepertory/search/${status}/1|" method="get">
+                <select name="" id="" onchange="list(this.options[this.selectedIndex].value)">
+                    <option value="" th:if="${status}==null"></option>
+                    <option value="" th:if="${status}!=null" th:text="#{''+${status}}"></option>
+                    <option value="all">全部</option>
+                    <option value="wait">等待收货</option>
+                    <option value="success">收货成功</option>
+                    <option value="fail">收货失败</option>
+                    <option value="over">超15天未收货</option>
+                </select>
+                <input type="text" name="like" placeholder="请输入单号">
+                <button type="submit" class="btn btn-success">搜索</button>
+            </form>
+        </div>
     </div>
-</div>
-<div>
-    <table class="table table-condensed">
-        <thead>
-        <tr>
-            <!--<th>序号</th>-->
-            <th>批量</th>
-            <th>入库单号</th>
-            <th>快递公司</th>
-            <th>快递单号</th>
-            <th>入库单状态</th>
-            <th>同步状态</th>
-            <th>收货仓库</th>
-            <th>创建时间</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="obj,i:${page.getData()}">
-            <td><input type="checkbox" th:value="${obj.id}"></td>
-            <td th:text="${obj.inRepoId}"></td>
-            <td th:text="${obj.expressCompany}"></td>
-            <td th:text="${obj.expressId}"></td>
-            <td th:text="#{''+${obj.inRepoStatus}}"></td>
-            <td th:text="#{''+${obj.syncStatus}}"></td>
-            <td th:text="#{''+${obj.receivingRepo}}"></td>
-            <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
-            <td>
-                <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情</button>
-                <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"
-                        class="btn btn-danger btn-xs cad">异常
-                </button>
-                <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"
-                        class="btn btn-danger btn-xs cad" disabled>异常
-                </button>
-            </td>
-        </tr>
+    <div>
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <!--<th>序号</th>-->
+                <th>批量</th>
+                <th>入库单号</th>
+                <th>快递公司</th>
+                <th>快递单号</th>
+                <th>入库单状态</th>
+                <th>同步状态</th>
+                <th>收货仓库</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="obj,i:${page.getList()}">
+                <td>
+                    <input type="checkbox" th:value="${obj.id}">
+                </td>
+                <td th:text="${obj.inRepoId}"></td>
+                <td th:text="${obj.expressCompany}"></td>
+                <td th:text="${obj.expressId}"></td>
+                <td th:text="#{''+${obj.inRepoStatus}}"></td>
+                <td th:text="#{''+${obj.syncStatus}}"></td>
+                <td th:text="#{''+${obj.receivingRepo}}"></td>
+                <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
+                <td>
+                    <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情</button>
+                    <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"
+                            class="btn btn-danger btn-xs cad">异常
+                    </button>
+                    <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"
+                            class="btn btn-danger btn-xs cad" disabled>异常
+                    </button>
+                </td>
+            </tr>
 
-        </tbody>
-    </table>
-</div>
-<!-- 弹出框 -->
-<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">title</h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <input type="hidden" value="" id="getStatus">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="action()">提交更改</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<div class="footer-pager">
-    <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
-    <ul class="pagination">
-        <li>
-            <a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a>
-            <a th:if="${page.currPage}==1" th:href="'javascript:go('+${page.currPage}+');'">&laquo;</a>
-        </li>
-        <!--<li th:if="${page.currPage+2}>${page.totalPage}"><a th:if="${page.currPage-2}>0"-->
-        <!--th:href="'javascript:go('+${page.currPage-2}+');'"-->
-        <!--th:text="${page.currPage-2}"></a></li>-->
-        <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
-               th:text="${page.currPage-1}"></a></li>
-        <li class="active"><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-        <li><a th:if="${page.currPage+1}<=${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
-               th:text="${page.currPage+1}"></a></li>
-        <li th:if="${page.currPage}==1"><a th:if="${page.currPage+2}<=${page.totalPage}"
-                                           th:href="'javascript:go('+${page.currPage+1}+');'"
-                                           th:text="${page.currPage+2}"></a></li>
-        <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
-            &raquo;</a>
-            <a th:if="${page.currPage}==${page.totalPage}" th:href="'javascript:go('+${page.currPage}+');'">
+            </tbody>
+        </table>
+    </div>
+    <!-- 弹出框 -->
+    <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">title</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <input type="hidden" value="" id="getStatus">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="action()">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="footer-pager">
+        <span>共<span th:text="${page.pages}"></span>页，当前第<span th:text="${page.pageNum}"></span>页</span>
+        <ul class="pagination">
+            <li>
+                <a th:href="'javascript:go('+${page.pageNum+(-1)}+');'">&laquo;</a>
+            </li>
+            <li><a th:if="${page.pageNum}>1" th:href="'javascript:go('+${page.pageNum+(-1)}+');'"
+                   th:text="${page.pageNum}-1"></a></li>
+            <li class="active"><a th:href="'javascript:go('+${page.pageNum}+');'" th:text="${page.pageNum}"></a></li>
+            <li><a th:if="${page.pageNum+1}<=${page.pages}" th:href="'javascript:go('+${page.pageNum+1}+');'"
+                   th:text="${page.pageNum+1}"></a></li>
+            <li th:if="${page.pageNum}==1"><a th:if="${page.pageNum+2}<=${page.pages}"
+                                              th:href="'javascript:go('+${page.pageNum+1}+');'"
+                                              th:text="${page.pageNum+2}"></a></li>
+            <li><a th:href="'javascript:go('+${page.pageNum+1}+');'">
                 &raquo;</a>
-        </li>
-    </ul>
-</div>
-<script th:inline="javascript">
-    function go(currPage) {
-        window.location.replace("/inRepertory/page/" + currPage + "/" + [[${page.status}]])
-    }
-</script>
-<div id="popup" class="popup">
-    <div class="title">
-        <p>入库单详情</p>
-        <span></span>
-        <span>x</span>
+            </li>
+        </ul>
     </div>
-    <div class="cont">
-        <iframe src="" scrolling="auto" id="iframeId" style="width:100%;height:100%;border:0px;"></iframe>
+    <script th:inline="javascript">
+        function go(currPage) {
+            var like
+            if ([[${like}]] != null && [[${like}]] != 'null') {
+                window.location.replace([[${url}]] + "/" + currPage + "?like=" + [[${like}]])
+            } else {
+                window.location.replace([[${url}]] + "/" + currPage)
+            }
+        }
+    </script>
+    <div id="popup" class="popup">
+        <div class="title">
+            <p>入库单详情</p>
+            <span></span>
+            <span>x</span>
+        </div>
+        <div class="cont">
+            <iframe src="" scrolling="auto" id="iframeId" style="width:100%;height:100%;border:0px;"></iframe>
+        </div>
     </div>
-</div>
-<script>
-    $(function () {
-        $('#popup').popup();
-        // $("body").css("overflow-y", "hidden");
-    });
-</script>
+    <script>
+        $(function () {
+            $('#popup').popup();
+            // $("body").css("overflow-y", "hidden");
+        });
+    </script>
 </body>
 </html>

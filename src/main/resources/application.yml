@@ -9,5 +9,12 @@ spring:
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
+pagehelper:
+  reasonable: true
+  offsetAsPageNum: true
+  pageSizeZero: true
+  rowBoundsWithCount: true
+
+
 
 
