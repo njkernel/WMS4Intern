@@ -24,12 +24,6 @@ function checkConfirmed() {
     })
 }
 
-//分页跳转
-function go(currPage) {
-    $('#currPage').val(currPage)
-    document.frm.submit();
-}
-
 $('.table tbody tr td input').click(function () {
     $(this).addClass('checkbox-style');
 })

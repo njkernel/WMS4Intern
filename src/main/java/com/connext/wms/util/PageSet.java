@@ -9,6 +9,9 @@ import java.util.List;
 public class PageSet {
     public static Page setPage(List list, Integer currPage, Long lon) {
         Page page = new Page();
+        if (currPage == null) {
+            currPage = 1;
+        }
         page.setTotalCount(lon);
         page.setCurrPage(currPage);
         page.init();

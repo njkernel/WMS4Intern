@@ -48,6 +48,6 @@ public interface GoodsService {
     /**
      * 根据关键字查询相关的商品信息
      */
-    Page selectByExample(String key);
+    Page selectByExample(String key,Integer currPage);
 
 }
