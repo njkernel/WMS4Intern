@@ -22,8 +22,6 @@ import java.io.PrintWriter;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
@@ -31,13 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(new BCryptPasswordEncoder());
-    }
-
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-        tokenRepository.setDataSource(dataSource);
-        return tokenRepository;
     }
 
     @Override
@@ -74,13 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/user/outLogin")
                 .logoutSuccessUrl("/user/login")
-                //.permitAll()
                 .and()
                 .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                // 失效时间
-                .tokenValiditySeconds(60*30)
-                .userDetailsService(userDetailService)
                 .and()
                 .headers().frameOptions().disable();
     }
