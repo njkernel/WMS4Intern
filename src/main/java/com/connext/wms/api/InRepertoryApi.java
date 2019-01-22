@@ -61,10 +61,6 @@ public class InRepertoryApi {
     }
 
     private boolean validData(String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String detailDTOS) {
-        if (inRepoId.length() <= 50 && orderId.length() <= 50 && channelId.length() <= 50 && expressId.length() <= 50 && expressCompany.length() <= 30) {
-            return true;
-        }else {
-            return false;
-        }
+        return inRepoId.length() <= 50 && orderId.length() <= 50 && channelId.length() <= 50 && expressId.length() <= 50 && expressCompany.length() <= 30;
     }
 }

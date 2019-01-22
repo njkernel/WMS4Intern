@@ -63,23 +63,6 @@ public interface InRepertoryMapper {
   List<InRepertory> selectByExample(InRepertoryExample example);
 
 
-  /**
-   * select all by page
-   * @param start start
-   * @param size page size
-   * @return a page of InRepertory
-   */
-  List<InRepertory> getPage(int start,int size);
-
-  /**
-   * select all by page by conditions
-   *
-   * @param start start
-   * @param size page size
-   * @param status status
-   * @return a page of InRepertory
-   */
-  List<InRepertory> getPageBy(String status,int start,int size);
 
   /** selectByPrimaryKey
    * @param id InRepertoryExample's id
