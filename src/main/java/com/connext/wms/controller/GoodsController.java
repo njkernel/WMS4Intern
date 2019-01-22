@@ -26,8 +26,9 @@ public class GoodsController {
 
     //关键字查询
     @RequestMapping("/byKey")
-    public String Key(Model model, String key) {
-        model.addAttribute("page", goodsService.selectByExample(key));
+    public String Key(Model model, String key,Integer currPage) {
+        model.addAttribute("key",key);
+        model.addAttribute("page", goodsService.selectByExample(key,currPage));
         return "goods-list";
     }
 
