@@ -93,6 +93,11 @@ public class WmsApplicationTests {
     System.out.println(exceptionService.selectByExampleToKey(1,newKey));
   }
 
+  @Test
+  public void test4(){
+    System.out.println(expressCompanyService.findAll());
+  }
+
 
 }
 

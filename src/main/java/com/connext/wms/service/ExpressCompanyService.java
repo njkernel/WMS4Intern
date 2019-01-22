@@ -1,6 +1,9 @@
 package com.connext.wms.service;
 
+import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.util.Page;
+
+import java.util.List;
 
 
 /**
@@ -26,5 +29,8 @@ public interface ExpressCompanyService {
 
     //修改快递公司信息
     Integer updateByExample(String newName,String expressCompanyName,String contactWay);
+
+    //提供给出库模块使用的查询所有快递公司的方法
+    List<ExpressCompany> findAll();
 
 }
