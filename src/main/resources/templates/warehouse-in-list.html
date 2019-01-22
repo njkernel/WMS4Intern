@@ -48,11 +48,7 @@
                 ids.push(parseInt($(this).val()));
             });
             $.post("/inRepertory/action/" + status, {list: JSON.stringify(ids)}, function (res) {
-                if (res) {
-                    alert("操作成功")
-                } else {
-                    alert("操作失败")
-                }
+                alert("您的操作已提交：成功" + res + "条，失败：" + (ids.length - res) + "条")
                 window.location.reload()
             })
         }
@@ -146,8 +142,8 @@
             <a th:if="${page.currPage}==1" th:href="'javascript:go('+${page.currPage}+');'">&laquo;</a>
         </li>
         <!--<li th:if="${page.currPage+2}>${page.totalPage}"><a th:if="${page.currPage-2}>0"-->
-                                                             <!--th:href="'javascript:go('+${page.currPage-2}+');'"-->
-                                                             <!--th:text="${page.currPage-2}"></a></li>-->
+        <!--th:href="'javascript:go('+${page.currPage-2}+');'"-->
+        <!--th:text="${page.currPage-2}"></a></li>-->
         <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
                th:text="${page.currPage-1}"></a></li>
         <li class="active"><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
