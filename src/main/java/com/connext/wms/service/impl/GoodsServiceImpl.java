@@ -96,11 +96,11 @@ public class GoodsServiceImpl implements GoodsService {
               /*
                 调用同步接口传给OMS
               */
-                /*List<GoodsDTO> goodsDTOSList = new ArrayList<>();
+                List<GoodsDTO> goodsDTOSList = new ArrayList<>();
                 String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
                 goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
                 // System.out.println(goodsDTOSList.toString());
-                restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);*/
+                restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
                 return "success";
             }
 
