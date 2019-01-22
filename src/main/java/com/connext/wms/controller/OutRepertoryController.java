@@ -2,6 +2,7 @@ package com.connext.wms.controller;
 
 import com.connext.wms.aop.OutRepoAnnotation;
 import com.connext.wms.entity.OutRepertory;
+import com.connext.wms.service.ExpressCompanyService;
 import com.connext.wms.service.OutRepertoryService;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +26,8 @@ public class OutRepertoryController {
     private ObjectMapper objectMapper;
     @Resource
     private OutRepertoryService outRepertoryService;
-
+    @Resource
+    private ExpressCompanyService expressCompanyService;
     //分页查询展示出库单
     @RequestMapping("/outRepoOrderList")
     @OutRepoAnnotation(value = "出库单列表初始化时分页查看")
@@ -42,6 +44,13 @@ public class OutRepertoryController {
         model.addAttribute("outRepoOrderId",outRepoOrderId);
         model.addAttribute("page", this.outRepertoryService.unclearSelect(outRepoOrderId, selectStatus, currPage));
         return "out_repertory";
+    }
+
+    //跳转值加载界面
+    @RequestMapping("/toLoad")
+    public String toLoad(Integer currPage,Model model){
+        model.addAttribute("currPage",currPage);
+        return "loading_data";
     }
 
 
@@ -77,6 +86,7 @@ public class OutRepertoryController {
     public String preUpdateOutRepoOrder(String outRepoOrderId, Model model) {
         model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
         model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
+        model.addAttribute("expressCompany",this.expressCompanyService.findAll());
         return "specific/outstock_update";
     }
 
