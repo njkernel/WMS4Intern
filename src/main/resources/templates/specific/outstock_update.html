@@ -91,6 +91,8 @@
     $(function(){
         $("#close").click(function (){
             parent.closeIFrame();
+            //parent.window.location.replace("/outRepoOrderController/outRepoOrderList");
+            parent.document.getElementById("saveFlag").value=2;
         })
     });
 </script>
