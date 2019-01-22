@@ -26,7 +26,7 @@ import java.util.*;
 public class InRepertoryController {
     private final InRepertoryService inRepertoryService;
     private final ObjectMapper objectMapper;
-    private final int SIZE = 10;
+    private final int SIZE = 2;
 
     @Autowired
     public InRepertoryController(InRepertoryService inRepertoryService, ObjectMapper objectMapper, EntityAndDto entityAndDto, Constant constant) {
@@ -56,12 +56,13 @@ public class InRepertoryController {
     }
 
     @GetMapping("/search/{status}/{page}")
-    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam String like, Model model) {
+    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false,defaultValue = "") String like, Model model) {
         if ("".equals(status) || "null".equals(status)) {
             status = null;
         }
         model.addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE));
         model.addAttribute("status", status);
+        model.addAttribute("like",like);
         model.addAttribute("url", "/inRepertory/search/" + status);
         return "warehouse-in-list";
     }

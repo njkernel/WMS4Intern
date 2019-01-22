@@ -165,8 +165,12 @@
     </div>
     <script th:inline="javascript">
         function go(currPage) {
-            var uri = [[${url}]] + "/" + currPage
-            window.location.replace(uri)
+            var like
+            if ([[${like}]] != null && [[${like}]] != 'null') {
+                window.location.replace([[${url}]] + "/" + currPage + "?like=" + [[${like}]])
+            } else {
+                window.location.replace([[${url}]] + "/" + currPage)
+            }
         }
     </script>
     <div id="popup" class="popup">
