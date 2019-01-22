@@ -26,7 +26,7 @@ import java.util.*;
 public class InRepertoryController {
     private final InRepertoryService inRepertoryService;
     private final ObjectMapper objectMapper;
-    private final int SIZE = 2;
+    private final int SIZE = 10;
 
     @Autowired
     public InRepertoryController(InRepertoryService inRepertoryService, ObjectMapper objectMapper, EntityAndDto entityAndDto, Constant constant) {
