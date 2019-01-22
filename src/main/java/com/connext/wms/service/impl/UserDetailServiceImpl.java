@@ -21,8 +21,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userService.findByUserName(userName);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userService.findByUserName(username);
         if (user == null)
             throw new UsernameNotFoundException("账户未注册！");
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();

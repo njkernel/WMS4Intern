@@ -16,7 +16,7 @@ function checkConfirmed() {
                 alert("补货成功！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
             } else if (data == "error") {
-                alert("补货失败，补货数量不能为空！");
+                alert("补货失败，补货数量应为正整数！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
             }
 

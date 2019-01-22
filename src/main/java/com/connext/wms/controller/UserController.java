@@ -41,19 +41,23 @@ public class UserController {
 
     //新增
     @RequestMapping("/register")
+    @ResponseBody
     public String register(@RequestParam String telephone, @RequestParam String username, @RequestParam String password, @RequestParam String role, HttpServletRequest req) {
         User user = new User();
-        password = new BCryptPasswordEncoder().encode(req.getParameter("password"));
         boolean validation = (telephone.equals("") || telephone == null) || (username.equals("") || username == null) || (password.equals("") || password == null);
-        int count = userService.checkRegister(telephone);
-        if (!validation && count == 0) {
+        int count1 = userService.checkRegister(telephone);
+        int count2 = userService.checkRegisterByName(username);
+        System.out.println(count1);
+        if (!validation && count1 == 0 && count2 == 0) {
             user.setTelephone(telephone);
             user.setPassword(password);
             user.setUsername(username);
             user.setRole(role);
             userService.register(user);
+            return "success";
+        }else {
+            return "false";
         }
-        return "redirect:/user/queryAll";
     }
 
     //验证注册
@@ -107,7 +111,11 @@ public class UserController {
         final User user = new User();
         user.setId(id);
         user.setUsername(username);
-        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        if (password.length() < 20) {
+            user.setPassword(new BCryptPasswordEncoder().encode(password));
+        } else {
+            user.setPassword(password);
+        }
         user.setTelephone(telephone);
         user.setRole(role);
         userService.updateByPrimaryKey(user);

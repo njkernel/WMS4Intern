@@ -30,6 +30,7 @@ public interface UserMapper {
     void forget(User user);
     //重复注册
     int checkRegister(@Param("telephone") String telephone);
+    int checkRegisterByName(@Param("username") String username);
 
     long countByExample(UserExample example);
 
