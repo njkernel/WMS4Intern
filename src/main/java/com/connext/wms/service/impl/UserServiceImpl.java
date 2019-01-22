@@ -33,6 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int checkRegisterByName(String username) {
+        return userMapper.checkRegisterByName(username);
+    }
+
+    @Override
     public User login(Map<String, String> map) {
         // TODO Auto-generated method stub
         return userMapper.login(map);

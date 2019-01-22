@@ -395,9 +395,11 @@
     <select id="unclearSelect" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from t_out_repo
         <where>
+            out_repo_status not in('shipException')
             <if test="outRepoOrderId!=null and outRepoOrderId!='' ">and out_repo_id like concat('%',#{outRepoOrderId},'%')</if>
             <if test="selectStatus!=null and selectStatus!='' ">and out_repo_status=#{selectStatus}</if>
         </where>
+        ORDER BY create_time ASC,revise_time DESC
     </select>
 
     <select id="countByConditions" parameterType="java.lang.String" resultType="java.lang.Long">

@@ -63,7 +63,6 @@ class InRepertoryServiceImplTest {
 
     @Test
     void findAllLike() {
-        inRepertoryService.findAllLike("%1511001%").forEach(System.out::println);
     }
 
     @Test

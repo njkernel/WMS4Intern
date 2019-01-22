@@ -19,13 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: Marcus
@@ -60,12 +57,11 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public List<InRepertory> findAllLike(String like) {
-        InRepertoryExample example = new InRepertoryExample();
-        example.or().andInRepoIdLike(like);
-        example.or().andOrderIdLike(like);
-        example.or().andExpressIdLike(like);
-        return inRepertoryMapper.selectByExample(example);
+    public List<InRepertory> findAllLike(String status, String like) {
+        if ("".equals(status)) {
+            status = null;
+        }
+        return inRepertoryMapper.findAllLike(status, like);
     }
 
     @Override
@@ -143,24 +139,30 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public boolean ChangeStatusAndPush(List<Integer> ids, String status) {
+    public int changeStatusAndPush(List<Integer> ids, String status) {
+        AtomicInteger rows = new AtomicInteger();
         ids.forEach(
                 u -> {
-                    changeInRepertoryStatus(u, status);
+                    if (changeInRepertoryStatus(u, status)) {
+                        rows.addAndGet(1);
+                    }
                     pushInRepertoryState(findOne(u));
                 }
         );
-        return true;
+        return rows.get();
     }
 
 
     @Override
-    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status) {
+    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status, String like) {
         Page pageModel = new Page();
         pageModel.setCurrPage(page);
         pageModel.setData(inRepertoryList);
         InRepertoryExample example = new InRepertoryExample();
         long count;
+        if ("%%".equals(like)) {
+            count = inRepertoryList.size();
+        }
         if ("".equals(status)) {
             count = inRepertoryMapper.countByExample(example);
         } else {
