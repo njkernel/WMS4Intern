@@ -34,7 +34,6 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
     public Page selectByPage(Integer currPage){
         List<ExpressCompany> list = expressCompanyMapper.selectByPage((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
         ExpressCompanyExample example = new ExpressCompanyExample();
-        /*return byPage(currPage,list,example);*/
         return PageSet.setPage(list,currPage,expressCompanyMapper.countByExample(example));
     }
 
@@ -45,7 +44,6 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
         List<ExpressCompany> list = expressCompanyMapper.selectByKey((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE,newKey);
         ExpressCompanyExample example = new ExpressCompanyExample();
         example.or().andExpressCompanyNameLike(newKey);
-        /*return byPage(currPage,list,example);*/
         return PageSet.setPage(list,currPage,expressCompanyMapper.countByExample(example));
     }
 
@@ -89,6 +87,13 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
         expressCompanyMapper.deleteByExample(example);
     }
 
+    //提供给出库模块使用的查询所有快递公司的方法
+    @Override
+    public List<ExpressCompany> findAll(){
+        ExpressCompanyExample example = new ExpressCompanyExample();
+        return expressCompanyMapper.selectByExample(example);
+    }
+
     //修改快递公司信息
     @Override
     public Integer updateByExample(String newName,String expressCompanyName,String contactWay){
@@ -128,5 +133,7 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
         }
         return flag;
     }
+
+
 
 }
