@@ -13,19 +13,17 @@ import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
 import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
-import com.connext.wms.util.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: Marcus
@@ -53,30 +51,34 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public List<InRepertory> findAll() {
+    public List<InRepertory> findAllWait() {
         InRepertoryExample example = new InRepertoryExample();
-        example.setOrderByClause("'revise_time' DESC");
-        return inRepertoryMapper.selectByExample(new InRepertoryExample());
+        example.or().andInRepoStatusEqualTo(constant.INIT_STATUS);
+        return inRepertoryMapper.selectByExample(example);
     }
 
     @Override
-    public List<InRepertory> findAllLike(String status, String like) {
-        if ("".equals(status)) {
-            status = null;
-        }
-        return inRepertoryMapper.findAllLike(status, like);
+    public PageInfo findAllLike(String status, String like, int pageNum, int size) {
+        String likeSth = "%" + like + "%";
+        PageHelper.startPage(pageNum, size);
+        List<InRepertory> list = inRepertoryMapper.findAllLike(status, likeSth);
+        return new PageInfo(list);
     }
 
     @Override
-    public List<InRepertory> findPage(Integer start, Integer size) {
-        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
-        return inRepertoryMapper.getPage(pageStart, size);
+    public PageInfo findPage(Integer start, Integer size) {
+        PageHelper.startPage(start, size);
+        List<InRepertory> list = inRepertoryMapper.selectByExample(new InRepertoryExample());
+        return new PageInfo(list);
     }
 
     @Override
-    public List<InRepertory> findPageBy(String status, Integer start, Integer size) {
-        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
-        return inRepertoryMapper.getPageBy(status, pageStart, size);
+    public PageInfo findPageBy(String status, Integer start, Integer size) {
+        InRepertoryExample example = new InRepertoryExample();
+        example.or().andInRepoStatusEqualTo(status);
+        PageHelper.startPage(start, size);
+        List<InRepertory> list = inRepertoryMapper.selectByExample(example);
+        return new PageInfo(list);
     }
 
     @Override
@@ -142,38 +144,19 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public boolean changeStatusAndPush(List<Integer> ids, String status) {
+    public int changeStatusAndPush(List<Integer> ids, String status) {
+        AtomicInteger rows = new AtomicInteger();
         ids.forEach(
                 u -> {
-                    changeInRepertoryStatus(u, status);
+                    if (changeInRepertoryStatus(u, status)) {
+                        rows.addAndGet(1);
+                    }
                     pushInRepertoryState(findOne(u));
                 }
         );
-        return true;
+        return rows.get();
     }
 
-
-    @Override
-    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status, String like) {
-        Page pageModel = new Page();
-        pageModel.setCurrPage(page);
-        pageModel.setData(inRepertoryList);
-        InRepertoryExample example = new InRepertoryExample();
-        long count;
-        if ("%%".equals(like)) {
-            count = inRepertoryList.size();
-        }
-        if ("".equals(status)) {
-            count = inRepertoryMapper.countByExample(example);
-        } else {
-            example.or().andInRepoStatusEqualTo(status);
-            count = inRepertoryMapper.countByExample(example);
-        }
-        pageModel.setTotalCount(count);
-        pageModel.setStatus(status);
-        pageModel.init();
-        return pageModel;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

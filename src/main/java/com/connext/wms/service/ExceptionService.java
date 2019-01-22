@@ -1,5 +1,6 @@
 package com.connext.wms.service;
 
+import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.util.Page;
 

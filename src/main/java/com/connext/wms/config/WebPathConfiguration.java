@@ -1,6 +1,7 @@
 package com.connext.wms.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,5 +17,9 @@ public class WebPathConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/error").setViewName("error");
+    }
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new DateConvertor());
     }
 }

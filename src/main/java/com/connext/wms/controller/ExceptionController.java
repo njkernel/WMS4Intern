@@ -44,6 +44,7 @@ public class ExceptionController {
     @RequestMapping("/toDetail")
     public String toDetail(Integer id, Model model){
         model.addAttribute("detail",exceptionService.selectByPrimaryKey(id));
+        model.addAttribute("good",outRepertoryService.selectListByOutRepoId(id));
         return "abnormal-order";
     }
 
@@ -54,11 +55,9 @@ public class ExceptionController {
         List<Integer> list = new ArrayList<>();
         list.add(outRepoId);
         OutRepertory outRepertory = new OutRepertory();
-        outRepertory.setOutRepoStatus("haveCanceled");
+        outRepertory.setOutRepoStatus("haveShipped");
         outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
         return "redirect:findList?currPage=1";
     }
-
-
 
 }

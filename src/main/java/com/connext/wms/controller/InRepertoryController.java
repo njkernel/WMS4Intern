@@ -26,16 +26,12 @@ import java.util.*;
 public class InRepertoryController {
     private final InRepertoryService inRepertoryService;
     private final ObjectMapper objectMapper;
-    private final EntityAndDto entityAndDto;
-    private final Constant constant;
     private final int SIZE = 10;
 
     @Autowired
     public InRepertoryController(InRepertoryService inRepertoryService, ObjectMapper objectMapper, EntityAndDto entityAndDto, Constant constant) {
         this.inRepertoryService = inRepertoryService;
         this.objectMapper = objectMapper;
-        this.entityAndDto = entityAndDto;
-        this.constant = constant;
     }
 
     @GetMapping("detail/{id}")
@@ -46,25 +42,25 @@ public class InRepertoryController {
 
     @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model, @RequestParam(required = false, defaultValue = "") String status) {
-        List<InRepertory> inRepertories = inRepertoryService.findPage(page, SIZE);
-        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status, "");
-        model.addAttribute("page", pageModel);
+        model.addAttribute("page", inRepertoryService.findPage(page, SIZE));
+        model.addAttribute("url", "/inRepertory/page");
         return "warehouse-in-list";
     }
 
-    @GetMapping("page/{page}/{status}")
-    public String listBy(@PathVariable Integer page, @PathVariable String status, Model model) {
-        List<InRepertory> inRepertories = inRepertoryService.findPageBy(status, page, SIZE);
-        Page pageModel = inRepertoryService.getPageInfo(page, inRepertories, status, "");
-        model.addAttribute("page", pageModel);
+    @GetMapping("page/{status}/{page}")
+    public String listBy(@PathVariable String status, @PathVariable Integer page, Model model) {
+        model.addAttribute("page", inRepertoryService.findPageBy(status, page, SIZE));
+        model.addAttribute("status", status);
+        model.addAttribute("url", "/inRepertory/page/" + status);
         return "warehouse-in-list";
     }
 
-    @GetMapping("/search")
-    public String search(@RequestParam String like, @RequestParam String status, Model model) {
-        String likeSth = "%" + like + "%";
-        Page pageModel = inRepertoryService.getPageInfo(0, inRepertoryService.findAllLike(status, likeSth), status, like);
-        model.addAttribute("page", pageModel);
+    @GetMapping("/search/{status}/{page}")
+    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false,defaultValue = "") String like, Model model) {
+        model.addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE));
+        model.addAttribute("status", status);
+        model.addAttribute("like",like);
+        model.addAttribute("url", "/inRepertory/search/" + status);
         return "warehouse-in-list";
     }
 
@@ -84,7 +80,7 @@ public class InRepertoryController {
 
     @PostMapping("/action/{status}")
     @ResponseBody
-    public boolean action(@RequestParam String list, @PathVariable String status) throws IOException {
+    public int action(@RequestParam String list, @PathVariable String status) throws IOException {
         List<Integer> ids = objectMapper.readValue(list, new TypeReference<List<Integer>>() {
         });
         return inRepertoryService.changeStatusAndPush(ids, status);
