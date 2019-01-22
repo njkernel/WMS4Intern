@@ -54,11 +54,9 @@ public class ExceptionController {
         List<Integer> list = new ArrayList<>();
         list.add(outRepoId);
         OutRepertory outRepertory = new OutRepertory();
-        outRepertory.setOutRepoStatus("haveCanceled");
+        outRepertory.setOutRepoStatus("haveShipped");
         outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
         return "redirect:findList?currPage=1";
     }
-
-
 
 }
