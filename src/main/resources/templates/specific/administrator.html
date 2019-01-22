@@ -14,18 +14,6 @@
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div class="btn-div">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">新增</button>
-    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal-1">编辑</button>-->
-    <!--<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal-2">删除</button>-->
-    <!-- <div class="search-box">
-        <form action="">
-            <select name="" id="">
-                <option value=""></option>
-                <option value=""></option>
-            </select>
-            <input type="text">
-            <button type="button" class="btn btn-success">搜索</button>
-        </form>
-    </div> -->
 </div>
 <!-- 表格部分 -->
 <div>
@@ -34,7 +22,7 @@
         <tr>
             <th>序号</th>
             <th>用户账号</th>
-            <th>用户密码</th>
+            <!--<th>用户密码</th>-->
             <th>手机号码</th>
             <th>用户权限</th>
             <th class="operation">操作</th>
@@ -45,13 +33,11 @@
         <tr th:each="user:${users}">
             <td></td>
             <td th:text="${user.username}"></td>
-            <td th:text="${user.password}"></td>
+            <!--<td th:text="${user.password}"></td>-->
             <td th:text="${user.telephone}"></td>
             <td th:text="${user.role}"></td>
             <td th:text="${user.id}" style="display:none"></td>
             <td class="operation">
-                <!--<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-1">修改
-                </button>-->
                 <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-1"
                         th:onclick="|getData(${user.id})|">修改
                 </button>
@@ -63,20 +49,6 @@
         </tbody>
     </table>
 </div>
-<!-- 分页部分 -->
-<!--<div class="footer-pager">
-    <span>共<span>5</span>页，当前第<span>1</span>页</span>
-    <ul class="pagination">
-        <li><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li class="disabled"><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
-    </ul>
-</div>
-</div>-->
 
 <!-- 弹出框 -->
 <!--新增弹出框-->
@@ -94,7 +66,7 @@
                         <label for="username" class="col-sm-2 control-label">用户名称</label>
                         <div class="col-sm-10">
                             <input type="text" name="username" class="form-control" required id="username"
-                                   placeholder="请输入用户名称" onblur="checkName1()"/><span id="user_name1"
+                                   placeholder="请输入用户名称" onblur="checkName1();checkSave()"/><span id="user_name1"
                                                                                       class="notice"></span>
                         </div>
                     </div>
@@ -102,7 +74,7 @@
                         <label for="password" class="col-sm-2 control-label">用户密码</label>
                         <div class="col-sm-10">
                             <input type="password" name="password" class="form-control" id="password" required
-                                   placeholder="请输入用户密码" onblur="checkPass1()"/><span id="password1"
+                                   placeholder="请输入用户密码" onblur="checkPass1();checkSave()"/><span id="password1"
                                                                                       class="notice"></span>
                         </div>
                     </div>
@@ -110,7 +82,7 @@
                         <label for="telephone" class="col-sm-2 control-label">用户手机</label>
                         <div class="col-sm-10">
                             <input type="text" name="telephone" class="form-control" id="telephone" required
-                                   placeholder="请输手机号" onblur="checkPhone1()"/><span id="user_phone"
+                                   placeholder="请输手机号" onblur="checkPhone1();checkReg();checkSave()"/><span id="user_phone"
                                                                                      class="notice"></span>
                         </div>
                     </div>
@@ -135,6 +107,7 @@
         </div>
     </div>
 </div>
+
 <!--编辑弹出框-->
 <div class="modal fade" id="demoModal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -149,23 +122,23 @@
                     <div class="form-group">
                         <label for="firstname-1" class="col-sm-2 control-label">用户名称</label>
                         <div class="col-sm-10">
-                            <input type="text" name="username" class="form-control" id="firstname-1">
-                            <input type="hidden" name="firstname-id" id="firstname-id" onblur="checkName2()"><span
+                            <input type="text" name="username" class="form-control" id="firstname-1" oninput="checkName2();checkSave1()"> <span
                                 id="user_name2" class="notice"></span>
+                            <input type="hidden" name="firstname-id" id="firstname-id">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="userpassword" class="col-sm-2 control-label">用户密码</label>
                         <div class="col-sm-10">
                             <input type="password" name="userpassword" class="form-control" id="userpassword"
-                                   onblur="checkPass2()"><span id="password2" class="notice"></span>
+                                   onchange="checkPass2()" readonly><span id="password2" class="notice"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="lastname-1" class="col-sm-2 control-label">用户手机</label>
                         <div class="col-sm-10">
                             <input type="text" name="telephone" class="form-control" id="lastname-1"
-                                   onchange="checkPhone2()"><span id="user_phone1"/>
+                                   oninput="checkPhone2();checkSave1()"><span id="user_phone1"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -190,6 +163,7 @@
 
     </div>
 </div>
+
 <!--删除弹出框-->
 <div class="modal fade" id="demoModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
