@@ -57,7 +57,9 @@ public class InRepertoryController {
 
     @GetMapping("/search/{status}/{page}")
     public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam String like, Model model) {
-        String likeSth = "%" + like + "%";
+        if ("".equals(status) || "null".equals(status)) {
+            status = null;
+        }
         model.addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE));
         model.addAttribute("status", status);
         model.addAttribute("url", "/inRepertory/search/" + status);

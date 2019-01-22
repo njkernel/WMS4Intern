@@ -52,18 +52,16 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public List<InRepertory> findAllWait() {
-        InRepertoryExample example=new InRepertoryExample();
+        InRepertoryExample example = new InRepertoryExample();
         example.or().andInRepoStatusEqualTo(constant.INIT_STATUS);
         return inRepertoryMapper.selectByExample(example);
     }
 
     @Override
     public PageInfo findAllLike(String status, String like, int pageNum, int size) {
-        if ("".equals(status)) {
-            status = null;
-        }
+        String likeSth = "%" + like + "%";
         PageHelper.startPage(pageNum, size);
-        List<InRepertory> list = inRepertoryMapper.findAllLike(status, like);
+        List<InRepertory> list = inRepertoryMapper.findAllLike(status, likeSth);
         return new PageInfo(list);
     }
 
@@ -76,7 +74,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public PageInfo findPageBy(String status, Integer start, Integer size) {
-        InRepertoryExample example=new InRepertoryExample();
+        InRepertoryExample example = new InRepertoryExample();
         example.or().andInRepoStatusEqualTo(status);
         PageHelper.startPage(start, size);
         List<InRepertory> list = inRepertoryMapper.selectByExample(example);

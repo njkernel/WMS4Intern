@@ -23,7 +23,11 @@
         });
 
         function list(status) {
-            window.location.replace("/inRepertory/page/" + status + "/1")
+            if (status == 'all') {
+                window.location.replace("/inRepertory/page/1")
+            } else {
+                window.location.replace("/inRepertory/page/" + status + "/1")
+            }
         }
 
         $(document).ready(function () {
@@ -69,7 +73,7 @@
                 <select name="" id="" onchange="list(this.options[this.selectedIndex].value)">
                     <option value="" th:if="${status}==null"></option>
                     <option value="" th:if="${status}!=null" th:text="#{''+${status}}"></option>
-                    <option value="">全部</option>
+                    <option value="all">全部</option>
                     <option value="wait">等待收货</option>
                     <option value="success">收货成功</option>
                     <option value="fail">收货失败</option>
