@@ -19,7 +19,7 @@ import java.io.PrintWriter;
  * @Date: 2018/12/21 10:18
  * @Version 1.0
  */
-@Configuration
+//@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 

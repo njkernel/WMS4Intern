@@ -126,7 +126,6 @@
         select
         <include refid="Base_Column_List"/>
         from t_in_repo order by revise_time DESC
-        limit #{start},#{size}
     </select>
     <select id="getPageBy" resultMap="BaseResultMap">
         select
@@ -134,7 +133,6 @@
         from t_in_repo
         where in_repo_status=#{status}
         order by revise_time DESC
-        limit #{start},#{size}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

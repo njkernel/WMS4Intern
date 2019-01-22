@@ -13,7 +13,8 @@ import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
 import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
-import com.connext.wms.util.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,30 +51,36 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     }
 
     @Override
-    public List<InRepertory> findAll() {
-        InRepertoryExample example = new InRepertoryExample();
-        example.setOrderByClause("'revise_time' DESC");
-        return inRepertoryMapper.selectByExample(new InRepertoryExample());
+    public List<InRepertory> findAllWait() {
+        InRepertoryExample example=new InRepertoryExample();
+        example.or().andInRepoStatusEqualTo(constant.INIT_STATUS);
+        return inRepertoryMapper.selectByExample(example);
     }
 
     @Override
-    public List<InRepertory> findAllLike(String status, String like) {
+    public PageInfo findAllLike(String status, String like, int pageNum, int size) {
         if ("".equals(status)) {
             status = null;
         }
-        return inRepertoryMapper.findAllLike(status, like);
+        PageHelper.startPage(pageNum, size);
+        List<InRepertory> list = inRepertoryMapper.findAllLike(status, like);
+        return new PageInfo(list);
     }
 
     @Override
-    public List<InRepertory> findPage(Integer start, Integer size) {
-        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
-        return inRepertoryMapper.getPage(pageStart, size);
+    public PageInfo findPage(Integer start, Integer size) {
+        PageHelper.startPage(start, size);
+        List<InRepertory> list = inRepertoryMapper.selectByExample(new InRepertoryExample());
+        return new PageInfo(list);
     }
 
     @Override
-    public List<InRepertory> findPageBy(String status, Integer start, Integer size) {
-        int pageStart = (start - 1) * size > 0 ? ((start - 1) * size) : 0;
-        return inRepertoryMapper.getPageBy(status, pageStart, size);
+    public PageInfo findPageBy(String status, Integer start, Integer size) {
+        InRepertoryExample example=new InRepertoryExample();
+        example.or().andInRepoStatusEqualTo(status);
+        PageHelper.startPage(start, size);
+        List<InRepertory> list = inRepertoryMapper.selectByExample(example);
+        return new PageInfo(list);
     }
 
     @Override
@@ -152,28 +159,6 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         return rows.get();
     }
 
-
-    @Override
-    public Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status, String like) {
-        Page pageModel = new Page();
-        pageModel.setCurrPage(page);
-        pageModel.setData(inRepertoryList);
-        InRepertoryExample example = new InRepertoryExample();
-        long count;
-        if ("%%".equals(like)) {
-            count = inRepertoryList.size();
-        }
-        if ("".equals(status)) {
-            count = inRepertoryMapper.countByExample(example);
-        } else {
-            example.or().andInRepoStatusEqualTo(status);
-            count = inRepertoryMapper.countByExample(example);
-        }
-        pageModel.setTotalCount(count);
-        pageModel.setStatus(status);
-        pageModel.init();
-        return pageModel;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

@@ -2,8 +2,7 @@ package com.connext.wms.service;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.entity.InRepertory;
-import com.connext.wms.util.Page;
-import org.springframework.ui.Model;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -14,21 +13,24 @@ import java.util.List;
  */
 public interface InRepertoryService {
 
+
     /**
-     * find all InRepertory
+     * find all waiting InRepertory
+     * @return List<InRepertory>
      *
-     * @return list of InRepertory
      */
-    List<InRepertory> findAll();
+    List<InRepertory> findAllWait();
 
     /**
      * find some InRepertory
      *
      * @param status status
      * @param value like
+     * @param pageNum page
+     * @param size page size
      * @return list of InRepertory
      */
-    List<InRepertory> findAllLike(String status,String value);
+    PageInfo findAllLike(String status, String value,int pageNum,int size);
 
 
     /**
@@ -38,7 +40,7 @@ public interface InRepertoryService {
      * @param size page size
      * @return page
      */
-    List<InRepertory> findPage(Integer start,Integer size);
+    PageInfo findPage(Integer start,Integer size);
 
     /**
      * find one type of InRepertory
@@ -48,7 +50,7 @@ public interface InRepertoryService {
      * @param status status
      * @return page
      */
-    List<InRepertory> findPageBy(String status,Integer start,Integer size);
+    PageInfo findPageBy(String status,Integer start,Integer size);
 
     /**
      * find Detail for one InRepertory
@@ -99,18 +101,11 @@ public interface InRepertoryService {
      */
     int changeStatusAndPush(List<Integer> ids,String status);
 
-    /**
-     * get a page
-     * @param page page number
-     * @param inRepertoryList the list want to display
-     * @param status inRepertory status
-     * @param like  like
-     * @return a template
-     */
-    Page getPageInfo(Integer page, List<InRepertory> inRepertoryList, String status,String like);
 
     /**
      * Receiving goods abnormal
+     * @param id id
+     * @param inRepertoryDetailDTOS DTO
      * @return true or false
      */
     boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS);
