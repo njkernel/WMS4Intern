@@ -52,7 +52,7 @@ public class ScheduledTasks {
      */
     @Scheduled(cron = "0 0/10 4 ? * *")
     public void checkInRepertoryExpired() {
-        List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAll());
+        List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAllWait());
         //推送通知
         log.info("收货超时" + inRepertories.toString());
         inRepertories.forEach(u -> {
