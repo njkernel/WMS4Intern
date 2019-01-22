@@ -42,7 +42,8 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
         Page page = new Page();
         if (currPage == null) currPage = 1;
         page.setCurrPage(currPage);
-        OutRepertoryExample outRepertoryExample = null;
+        OutRepertoryExample outRepertoryExample = new OutRepertoryExample();
+        outRepertoryExample.or().andOutRepoStatusNotEqualTo("shipException");
         page.setTotalCount(this.outRepertoryMapper.countByExample(outRepertoryExample));
         page.init();
         page.setData(this.outRepertoryMapper.selectOutRepoByPage((currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE));
