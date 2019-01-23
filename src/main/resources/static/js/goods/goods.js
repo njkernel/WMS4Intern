@@ -1,9 +1,3 @@
-//分页
-function go(currPage) {
-    $('#currPage').val(currPage)
-    document.frm.submit();
-}
-
 //将id的值传给.goodsid
 $(function () {
     $('.btn-xs').on('click', function () {
@@ -33,10 +27,14 @@ function saveData() {
             } else if (data == "error") {
                 alert("修改失败,请输入正确的商品价格！");
                 window.location.href = "/goods/findAll?currPage=1";
-            }else if (data =="fail"){
+            } else if (data == "fail") {
                 alert("修改失败,请输入正确的商品名称！")
                 window.location.href = "/goods/findAll?currPage=1";
+            } else if (data == "sorry") {
+                alert("修改失败，商品价格应小于1000000！");
+                window.location.href = "/goods/findAll?currPage=1";
             }
+
 
         }
     })
@@ -67,6 +65,7 @@ $("#secondname").on('keyup', function (event) {
     $amountInput.val($amountInput.val().replace(/[^\d.]/g, "").//只允许一个小数点
     replace(/^\./g, "").replace(/\.{2,}/g, ".").//只能输入小数点后两位
     replace(".", "$#$").replace(/\./g, "").replace("$#$", ".").replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'));
+    //$("#save1").attr("disabled",false);
 });
 $("#secondname").on('blur', function () {
     var $amountInput = $(this);

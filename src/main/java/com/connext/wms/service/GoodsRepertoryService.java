@@ -19,14 +19,17 @@ public interface GoodsRepertoryService {
 
     /**
      * 显示实时库存
+     *
      * @return 库存视图对象
      */
-    Page showRealRepertory(Integer currPage,String key);
+    Page showRealRepertory(Integer currPage, String key);
 
     /**
      * 根据商品名称的关键字查询实时库存
-     * @param key 商品名称关键字
+     *
+     * @param key      商品名称关键字
+     * @param currPage 当前页
      * @return 库存视图对象
      */
-    Page getGoodsRepertoryByGoodsName(String key);
+    Page getGoodsRepertoryByGoodsName(Integer currPage, String key);
 }

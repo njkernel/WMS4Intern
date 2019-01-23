@@ -3,6 +3,7 @@ spring:
     url: jdbc:mysql://120.77.45.136:3306/wms?characterEncoding=UTF-8&nullCatalogMeansCurrent=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: anymre
     password: c1234567
+    driver-class-name: com.mysql.cj.jdbc.Driver
   messages:
     fallback-to-system-locale: false
 

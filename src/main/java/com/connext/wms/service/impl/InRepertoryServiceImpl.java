@@ -102,7 +102,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         List<InRepertory> expires = new ArrayList<>();
         inRepertories.forEach(i -> {
             if (constant.INIT_STATUS.equals(i.getInRepoStatus()) && isExpired(i)) {
-                expires.add(i);
+                expires.add(findOne(i.getId()));
             }
         });
         expires.forEach(u -> changeInRepertoryStatus(u.getId(), constant.OVER_STATUS));

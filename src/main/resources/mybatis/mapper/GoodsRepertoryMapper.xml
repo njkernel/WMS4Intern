@@ -48,7 +48,7 @@
         select count(a.id) from t_goods_repertory a inner join t_goods b on a.goods_id=b.id where b.goods_name like #{key}
     </select>
 
-    <select id="getRealVO" resultMap="RealRepertoryVOMap">
+    <select id="getRealVO" resultMap="RealRepertoryVOMap" parameterType="java.lang.String">
         SELECT
         m.id,
         d.sku,
@@ -79,10 +79,10 @@
         c.goods_repertory_id
         ) AS cc ON a.id = cc.goods_repertory_id
         ) AS m ON d.id = m.goods_id
-        <if test="key!=null">
+        <if test="_parameter != null">
             where d.goods_name LIKE CONCAT(CONCAT('%',#{key}),'%')
         </if>
-        order by m.id limit #{start},#{size}
+        order by m.id
     </select>
 
 </mapper>

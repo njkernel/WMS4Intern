@@ -8,10 +8,12 @@ import com.connext.wms.service.GoodsService;
 import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.connext.wms.util.PageSet;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,22 +90,38 @@ public class GoodsServiceImpl implements GoodsService {
         根据商品id更改商品名称和价格
          */
         if (!goods.getGoodsName().isEmpty() && goods.getGoodsName() != null && !goods.getGoodsName().equals("")) {
-            if (goods.getGoodsPrice() == null || goods.getGoodsPrice() <= 0) {
+                /*
+                    -1,表示价格小于0.0
+                    0,表示价格等于0.0
+                    1,表示价格大于0.0
+                 */
+            if (goods.getGoodsPrice() == null || goods.getGoodsPrice().compareTo(BigDecimal.valueOf(0.0)) <= 0) {
+                //提示商品价格不能为负数或0
                 return "error";
+                /*
+                    -1,表示价格小于1000000.0
+                    0,表示价格等于1000000.0
+                    1,表示价格大于1000000.0
+                 */
+            } else if (goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)) >= 0) {
+                //提示商品价格不能超过1000000
+                return "sorry";
             } else {
                 goodsMapper.updateByPrimaryKeySelective(goods);
-            /*
-        调用同步接口传给OMS
-         */
+              /*
+                调用同步接口传给OMS
+              */
                 List<GoodsDTO> goodsDTOSList = new ArrayList<>();
                 String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
                 goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
                 // System.out.println(goodsDTOSList.toString());
                 restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+                //System.out.println(goods.getGoodsPrice().intValue());
+                //System.out.println(goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)));
                 return "success";
             }
-
         } else {
+            //提示商品名称不能为空
             return "fail";
         }
 
@@ -111,14 +129,26 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 根据关键字查询相关的商品信息
+     *
+     * @param key
+     * @param currPage
+     * @return Page
      */
     @Override
-    public Page selectByExample(String key) {
+    public Page selectByExample(String key, Integer currPage) {
         String newKey = "%" + key + "%";
-        Integer currPage = 1;
         GoodsExample example = new GoodsExample();
         example.or().andGoodsNameLike(newKey);
-        List<Goods> list = goodsMapper.selectByExample(example);
-        return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
+        Page page = new Page();
+        if (currPage == null) {
+            currPage = 1;
+        }
+        page.setCurrPage(currPage);
+        page.setTotalCount((long) goodsMapper.countByExample(example));
+        page.init();
+        PageHelper.startPage(currPage, Page.PAGE_SIZE);
+        page.setData(goodsMapper.selectByExample(example));
+        return page;
+        //return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
     }
 }

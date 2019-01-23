@@ -8,6 +8,8 @@ import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags = "入库单接口")
 public class InRepertoryApi {
     private final InRepertoryService inRepertoryService;
     private final Constant constant;
@@ -39,6 +42,7 @@ public class InRepertoryApi {
     }
 
     @PostMapping("/inRepertoryOrder")
+    @ApiOperation(value = "入库单接口")
     public HttpStatus inRepertoryOrder(@RequestParam String tokens,
                                        @RequestParam String inRepoId,
                                        @RequestParam String orderId,

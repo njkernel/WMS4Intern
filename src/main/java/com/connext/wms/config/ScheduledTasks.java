@@ -54,7 +54,7 @@ public class ScheduledTasks {
     public void checkInRepertoryExpired() {
         List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAllWait());
         //推送通知
-        log.info("收货超时" + inRepertories.toString());
+        log.info("收货超时：" + inRepertories.size() + "条");
         inRepertories.forEach(u -> {
             inRepertoryService.changeInRepertoryStatus(u.getId(), constant.OVER_STATUS);
             inRepertoryService.pushInRepertoryState(u);
