@@ -30,7 +30,11 @@ function saveData() {
             } else if (data == "fail") {
                 alert("修改失败,请输入正确的商品名称！")
                 window.location.href = "/goods/findAll?currPage=1";
+            } else if (data == "sorry") {
+                alert("修改失败，商品价格应小于1000000！");
+                window.location.href = "/goods/findAll?currPage=1";
             }
+
 
         }
     })

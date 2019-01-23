@@ -6,6 +6,8 @@ package com.connext.wms.entity;
 import lombok.Data;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 @ToString
 public class Goods {
     private Integer id;
@@ -14,9 +16,9 @@ public class Goods {
 
     private String goodsName;
 
-    private Float goodsPrice;
+    private BigDecimal goodsPrice;
 
-    public Goods(Integer id, String sku, String goodsName, Float goodsPrice) {
+    public Goods(Integer id, String sku, String goodsName, BigDecimal goodsPrice) {
         this.id = id;
         this.sku = sku;
         this.goodsName = goodsName;
@@ -51,11 +53,11 @@ public class Goods {
         this.goodsName = goodsName == null ? null : goodsName.trim();
     }
 
-    public Float getGoodsPrice() {
+    public BigDecimal getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(Float goodsPrice) {
+    public void setGoodsPrice(BigDecimal goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 }
