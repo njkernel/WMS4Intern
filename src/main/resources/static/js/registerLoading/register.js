@@ -107,7 +107,7 @@ $('.table tbody tr').mouseout(function () {
     $('.table tbody tr td').eq(4 + (number) * 6).find('select:first').attr("id", "sel");
 });
 
-function saveJudge(form) {
+/*function saveJudge(form) {
     var d = {};
     var t = form.serializeArray();
     console.log(JSON.stringify(t));
@@ -121,7 +121,7 @@ function saveJudge(form) {
         }
     }
     //alert("保存成功！");
-}
+}*/
 
 $("#save").click(function () {
     saveJudge($(".form-horizontal.add"));
@@ -165,25 +165,59 @@ function getData(id) {
     })
 }
 
+function getData1(id) {
+    $.ajax({
+        url: "/user/getUserByID?id=" + id,
+        type: "get",
+        dataType: "json",
+        success: function (user) {
+            $('#userpassword').val(user.password);
+            $('#pwd_id').val(id);
+        }
+    })
+}
+
 function modify() {
     var username = $('#firstname-1').val();
-    var password = $('#userpassword').val();
     var telephone = $('#lastname-1').val();
     var role = $('#lastname-3').val();
     var id = $('#firstname-id').val();
     user = {
         "id": id,
         "username": username,
-        "password": password,
         "telephone": telephone,
         "role": role
     }
     $.ajax({
         url: "/user/updateByPrimaryKey",
         type: "post",
-        cache: false,
         dataType: "json",
         data: user,
+        success: function (result) {
+            console.log(result);
+            if (result.resultCode == 200) {
+                alert("SUCCESS");
+            }
+            window.location.href = "/user/queryAll";
+        },
+        error: function (result) {
+            window.location.href = "/user/queryAll";
+        }
+    })
+}
+
+function modifyPass() {
+    var id = $('#pwd_id').val();
+    var password = $('#userpassword').val();
+    user1 = {
+        "id": id,
+        "password": password
+    }
+    $.ajax({
+        url: "/user/forget",
+        type: "post",
+        dataType: "json",
+        data: user1,
         success: function (result) {
             console.log(result);
             if (result.resultCode == 200) {
@@ -228,26 +262,37 @@ function deleteUser() {
     })
 }
 
+//验证手机号是否被注册
 function checkReg() {
+    var telephone = $('#telephone').val();
+    var result;
+    var phone_No = {
+        "telephone": telephone
+    }
     $.ajax({
         url: "/user/checkReg",
         type: "post",
-        async: false,
-        cache: false,
         dataType: "json",
-        data: $("#telephone").val(),
+        data: phone_No,
         success: function (data) {
             if (data.flag) {
+                document.getElementById("user_phone").style.display = "none";
+                result = true;
             } else {
-                $("#user_phone").html("<font style='color:red' size='1px'>该手机号已被注册</font>");
+                document.getElementById("user_phone").style.display = "block";
+                $("#user_phone").html("<font style='color:red' size='1px'>该手机号已注册</font>");
+                result = false;
             }
-        },
-        error: function (data) {
-            alert("error");
         }
     })
+    if (result==true){
+        return true;
+    }else{
+        return false;
+    }
 }
 
+//新增手机号
 function checkPhone1() {
     var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
     if (!reg.test($("#telephone").val())) {
@@ -260,81 +305,76 @@ function checkPhone1() {
     }
 }
 
+//修改手机号
 function checkPhone2() {
     var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
     if (!reg.test($("#lastname-1").val())) {
         document.getElementById("user_phone1").style.display = "block";
         $("#user_phone1").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
-        //$("#save1").attr("disabled", true);
-        return false;
-    } else if ($("#lastname-1").val() == null) {
-        document.getElementById("user_phone1").style.display = "none";
         return false;
     } else {
         document.getElementById("user_phone1").style.display = "none";
-        //$("#save1").attr("disabled", false);
         return true;
     }
 }
 
+//新增用户名
 function checkName1() {
     var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
     if (!reg.test($("#username").val())) {
         document.getElementById("user_name1").style.display = "block";
-        $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误</font>");
-        //$("#save").attr("disabled", true);
+        $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误,2-20位中文数字、半角字母组合</font>");
         return false;
     } else {
         document.getElementById("user_name1").style.display = "none";
-        //("#save").attr("disabled", false);
         return true;
     }
 }
 
+//修改用户名
 function checkName2() {
     var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
     if (!reg.test($("#firstname-1").val())) {
         document.getElementById("user_name2").style.display = "block";
-        $("#user_name2").html("<font style='color:red' size='1px'>用户名格式错误</font>");
-        //$("#save1").attr("disabled", true);
+        $("#user_name2").html("<font style='color:red' size='1px'>用户名格式错误,2-20位中文数字、半角字母组合</font>");
         return false;
     } else {
         document.getElementById("user_name2").style.display = "none";
-        //$("#save1").attr("disabled", false);
         return true;
     }
 }
 
+//新增密码
 function checkPass1() {
     var reg = /^\w{6,18}$/;
     if (!reg.test($("#password").val())) {
         document.getElementById("password1").style.display = "block";
         $("#password1").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
-        //$("#save").attr("disabled", true);
         return false;
     } else {
         document.getElementById("password1").style.display = "none";
-        //$("#save").attr("disabled", false);
         return true;
     }
 }
 
-function checkPass2() {
+//修改密码
+function checkPass3() {
     var reg = /^\w{6,18}$/;
-    if (!reg.test($("#userpassword").val())) {
-        document.getElementById("password2").style.display = "block";
-        $("#password2").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
-        //$("#save1").attr("disabled", true);
+    if (!reg.test($("#userpassword1").val())) {
+        document.getElementById("password3").style.display = "block";
+        $("#password3").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
+        $("#save2").attr("disabled", true);
         return false;
     } else {
-        document.getElementById("password2").style.display = "none";
-        //$("#save1").attr("disabled", false);
+        document.getElementById("password3").style.display = "none";
+        $("#save2").attr("disabled", false);
         return true;
     }
 }
 
+//注册验证
 function checkSave() {
-    var check = checkName1() && checkPass1() && checkPhone1();
+    var check = checkName1() && checkPass1() && checkReg() && checkPhone1();
     if (check) {
         $("#save").attr("disabled", false);
     } else {
@@ -342,6 +382,7 @@ function checkSave() {
     }
 }
 
+//修改验证
 function checkSave1() {
     var check = checkName2() && checkPhone2();
     if (check) {
@@ -349,6 +390,17 @@ function checkSave1() {
     } else {
         $("#save1").attr("disabled", true);
     }
+}
+
+//点击取消后清空表单
+function clean() {
+    document.getElementById("user_phone").style.display = "none";
+    document.getElementById("user_name1").style.display = "none";
+    document.getElementById("password1").style.display = "none";
+    document.getElementById("user_phone1").style.display = "none";
+    document.getElementById("user_name2").style.display = "none";
+    document.getElementById("password3").style.display = "none";
+    window.location.href = "/user/queryAll";
 }
 
 //表单重新编号

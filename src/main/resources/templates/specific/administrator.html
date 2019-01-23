@@ -41,6 +41,9 @@
                 <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-1"
                         th:onclick="|getData(${user.id})|">修改
                 </button>
+                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#demoModal-3"
+                        th:onclick="|getData1(${user.id})|">修改密码
+                </button>
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#demoModal-2"
                         th:onclick="|getData(${user.id})|">删除
                 </button>
@@ -57,7 +60,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clean()">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">新增用户</h4>
             </div>
             <div class="modal-body">
@@ -67,7 +70,7 @@
                         <div class="col-sm-10">
                             <input type="text" name="username" class="form-control" required id="username"
                                    placeholder="请输入用户名称" onblur="checkName1();checkSave()"/><span id="user_name1"
-                                                                                      class="notice"></span>
+                                                                                                  class="notice"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -75,15 +78,15 @@
                         <div class="col-sm-10">
                             <input type="password" name="password" class="form-control" id="password" required
                                    placeholder="请输入用户密码" onblur="checkPass1();checkSave()"/><span id="password1"
-                                                                                      class="notice"></span>
+                                                                                                  class="notice"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="telephone" class="col-sm-2 control-label">用户手机</label>
                         <div class="col-sm-10">
                             <input type="text" name="telephone" class="form-control" id="telephone" required
-                                   placeholder="请输手机号" onblur="checkPhone1();checkReg();checkSave()"/><span id="user_phone"
-                                                                                     class="notice"></span>
+                                   placeholder="请输手机号" onblur="checkReg();checkPhone1();checkSave()"/><span
+                                id="user_phone" class="notice"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -99,7 +102,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clean()">取消</button>
                 <button type="button" class="btn btn-primary save" data-dismiss="modal" id="save" onclick="insert()">
                     保存
                 </button>
@@ -114,7 +117,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clean()">&times;</button>
                 <h4 class="modal-title" id="myModalLabel-1">编辑用户</h4>
             </div>
             <div class="modal-body">
@@ -122,7 +125,8 @@
                     <div class="form-group">
                         <label for="firstname-1" class="col-sm-2 control-label">用户名称</label>
                         <div class="col-sm-10">
-                            <input type="text" name="username" class="form-control" id="firstname-1" oninput="checkName2();checkSave1()"> <span
+                            <input type="text" name="username" class="form-control" id="firstname-1"
+                                   oninput="checkName2();checkSave1()"> <span
                                 id="user_name2" class="notice"></span>
                             <input type="hidden" name="firstname-id" id="firstname-id">
                         </div>
@@ -131,7 +135,7 @@
                         <label for="userpassword" class="col-sm-2 control-label">用户密码</label>
                         <div class="col-sm-10">
                             <input type="password" name="userpassword" class="form-control" id="userpassword"
-                                   onchange="checkPass2()" readonly><span id="password2" class="notice"></span>
+                                   readonly><span id="password2" class="notice"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -154,9 +158,41 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clean()">取消</button>
                 <button type="button" class="btn btn-primary save" data-dismiss="modal" id="save1" onclick="modify()">
                     保存
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--修改密码弹出框-->
+<div class="modal fade" id="demoModal-3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clean()">&times;</button>
+                <h4 class="modal-title" id="myModalLabel-3">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal compile" role="form" id="form3">
+                    <div class="form-group">
+                        <label for="userpassword1" class="col-sm-2 control-label">用户密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="userpassword1" class="form-control" id="userpassword1"
+                                   oninput="checkPass3()"><span id="password3" class="notice"></span>
+                            <input type="hidden" name="pwd_id" id="pwd_id">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clean()">取消</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal" id="save2"
+                        onclick="modifyPass()" disabled>保存
                 </button>
             </div>
         </div>
