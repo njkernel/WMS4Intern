@@ -46,9 +46,8 @@ public class UserController {
         User user = new User();
         boolean validation = (telephone.equals("") || telephone == null) || (username.equals("") || username == null) || (password.equals("") || password == null);
         int count1 = userService.checkRegister(telephone);
-        int count2 = userService.checkRegisterByName(username);
         System.out.println(count1);
-        if (!validation && count1 == 0 && count2 == 0) {
+        if (!validation && count1 == 0) {
             user.setTelephone(telephone);
             user.setPassword(password);
             user.setUsername(username);
