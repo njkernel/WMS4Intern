@@ -120,7 +120,7 @@ function saveJudge(form) {
             return false;
         }
     }
-    alert("保存成功！");
+    //alert("保存成功！");
 }
 
 $("#save").click(function () {
@@ -134,6 +134,7 @@ function insert() {
     $.ajax({
         url: "/user/register",
         type: "post",
+        cache: false,
         dataType: "json",
         data: $('#form1').serialize(),
         success: function (result) {
@@ -180,6 +181,7 @@ function modify() {
     $.ajax({
         url: "/user/updateByPrimaryKey",
         type: "post",
+        cache: false,
         dataType: "json",
         data: user,
         success: function (result) {
@@ -226,32 +228,34 @@ function deleteUser() {
     })
 }
 
-function checkPhone1() {
-    var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
+function checkReg() {
     $.ajax({
-        url: "/user/delete",
+        url: "/user/checkReg",
         type: "post",
+        async: false,
+        cache: false,
         dataType: "json",
-        data: user,
-        success: function (result) {
-            console.log(result);
-            if (result.resultCode == 200) {
-                alert("SUCCESS");
+        data: $("#telephone").val(),
+        success: function (data) {
+            if (data.flag) {
+            } else {
+                $("#user_phone").html("<font style='color:red' size='1px'>该手机号已被注册</font>");
             }
-            window.location.href = "/user/queryAll";
         },
-        error: function (result) {
-            window.location.href = "/user/queryAll";
+        error: function (data) {
+            alert("error");
         }
     })
+}
+
+function checkPhone1() {
+    var reg = /^1[3578][01379]\d{8}|1[34578][01256]\d{8}|(134[012345678]\d{7}|1[34578][012356789]\d{8})$/g;
     if (!reg.test($("#telephone").val())) {
         document.getElementById("user_phone").style.display = "block";
         $("#user_phone").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
-        $("#save").attr("disabled", true);
         return false;
     } else {
         document.getElementById("user_phone").style.display = "none";
-        $("#save").attr("disabled", false);
         return true;
     }
 }
@@ -261,11 +265,14 @@ function checkPhone2() {
     if (!reg.test($("#lastname-1").val())) {
         document.getElementById("user_phone1").style.display = "block";
         $("#user_phone1").html("<font style='color:red' size='1px'>请输入有效的手机号码</font>");
-        $("#save1").attr("disabled", true);
+        //$("#save1").attr("disabled", true);
+        return false;
+    } else if ($("#lastname-1").val() == null) {
+        document.getElementById("user_phone1").style.display = "none";
         return false;
     } else {
         document.getElementById("user_phone1").style.display = "none";
-        $("#save1").attr("disabled", false);
+        //$("#save1").attr("disabled", false);
         return true;
     }
 }
@@ -275,11 +282,11 @@ function checkName1() {
     if (!reg.test($("#username").val())) {
         document.getElementById("user_name1").style.display = "block";
         $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误</font>");
-        $("#save").attr("disabled", true);
+        //$("#save").attr("disabled", true);
         return false;
     } else {
         document.getElementById("user_name1").style.display = "none";
-        $("#save").attr("disabled", false);
+        //("#save").attr("disabled", false);
         return true;
     }
 }
@@ -289,11 +296,11 @@ function checkName2() {
     if (!reg.test($("#firstname-1").val())) {
         document.getElementById("user_name2").style.display = "block";
         $("#user_name2").html("<font style='color:red' size='1px'>用户名格式错误</font>");
-        $("#save1").attr("disabled", true);
+        //$("#save1").attr("disabled", true);
         return false;
     } else {
-        document.getElementById("user_name1").style.display = "none";
-        $("#save1").attr("disabled", false);
+        document.getElementById("user_name2").style.display = "none";
+        //$("#save1").attr("disabled", false);
         return true;
     }
 }
@@ -303,11 +310,11 @@ function checkPass1() {
     if (!reg.test($("#password").val())) {
         document.getElementById("password1").style.display = "block";
         $("#password1").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
-        $("#save").attr("disabled", true);
+        //$("#save").attr("disabled", true);
         return false;
     } else {
         document.getElementById("password1").style.display = "none";
-        $("#save").attr("disabled", false);
+        //$("#save").attr("disabled", false);
         return true;
     }
 }
@@ -317,15 +324,32 @@ function checkPass2() {
     if (!reg.test($("#userpassword").val())) {
         document.getElementById("password2").style.display = "block";
         $("#password2").html("<font style='color:red' size='1px'>输入6-18位数字字母组合</font>");
-        $("#save1").attr("disabled", true);
+        //$("#save1").attr("disabled", true);
         return false;
     } else {
         document.getElementById("password2").style.display = "none";
-        $("#save1").attr("disabled", false);
+        //$("#save1").attr("disabled", false);
         return true;
     }
 }
 
+function checkSave() {
+    var check = checkName1() && checkPass1() && checkPhone1();
+    if (check) {
+        $("#save").attr("disabled", false);
+    } else {
+        $("#save").attr("disabled", true);
+    }
+}
+
+function checkSave1() {
+    var check = checkName2() && checkPhone2();
+    if (check) {
+        $("#save1").attr("disabled", false);
+    } else {
+        $("#save1").attr("disabled", true);
+    }
+}
 
 //表单重新编号
 $(function () {
