@@ -42,25 +42,28 @@ public class InRepertoryController {
 
     @GetMapping("page/{page}")
     public String list(@PathVariable Integer page, Model model, @RequestParam(required = false, defaultValue = "") String status) {
-        model.addAttribute("page", inRepertoryService.findPage(page, SIZE));
-        model.addAttribute("url", "/inRepertory/page");
+        model
+                .addAttribute("page", inRepertoryService.findPage(page, SIZE))
+                .addAttribute("url", "/inRepertory/page");
         return "warehouse-in-list";
     }
 
     @GetMapping("page/{status}/{page}")
     public String listBy(@PathVariable String status, @PathVariable Integer page, Model model) {
-        model.addAttribute("page", inRepertoryService.findPageBy(status, page, SIZE));
-        model.addAttribute("status", status);
-        model.addAttribute("url", "/inRepertory/page/" + status);
+        model
+                .addAttribute("page", inRepertoryService.findPageBy(status, page, SIZE))
+                .addAttribute("status", status)
+                .addAttribute("url", "/inRepertory/page/" + status);
         return "warehouse-in-list";
     }
 
     @GetMapping("/search/{status}/{page}")
-    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false,defaultValue = "") String like, Model model) {
-        model.addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE));
-        model.addAttribute("status", status);
-        model.addAttribute("like",like);
-        model.addAttribute("url", "/inRepertory/search/" + status);
+    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String like, Model model) {
+        model
+                .addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE))
+                .addAttribute("status", status)
+                .addAttribute("like", like)
+                .addAttribute("url", "/inRepertory/search/" + status);
         return "warehouse-in-list";
     }
 
