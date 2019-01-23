@@ -1,7 +1,8 @@
 package com.connext.wms.service;
 
 import com.connext.wms.entity.ExpressCompany;
-import com.connext.wms.util.Page;
+import com.github.pagehelper.PageInfo;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -16,10 +17,10 @@ import java.util.List;
 public interface ExpressCompanyService {
 
     //分页查询所有快递公司信息
-    Page selectByPage(Integer currPage);
+    PageInfo selectByPage(Integer currPage);
 
     //根据关键字查询
-    Page selectByKey(Integer currPage,String key);
+    PageInfo selectByKey(Integer currPage, String key);
 
     //添加快递公司信息
     Integer insert(String expressCompanyName,String contactWay);

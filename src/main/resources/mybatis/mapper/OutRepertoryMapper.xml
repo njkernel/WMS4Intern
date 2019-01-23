@@ -374,7 +374,6 @@
                revise_time
         from t_out_repo
         where out_repo_status = 'shipException'
-            limit #{start},#{size}
     </select>
     <select id="selectByKey1" parameterType="com.connext.wms.entity.OutRepertoryExample" resultMap="BaseResultMap">
         select id, out_repo_id, order_id,
@@ -385,7 +384,6 @@
         from t_out_repo
         where express_company like #{key}
           and out_repo_status = 'shipException'
-            limit #{start},#{size}
     </select>
 
     <update id="updateWhenCancel" parameterType="com.connext.wms.entity.OutRepertory">

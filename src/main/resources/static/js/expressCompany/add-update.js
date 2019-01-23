@@ -60,3 +60,8 @@ function update() {
         }
     })
 }
+
+function go(currPage) {
+    $('#currPage').val(currPage)
+    document.frm.submit();
+}
