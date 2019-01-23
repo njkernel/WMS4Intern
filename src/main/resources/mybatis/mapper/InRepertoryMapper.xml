@@ -119,20 +119,20 @@
         <if test="status!='null'">
             in_repo_status=#{status} and
         </if>
-       (in_repo_id like #{like} OR order_id like #{like} or express_id like #{like})
-        order by revise_time DESC
+        (in_repo_id like #{like} OR order_id like #{like} or express_id like #{like})
+        order by revise_time
     </select>
     <select id="getPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from t_in_repo order by revise_time DESC
+        from t_in_repo order by revise_time
     </select>
     <select id="getPageBy" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_in_repo
         where in_repo_status=#{status}
-        order by revise_time DESC
+        order by revise_time
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
