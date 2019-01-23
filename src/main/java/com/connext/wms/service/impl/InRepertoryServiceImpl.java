@@ -67,14 +67,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public PageInfo findPage(Integer start, Integer size) {
+        InRepertoryExample example = new InRepertoryExample();
+        example.setOrderByClause("revise_time DESC");
         PageHelper.startPage(start, size);
-        List<InRepertory> list = inRepertoryMapper.selectByExample(new InRepertoryExample());
+        List<InRepertory> list = inRepertoryMapper.selectByExample(example);
         return new PageInfo(list);
     }
 
     @Override
     public PageInfo findPageBy(String status, Integer start, Integer size) {
         InRepertoryExample example = new InRepertoryExample();
+        example.setOrderByClause("revise_time DESC");
         example.or().andInRepoStatusEqualTo(status);
         PageHelper.startPage(start, size);
         List<InRepertory> list = inRepertoryMapper.selectByExample(example);
