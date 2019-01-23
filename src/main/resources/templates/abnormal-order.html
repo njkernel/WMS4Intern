@@ -19,7 +19,10 @@
                                     <div class="title-content1-top2">渠道订单号：<input th:value="${detail.channelId}" disabled="disabled"></div>
                                 </div>
                                 <div class="title-content2">
-                                    <div class="title-content1-top1">订单来源：<input disabled="disabled"></div>
+                                    <div class="title-content1-top1">快递公司：<input disabled="disabled"
+                                                                                 th:value="${detail.expressCompany}"></div>
+                                    <div class="title-content1-top2">快递单号：<input disabled="disabled"
+                                                                                 th:value="${detail.expressId}"></div>
                                 </div>
                                 <div class="title-content3">
                                     <div class="title-content1-top1">异常状态：<input th:value="${detail.outRepoStatus}" disabled="disabled"></div>
@@ -39,111 +42,14 @@
                                     <th>商品数量</th>
                                     <th>商品总价</th>
                                 </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
+                                <tr th:each="obj,i:${good}">
+                                    <td th:text="${obj.goodsSku}"></td>
+                                    <td th:text="${obj.goodsName}"></td>
+                                    <td th:text="${obj.price}"></td>
+                                    <td th:text="${obj.num}"></td>
+                                    <td th:text="${obj.price*obj.num}"></td>
                                 </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td> 
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td> 
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>  
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td> 
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td class="ttdd">12345</td>
-                                    <td>矿泉水</td>
-                                    <td>2</td>
-                                    <td>200</td>
-                                    <td>1000</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 15px;"><strong>总计</strong></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>4005</td>
-                                    <td>1000</td>
-                                </tr>
+
                             </table>
                         </div>
                     </div>

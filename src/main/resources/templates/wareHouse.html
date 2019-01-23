@@ -19,6 +19,7 @@
     <div class="search-box">
         <form action="/goodsRepertory/findByKey" method="get">
             <input name="key" type="text" placeholder="请输入商品名称" maxlength="20">
+            <input type="hidden" id="currPage" name="currPage"/>
             <button type="submit" class="btn btn-success">搜索</button>
         </form>
     </div>
@@ -52,9 +53,11 @@
         </tbody>
     </table>
 </div>
+<!--
 <form name="frm" action="">
     <input type="hidden" id="currPage" name="currPage"/>
 </form>
+-->
 
 <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -107,4 +110,16 @@
 </div>
 </body>
 <script type="text/javascript" src="/js/repertory/wareHouse.js"></script>
+<script th:inline="javascript">
+    //分页
+    function go(currPage) {
+        //$('#currPage').val(currPage)
+        if ([[${key}]] != null && [[${key}]] != 'null') {
+            window.location.replace("/goodsRepertory/findByKey?currPage=" + currPage + "&key=" + [[${key}]])
+        } else {
+            window.location.replace("/goodsRepertory/showRealRepertory?currPage=" + currPage)
+        }
+
+    }
+</script>
 </html>

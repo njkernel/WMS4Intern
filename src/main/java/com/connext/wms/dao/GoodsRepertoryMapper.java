@@ -62,5 +62,5 @@ public interface GoodsRepertoryMapper {
      * 查看实时库存
      * @return
      */
-    List<RealRepertoryVO> getRealVO(String key,Integer start,Integer size);
+    List<RealRepertoryVO> getRealVO(String key);
 }

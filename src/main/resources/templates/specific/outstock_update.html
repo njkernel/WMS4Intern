@@ -13,8 +13,8 @@
 
 </head>
 <style>
-    thead tr td{
-        text-align:center;
+    thead tr td {
+        text-align: center;
     }
 </style>
 <body style="overflow-x:hidden;">
@@ -23,36 +23,42 @@
     <div class="main-body">
         <div>
             <div class="title">
-                <text>商品信息</text>
+                <text>出库单信息</text>
             </div>
             <form th:action="@{/outRepoOrderController/updateOutRepoOrder}">
-            <div class="title-content">
-                <div class="title-content1">
-                    <input name="id" type="hidden" th:value="${outRepoOrder.id}" />
-                    <div class="title-content1-top1">订单号：<input disabled="disabled" style="display:inline-block"
-                                                                th:value="${outRepoOrder.orderId}"></div>
-                    <div class="title-content1-top2">渠道订单号：<input disabled="disabled" style="display:inline-block"
-                                                                  th:value="${outRepoOrder.channelId}"></div>
-                    <div class="title-content1-top3">同步状态：<input disabled="disabled" style="display:inline-block"
-                                                                 th:value="#{''+${outRepoOrder.SyncStatus}}"></div>
+                <div class="title-content">
+                    <div class="title-content1">
+                        <input name="id" type="hidden" th:value="${outRepoOrder.id}"/>
+                        <div class="title-content1-top1">订单号：<input disabled="disabled" style="display:inline-block"
+                                                                    th:value="${outRepoOrder.orderId}"></div>
+                        <div class="title-content1-top2">渠道订单号：<input disabled="disabled" style="display:inline-block"
+                                                                      th:value="${outRepoOrder.channelId}"></div>
+                        <div class="title-content1-top3">同步状态：<input disabled="disabled" style="display:inline-block"
+                                                                     th:value="#{''+${outRepoOrder.SyncStatus}}"></div>
+                    </div>
+                    <div class="title-content2">
+                        <div class="title-content1-top1">收货人：<input disabled="disabled" style="display:inline-block"
+                                                                    th:value="${outRepoOrder.receiverName}"></div>
+                        <div class="title-content1-top2">快递公司：
+                            <select name="expressCompany">
+                                <a th:each="company:${expressCompany}">
+                                    <option th:value="${company.getExpressCompanyName()}" th:text="${company.getExpressCompanyName()}"></option>
+                                </a>
+                            </select>
+                        </div>
+                        <div class="title-content1-top3">快递单号：<input name="expressId"
+                                                                     style="display:inline-block"/></div>
+                    </div>
+                    <div class="title-content3">
+                        <div class="title-content1-top1">出库单状态：<input disabled="disabled" style="display:inline-block"
+                                                                      th:value="#{''+${outRepoOrder.outRepoStatus}}">
+                        </div>
+                        <div class="title-content1-top2">收货地址：<input disabled="disabled" style="display:inline-block"
+                                                                     th:value="${outRepoOrder.receiverAddress}"></div>
+                        <div class="title-content1-top3">发货时间：<input style="display:inline-block" type="date" name="reviseTime" >
+                        </div>
+                    </div>
                 </div>
-                <div class="title-content2">
-                    <div class="title-content1-top1">收货人：<input disabled="disabled" style="display:inline-block"
-                                                                th:value="${outRepoOrder.receiverName}"></div>
-                    <div class="title-content1-top2">快递公司：<input name="expressCompany"
-                                                                 style="display:inline-block" th:value="${outRepoOrder.expressCompany}"></div>
-                    <div class="title-content1-top3">快递单号：<input name="expressId"
-                                                                 style="display:inline-block" /></div>
-                </div>
-                <div class="title-content3">
-                    <div class="title-content1-top1">出库单状态：<input disabled="disabled" style="display:inline-block"
-                                                                  th:value="#{''+${outRepoOrder.outRepoStatus}}"></div>
-                    <div class="title-content1-top2">收货地址：<input disabled="disabled" style="display:inline-block"
-                                                                 th:value="${outRepoOrder.receiverAddress}"></div>
-                    <div class="title-content1-top3">创建时间：<input disabled="disabled" style="display:inline-block"
-                                                                 th:value="${#dates.format(outRepoOrder.createTime,'yyyy-MM-dd HH:mm:ss')}"></div>
-                </div>
-            </div>
                 <button type="submit" id="close" style="float:right;margin-right: 50px;">确定</button>
             </form>
         </div>
@@ -88,8 +94,8 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function(){
-        $("#close").click(function (){
+    $(function () {
+        $("#close").click(function () {
             parent.closeIFrame();
         })
     });

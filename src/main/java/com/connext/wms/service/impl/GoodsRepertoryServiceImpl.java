@@ -9,6 +9,7 @@ import com.connext.wms.service.GoodsRepertoryService;
 import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.connext.wms.util.PageSet;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -58,12 +59,21 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
 
     @Override
     public Page showRealRepertory(Integer currPage, String key) {
-        List<RealRepertoryVO> list = goodsRepertoryMapper.getRealVO(key, (currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
-
-        return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCount());
+        Page page = new Page();
+        if (currPage == null) {
+            currPage = 1;
+        }
+        page.setCurrPage(currPage);
+        page.setTotalCount((long) goodsRepertoryMapper.getCount());
+        page.init();
+        PageHelper.startPage(currPage, Page.PAGE_SIZE);
+        //List<RealRepertoryVO> list = goodsRepertoryMapper.getRealVO(key, (currPage - 1) * Page.PAGE_SIZE, Page.PAGE_SIZE);
+        page.setData(goodsRepertoryMapper.getRealVO(key));
+        return page;
+        //return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCount());
     }
 
-    private List summaryRealRepertory(List<GoodsRepertory> goodsRepertoryList) {
+    /*private List summaryRealRepertory(List<GoodsRepertory> goodsRepertoryList) {
         List<RealRepertoryVO> list = new ArrayList<>();
         for (int i = 0; i < goodsRepertoryList.size(); i++) {
             RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(goodsRepertoryList.get(i).getId());
@@ -98,15 +108,23 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
 
         }
         return list;
-    }
+    }*/
 
     @Override
-    public Page getGoodsRepertoryByGoodsName(String key) {
+    public Page getGoodsRepertoryByGoodsName(Integer currPage,String key) {
         String newKey = "%" + key + "%";
-        Integer currPage = 1;
-        List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertoryByGoodsName(0, goodsRepertoryMapper.getCountByKey(newKey), newKey);
-        List<RealRepertoryVO> list = summaryRealRepertory(goodsRepertoryList);
+        Page page = new Page();
+        if (currPage == null) {
+            currPage = 1;
+        }
+        page.setCurrPage(currPage);
+        page.setTotalCount((long) goodsRepertoryMapper.getCountByKey(newKey));
+        page.init();
+        PageHelper.startPage(currPage, Page.PAGE_SIZE);
+        page.setData(goodsRepertoryMapper.getRealVO(key));
+       /* List<GoodsRepertory> goodsRepertoryList = goodsRepertoryMapper.getGoodsRepertoryByGoodsName(0, goodsRepertoryMapper.getCountByKey(newKey), newKey);
+        List<RealRepertoryVO> list = summaryRealRepertory(goodsRepertoryList);*/
         // System.out.println(goodsRepertoryMapper.getCountByKey(newKey));
-        return PageSet.setPage(list, currPage, (long) goodsRepertoryMapper.getCountByKey(newKey));
+        return page;
     }
 }

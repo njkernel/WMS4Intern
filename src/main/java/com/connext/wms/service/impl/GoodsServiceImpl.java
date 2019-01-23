@@ -8,6 +8,7 @@ import com.connext.wms.service.GoodsService;
 import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.connext.wms.util.PageSet;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -92,9 +93,9 @@ public class GoodsServiceImpl implements GoodsService {
                 return "error";
             } else {
                 goodsMapper.updateByPrimaryKeySelective(goods);
-            /*
-        调用同步接口传给OMS
-         */
+              /*
+                调用同步接口传给OMS
+              */
                 List<GoodsDTO> goodsDTOSList = new ArrayList<>();
                 String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
                 goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
@@ -113,12 +114,20 @@ public class GoodsServiceImpl implements GoodsService {
      * 根据关键字查询相关的商品信息
      */
     @Override
-    public Page selectByExample(String key) {
+    public Page selectByExample(String key, Integer currPage) {
         String newKey = "%" + key + "%";
-        Integer currPage = 1;
         GoodsExample example = new GoodsExample();
         example.or().andGoodsNameLike(newKey);
-        List<Goods> list = goodsMapper.selectByExample(example);
-        return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
+        Page page = new Page();
+        if (currPage == null) {
+            currPage = 1;
+        }
+        page.setCurrPage(currPage);
+        page.setTotalCount((long) goodsMapper.countByExample(example));
+        page.init();
+        PageHelper.startPage(currPage, Page.PAGE_SIZE);
+        page.setData(goodsMapper.selectByExample(example));
+        return page;
+        //return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
     }
 }

@@ -27,15 +27,16 @@ public class GoodsRepertoryController {
     @Autowired
     private RepertoryRegulationService repertoryRegulationService;
 
-    /**分页查询商品库存
-     * 
+    /**
+     * 分页查询商品库存
+     *
      * @param currPage
      * @param model
      * @return
      */
     @RequestMapping("/showRealRepertory")
-    public String showRealRepertoryPage(@RequestParam(required = false,defaultValue = "1") Integer currPage, String key, Model model) {
-        model.addAttribute("page", goodsRepertoryService.showRealRepertory(currPage,key));
+    public String showRealRepertoryPage(Integer currPage, String key, Model model) {
+        model.addAttribute("page", goodsRepertoryService.showRealRepertory(currPage, key));
         return "wareHouse";
     }
 
@@ -48,15 +49,16 @@ public class GoodsRepertoryController {
         return repertoryRegulationService.replenishRepertory(id, num);
     }
 
-  /*  *根据输入的商品名称的关键字查询商品库存
+    /*  *根据输入的商品名称的关键字查询商品库存
      *
      * @param model
      * @param key
      * @return*/
 
     @RequestMapping("/findByKey")
-    public String findByKey(Model model, String key) {
-        model.addAttribute("page", goodsRepertoryService.getGoodsRepertoryByGoodsName(key));
+    public String findByKey(Model model, String key, Integer currPage) {
+        model.addAttribute("key", key);
+        model.addAttribute("page", goodsRepertoryService.getGoodsRepertoryByGoodsName(currPage, key));
         return "wareHouse";
     }
 }

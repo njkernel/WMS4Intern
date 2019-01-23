@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //定时执行，5秒后执行
+        var t1=window.setTimeout(refreshCount,1);
+        var currPage=$('#currPage').val();
+        function refreshCount() {
+            window.location.replace("../outRepoOrderController/outRepoOrderList?currPage="+currPage);
+        }
+    });
+
+</script>
+<body>
+<input id="currPage" th:value="${currPage}" />
+</body>
+</html>
