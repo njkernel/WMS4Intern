@@ -47,7 +47,7 @@ function update() {
                 alert("修改公司信息成功！");
                 window.location.reload()
             }else if(data==1){
-                alert("该公司已经存在！");
+                alert("新公司已经存在！");
             }else if(data==3){
                 alert("手机号格式错误！")
             }else if(data==4){

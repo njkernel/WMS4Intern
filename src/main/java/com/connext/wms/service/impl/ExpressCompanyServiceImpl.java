@@ -61,7 +61,7 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
             ExpressCompanyExample example = new ExpressCompanyExample();
             example.or().andExpressCompanyNameEqualTo(expressCompanyName);
             List<ExpressCompany> list = expressCompanyMapper.selectByExample(example);
-            if(list.size()==1){
+            if(list.size()!=0){
                 flag = 1;
             }else{
                 if(checkName(expressCompanyName)){
@@ -111,8 +111,8 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
             List<ExpressCompany> list1 = expressCompanyMapper.selectByExample(example);
             example.or().andExpressCompanyNameEqualTo(expressCompanyName);
             List<ExpressCompany> list2 = expressCompanyMapper.selectByExample(example);
-            if(list2.size()==1){
-                if(list1.size()==1){
+            if(list2.size()!=0){
+                if(list1.size()!=0){
                     flag = 1;
                 }else{
                     if(checkName(newName)){
