@@ -25,11 +25,11 @@ public interface OutRepertoryMapper {
 
     int insertSelective(OutRepertory record);
 
-    List<OutRepertory> selectByKey1(@Param("key") String key,@Param("start") Integer start,@Param("size") Integer size);
+    List<OutRepertory> selectByKey1(String key);
 
     List<OutRepertory> selectByExample(OutRepertoryExample example);
 
-    List<OutRepertory> selectByPage(Integer start,Integer size);
+    List<OutRepertory> selectByPage();
 
     List<OutRepertory> unclearSelect(String outRepoOrderId,String selectStatus);
 

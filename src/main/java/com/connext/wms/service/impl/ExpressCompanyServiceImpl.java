@@ -4,8 +4,8 @@ import com.connext.wms.dao.ExpressCompanyMapper;
 import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.entity.ExpressCompanyExample;
 import com.connext.wms.service.ExpressCompanyService;
-import com.connext.wms.util.Page;
-import com.connext.wms.util.PageSet;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,23 +28,26 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
     //判断的状态
     private Integer flag;
 
+    //分页时每页的数据记录
+    public static final Integer SIZE = 10;
 
     //分页查询所有快递公司信息
     @Override
-    public Page selectByPage(Integer currPage){
-        List<ExpressCompany> list = expressCompanyMapper.selectByPage((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE);
-        ExpressCompanyExample example = new ExpressCompanyExample();
-        return PageSet.setPage(list,currPage,expressCompanyMapper.countByExample(example));
+    public PageInfo selectByPage(Integer currPage){
+        PageHelper.startPage(currPage,SIZE);
+        List<ExpressCompany> list = expressCompanyMapper.selectByPage();
+        return new PageInfo(list);
     }
 
     //根据关键字查询
     @Override
-    public Page selectByKey(Integer currPage,String key){
+    public PageInfo selectByKey(Integer currPage, String key){
         String newKey = "%" + key + "%";
-        List<ExpressCompany> list = expressCompanyMapper.selectByKey((currPage-1)*Page.PAGE_SIZE, Page.PAGE_SIZE,newKey);
+        PageHelper.startPage(currPage,SIZE);
         ExpressCompanyExample example = new ExpressCompanyExample();
         example.or().andExpressCompanyNameLike(newKey);
-        return PageSet.setPage(list,currPage,expressCompanyMapper.countByExample(example));
+        List<ExpressCompany> list = expressCompanyMapper.selectByExample(example);
+        return new PageInfo(list);
     }
 
     //添加快递公司信息
@@ -58,7 +61,7 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
             ExpressCompanyExample example = new ExpressCompanyExample();
             example.or().andExpressCompanyNameEqualTo(expressCompanyName);
             List<ExpressCompany> list = expressCompanyMapper.selectByExample(example);
-            if(list.size()==1){
+            if(list.size()!=0){
                 flag = 1;
             }else{
                 if(checkName(expressCompanyName)){
@@ -108,8 +111,8 @@ public class ExpressCompanyServiceImpl implements ExpressCompanyService {
             List<ExpressCompany> list1 = expressCompanyMapper.selectByExample(example);
             example.or().andExpressCompanyNameEqualTo(expressCompanyName);
             List<ExpressCompany> list2 = expressCompanyMapper.selectByExample(example);
-            if(list2.size()==1){
-                if(list1.size()==1){
+            if(list2.size()!=0){
+                if(list1.size()!=0){
                     flag = 1;
                 }else{
                     if(checkName(newName)){

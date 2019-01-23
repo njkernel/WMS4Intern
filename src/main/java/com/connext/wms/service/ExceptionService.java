@@ -1,8 +1,7 @@
 package com.connext.wms.service;
 
-import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.OutRepertory;
-import com.connext.wms.util.Page;
+import com.github.pagehelper.PageInfo;
 
 
 /**
@@ -14,12 +13,12 @@ import com.connext.wms.util.Page;
 public interface ExceptionService {
 
     //查找关键字查找异常订单
-    Page selectByExampleToKey(Integer currPage,String key);
+    PageInfo selectByExampleToKey(Integer currPage,String key);
 
     //点击查看异常订单详情
     OutRepertory selectByPrimaryKey(Integer id);
 
     //分页查询所有异常订单信息返回列表
-    Page selectByPage(Integer currPage);
+    PageInfo selectByPage(Integer currPage);
 
 }

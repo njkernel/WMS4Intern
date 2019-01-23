@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,9 @@ public class ExceptionController {
 
     //按关键字查找相关异常的订单
     @RequestMapping("/findByKey")
-    public String findByKey(Integer currPage,Model model,String key){
-        model.addAttribute("page",exceptionService.selectByExampleToKey(1,key));
+    public String findByKey(@RequestParam(required = false,defaultValue = "1")Integer currPage, Model model, String key){
+        model.addAttribute("page",exceptionService.selectByExampleToKey(currPage,key));
+        model.addAttribute("key",key);
         return "error-order-list";
     }
 
