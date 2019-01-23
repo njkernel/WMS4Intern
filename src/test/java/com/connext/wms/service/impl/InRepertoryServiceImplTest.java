@@ -42,6 +42,7 @@ class InRepertoryServiceImplTest {
         inRepertoryDetailMapper.deleteByExample(new InRepertoryDetailExample());
     }
 
+
     @Test
     void initState() {
         InRepertory inRepertory=new InRepertory();
