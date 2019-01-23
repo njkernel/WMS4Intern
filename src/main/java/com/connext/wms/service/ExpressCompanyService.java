@@ -2,7 +2,6 @@ package com.connext.wms.service;
 
 import com.connext.wms.entity.ExpressCompany;
 import com.github.pagehelper.PageInfo;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 
