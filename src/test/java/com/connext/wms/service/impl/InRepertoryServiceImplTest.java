@@ -64,27 +64,34 @@ class InRepertoryServiceImplTest {
 
     @Test
     void findPage() {
-        inRepertoryService.findPage(1, 10);
+        inRepertoryService.findPage(1, 10).getList().forEach(System.out::println);
     }
 
     @Test
     void findPageBy() {
+        inRepertoryService.findPageBy("wait", 1, 10).getList().forEach(System.out::println);
     }
 
     @Test
     void findOne() {
+        inRepertoryService.findOne(17);
     }
 
     @Test
     void initInRepertory() {
+        inRepertoryService.initInRepertory(inRepertoryService.findOne(17));
     }
 
     @Test
     void checkInRepertoryExpired() {
+        inRepertoryService.checkInRepertoryExpired(inRepertoryService.findPage(1,10).getList());
     }
 
     @Test
     void changeInRepertoryStatus() {
+        inRepertoryService.changeInRepertoryStatus(17,"over");
+        InRepertory inRepertory=inRepertoryService.findOne(17);
+        assertEquals("over", inRepertory.getInRepoStatus());
     }
 
     @Test
