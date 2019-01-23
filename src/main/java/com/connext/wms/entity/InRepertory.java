@@ -1,5 +1,6 @@
 package com.connext.wms.entity;
 
+import lombok.Builder;
 import lombok.ToString;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.List;
  * @Version 1.0
  */
 @ToString
+@Builder
 public class InRepertory {
     private Integer id;
 

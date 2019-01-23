@@ -56,7 +56,20 @@ public class InRepertoryApi {
             List<InRepertoryDetailDTO> repertoryDetailDTOS = objectMapper.readValue(detailDTOS, new TypeReference<List<InRepertoryDetailDTO>>() {
             });
             Date nowTime = new Date();
-            InRepertory inRepertory = new InRepertory(inRepoId, orderId, channelId, expressId, expressCompany, constant.INIT_STATUS, constant.SYNC_FALSE_STATES, constant.RECEIVING_REPERTORY, nowTime, constant.REVISER, nowTime, entityAndDto.toEntity(inRepoId, repertoryDetailDTOS));
+            InRepertory inRepertory = InRepertory.builder()
+                    .inRepoId(inRepoId)
+                    .orderId(orderId)
+                    .channelId(channelId)
+                    .expressId(expressId)
+                    .expressCompany(expressCompany)
+                    .inRepoStatus(constant.INIT_STATUS)
+                    .syncStatus(constant.SYNC_FALSE_STATES)
+                    .receivingRepo(constant.RECEIVING_REPERTORY)
+                    .createTime(nowTime)
+                    .reviser(constant.REVISER)
+                    .reviseTime(nowTime)
+                    .repertoryDetails(entityAndDto.toEntity(inRepoId, repertoryDetailDTOS))
+                    .build();
             inRepertoryService.initInRepertory(inRepertory);
             return HttpStatus.valueOf(201);
         } else {
