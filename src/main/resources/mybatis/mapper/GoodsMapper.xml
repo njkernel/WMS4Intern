@@ -6,7 +6,7 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="sku" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="goods_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="goods_price" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="goods_price" javaType="java.math.BigDecimal" jdbcType="REAL" />
     </constructor>
   </resultMap>
   <resultMap id="GoodsDTOMap" type="com.connext.wms.api.dto.GoodsDTO">
