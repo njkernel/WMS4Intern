@@ -119,7 +119,7 @@
         <if test="status!='null'">
             in_repo_status=#{status} and
         </if>
-        (in_repo_id like #{like} OR order_id like #{like} or express_id like #{like})
+        (in_repo_id like #{like} OR order_id like #{like} or express_id like #{like} or channel_id like #{like})
         order by revise_time DESC
     </select>
     <select id="getPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">

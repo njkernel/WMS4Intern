@@ -115,11 +115,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean changeInRepertoryStatus(Integer id, String status) {
-        InRepertory inRepertory = new InRepertory();
-        inRepertory.setId(id);
-        inRepertory.setReviseTime(new Date());
-        inRepertory.setInRepoStatus(status);
-        inRepertory.setSyncStatus(constant.SYNC_TRUE_STATES);
+        InRepertory inRepertory = InRepertory.builder().id(id).reviseTime(new Date()).inRepoStatus(status).syncStatus(constant.SYNC_TRUE_STATES).build();
         if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
             if (status.equals(constant.SUCCESS_STATUS)) {
