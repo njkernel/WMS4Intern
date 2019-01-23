@@ -111,11 +111,11 @@ public class GoodsServiceImpl implements GoodsService {
               /*
                 调用同步接口传给OMS
               */
-                /*List<GoodsDTO> goodsDTOSList = new ArrayList<>();
+                List<GoodsDTO> goodsDTOSList = new ArrayList<>();
                 String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
                 goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
                 // System.out.println(goodsDTOSList.toString());
-                restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);*/
+                restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
                 //System.out.println(goods.getGoodsPrice().intValue());
                 //System.out.println(goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)));
                 return "success";
@@ -129,6 +129,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 根据关键字查询相关的商品信息
+     *
      * @param key
      * @param currPage
      * @return Page
