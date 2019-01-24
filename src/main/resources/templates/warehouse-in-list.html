@@ -35,7 +35,7 @@
                 document.getElementById('iframeId').src = "/inRepertory/detail/" + $(this).attr('name')
             });
             $('.cad').click(function () {
-                document.getElementById('iframeId').src = "/inRepertory/action/exception?id=" + $(this).attr('name')
+                //document.getElementById('iframeId').src = "/inRepertory/action/exception?id=" + $(this).attr('name')
             });
         });
 
@@ -114,12 +114,12 @@
                 <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
                 <td>
                     <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情</button>
-                    <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"
-                            class="btn btn-danger btn-xs cad">异常
-                    </button>
-                    <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"
-                            class="btn btn-danger btn-xs cad" disabled>异常
-                    </button>
+                    <!--<button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"-->
+                    <!--class="btn btn-danger btn-xs cad">异常-->
+                    <!--</button>-->
+                    <!--<button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"-->
+                    <!--class="btn btn-danger btn-xs cad" disabled>异常-->
+                    <!--</button>-->
                 </td>
             </tr>
 
