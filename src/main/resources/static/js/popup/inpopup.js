@@ -2,7 +2,7 @@ $(function () {
 
   var Plugin = function (elem, options) {
     this.$elem = elem;
-    this.$btn = $('.btn.btn-xs');
+    this.$btn = $('.btn.btn-xs.cab');
     this.$oMask = $('#mask_shadow');
     this.$oTitle = this.$elem.find('.title');
     this.$close = this.$oTitle.find('span');

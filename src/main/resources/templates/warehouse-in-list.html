@@ -7,7 +7,7 @@
     <title>表格</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/js/popup/popup.js"></script>
+    <script src="/js/popup/inpopup.js"></script>
     <script src="/js/popup/orderpopup.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
@@ -119,15 +119,13 @@
                     <td>
                         <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情
                         </button>
-                        <!--<button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"-->
-                        <!--class="btn btn-danger btn-xs cad">异常-->
-                        <!--</button>-->
-                        <!--<button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"-->
-                        <!--class="btn btn-danger btn-xs cad" disabled>异常-->
-                        <!--</button>-->
-                        <button type="button" id="exception" th:name="${obj.id}" @click="getGoodsList($event)"
+                        <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}" @click="getGoodsList($event)"
                                 class="btn btn-danger btn-xs cad"
                                 data-toggle="modal" data-target="#demoModal1">异常
+                        </button>
+                        <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}" @click="getGoodsList($event)"
+                                class="btn btn-danger btn-xs cad"
+                                data-toggle="modal" data-target="#demoModal1" disabled>异常
                         </button>
                     </td>
                 </tr>
@@ -312,6 +310,7 @@
                         } else {
                             alert("操作失败")
                         }
+                        window.location.reload(true)
                     })
                     .catch(function (error) {
                         console.log(error);
