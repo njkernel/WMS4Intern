@@ -8,6 +8,8 @@ import com.connext.wms.entity.*;
 import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.OutRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
+import com.connext.wms.service.TokenService;
+import com.connext.wms.util.NeedToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +37,13 @@ public class ApplicationProgrameInterface {
     private OutRepertoryDetailMapper outRepertoryDetailMapper;
     @Resource
     private GoodsService goodsService;
+    @Resource
+    private TokenService tokenService;
 
     //oms推送出库单进入wms
     @PostMapping(value = "/pushOutRepoOrder", produces = "text/json;charset=UTF-8")
     @ResponseBody
+    @NeedToken
     public String pushOutRepoOrder(
             @RequestParam(required = true) String outRepoId,
             @RequestParam(required = true) String orderId,
@@ -97,9 +102,30 @@ public class ApplicationProgrameInterface {
     }
 
 
+    /**
+     * oms需要传入正确的账号密码获取token
+     * @param map
+     * @return
+     */
+    @PostMapping("/getToken")
+    @ResponseBody
+    public String getToken(@RequestBody Map map){
+        String token = tokenService.getToken((String)map.get("omsname"), (String)map.get("password"));
+        return token;
+    }
+
+    @NeedToken
+    @RequestMapping("/testToken")
+    @ResponseBody
+    public String testToken(String param){
+        return "ojbk";
+    }
+
+
     //oms取消wms出库单，wms告知oms出库单是否取消成功
     @PostMapping("/cancelResult")
     @ResponseBody
+    @NeedToken
     public String cancelResult(@RequestParam(required = true) String outRepoOrderNo) {
         try {
             System.out.println(outRepoOrderNo);

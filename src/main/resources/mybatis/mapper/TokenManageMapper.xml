@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.connext.wms.dao.ExpressCompanyMapper">
-  <resultMap id="BaseResultMap" type="com.connext.wms.entity.ExpressCompany">
+<mapper namespace="com.connext.wms.dao.TokenManageMapper">
+  <resultMap id="BaseResultMap" type="com.connext.wms.entity.TokenManage">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="express_company_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="contact_way" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="omsname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, express_company_name, contact_way
+    id, omsname, password
   </sql>
-  <select id="selectByExample" parameterType="com.connext.wms.entity.ExpressCompanyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.connext.wms.entity.TokenManageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_express_company
+    from t_token_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,76 +86,67 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_express_company
+    from t_token_manage
     where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, express_company_name, contact_way
-    from t_express_company
-  </select>
-  <select id="selectByKey" parameterType="com.connext.wms.entity.ExpressCompanyExample" resultMap="BaseResultMap">
-    select id, express_company_name, contact_way
-    from t_express_company
-      where express_company_name like #{key}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_express_company
+    delete from t_token_manage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.connext.wms.entity.ExpressCompanyExample">
-    delete from t_express_company
+  <delete id="deleteByExample" parameterType="com.connext.wms.entity.TokenManageExample">
+    delete from t_token_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.connext.wms.entity.ExpressCompany">
-    insert into t_express_company (id, express_company_name, contact_way
+  <insert id="insert" parameterType="com.connext.wms.entity.TokenManage">
+    insert into t_token_manage (id, omsname, password
       )
-    values (null , #{expressCompanyName,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{omsname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.connext.wms.entity.ExpressCompany">
-    insert into t_express_company
+  <insert id="insertSelective" parameterType="com.connext.wms.entity.TokenManage">
+    insert into t_token_manage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="expressCompanyName != null">
-        express_company_name,
+      <if test="omsname != null">
+        omsname,
       </if>
-      <if test="contactWay != null">
-        contact_way,
+      <if test="password != null">
+        password,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="expressCompanyName != null">
-        #{expressCompanyName,jdbcType=VARCHAR},
+      <if test="omsname != null">
+        #{omsname,jdbcType=VARCHAR},
       </if>
-      <if test="contactWay != null">
-        #{contactWay,jdbcType=VARCHAR},
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.connext.wms.entity.ExpressCompanyExample" resultType="java.lang.Long">
-    select count(*) from t_express_company
+  <select id="countByExample" parameterType="com.connext.wms.entity.TokenManageExample" resultType="java.lang.Long">
+    select count(*) from t_token_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_express_company
+    update t_token_manage
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.expressCompanyName != null">
-        express_company_name = #{record.expressCompanyName,jdbcType=VARCHAR},
+      <if test="record.omsname != null">
+        omsname = #{record.omsname,jdbcType=VARCHAR},
       </if>
-      <if test="record.contactWay != null">
-        contact_way = #{record.contactWay,jdbcType=VARCHAR},
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -163,30 +154,33 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_express_company
-    set
-      express_company_name = #{record.expressCompanyName,jdbcType=VARCHAR},
-      contact_way = #{record.contactWay,jdbcType=VARCHAR}
+    update t_token_manage
+    set id = #{record.id,jdbcType=INTEGER},
+      omsname = #{record.omsname,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.connext.wms.entity.ExpressCompany">
-    update t_express_company
+  <update id="updateByPrimaryKeySelective" parameterType="com.connext.wms.entity.TokenManage">
+    update t_token_manage
     <set>
-      <if test="expressCompanyName != null">
-        express_company_name = #{expressCompanyName,jdbcType=VARCHAR},
+      <if test="omsname != null">
+        omsname = #{omsname,jdbcType=VARCHAR},
       </if>
-      <if test="contactWay != null">
-        contact_way = #{contactWay,jdbcType=VARCHAR},
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.ExpressCompany">
-    update t_express_company
-    set express_company_name = #{expressCompanyName,jdbcType=VARCHAR},
-      contact_way = #{contactWay,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.TokenManage">
+    update t_token_manage
+    set omsname = #{omsname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByOmsname" parameterType="java.lang.String" resultType="com.connext.wms.entity.TokenManage">
+    select omsname, password from t_token_manage where omsname = #{omsname}
+  </select>
 </mapper>
