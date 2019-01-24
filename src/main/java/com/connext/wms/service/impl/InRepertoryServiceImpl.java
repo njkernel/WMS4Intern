@@ -7,6 +7,7 @@ import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
 import com.connext.wms.entity.InRepertory;
+import com.connext.wms.entity.InRepertoryDetail;
 import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.InRepertoryService;
@@ -136,10 +137,10 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(Constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
         try {
             restTemplate.postForObject(Constant.PUSH_URL, inputFeedback.toMap(), String.class);
-            log.info("超时入库单推送成功："+ inputFeedback.getOrderId());
+            log.info("入库单返回状态推送成功：" + inputFeedback.getOrderId());
             return true;
         } catch (Exception e) {
-            log.info("超时入库单推送失败："+ inputFeedback.getOrderId());
+            log.info("入库单返回状态推送失败：" + inputFeedback.getOrderId());
             return false;
         }
     }
@@ -161,11 +162,11 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS) {
+    public boolean actionException(int id, List<InRepertoryDetail> inRepertoryDetail) {
         boolean result = changeInRepertoryStatus(id, Constant.SUCCESS_STATUS);
         InRepertory inRepertory = findOne(id);
         if (result) {
-            inRepertory.setRepertoryDetails(entityAndDto.idToEntity(id, inRepertoryDetailDTOS));
+            inRepertory.setRepertoryDetails(inRepertoryDetail);
             pushInRepertoryState(inRepertory);
         }
         return true;

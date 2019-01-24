@@ -38,6 +38,7 @@ public class InRepertoryController {
         model.addAttribute("one", inRepertoryService.findOne(id));
         return "specific/in-detail";
     }
+
     @PostMapping("detail/{id}")
     @ResponseBody
     public List<InRepertoryDetail> detailVue(@PathVariable Integer id, Model model) {
@@ -77,12 +78,12 @@ public class InRepertoryController {
         return "specific/in-detail-action";
     }
 
-    @PostMapping("/action/exception")
+    @PostMapping("/action/exception/{id}")
     @ResponseBody
-    public boolean finish(@RequestParam Integer id, @RequestParam String list) throws IOException {
-        List<InRepertoryDetailDTO> inRepertoryDetailDTOS = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetailDTO>>() {
-        });
-        return inRepertoryService.actionException(id, inRepertoryDetailDTOS);
+    public boolean finish(@PathVariable Integer id, @RequestBody List<InRepertoryDetail> inRepertoryDetail) throws IOException {
+//        List<InRepertoryDetail> inRepertoryDetail = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetail>>() {
+//        });
+        return inRepertoryService.actionException(id, inRepertoryDetail);
     }
 
     @PostMapping("/action/{status}")

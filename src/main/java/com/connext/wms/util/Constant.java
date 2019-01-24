@@ -19,7 +19,7 @@ public class Constant {
     public static final String SYNC_TRUE_STATES = "true";
     public static final String REVISER = "WMS";
     public static final String TOKENS = "yonyong";
-    public static final String PUSH_URL = "http://10.129.100.23:8502/Api/getReturnInputFeedback";
+    public static final String PUSH_URL = "http://127.0.0.1:8502/Api/getReturnInputFeedback";
     public static final String GOODS_TOTAL_URL = "http://127.0.0.1:8502/updateTotalStock";
     public static final String GOODS_UPDATE_URL = "http://127.0.0.1:8502/updateGoods";
     public static final String OUT_UPDATE_URL = "http://127.0.0.1:8502/synchronizeState";
