@@ -80,10 +80,8 @@ public class InRepertoryController {
 
     @PostMapping("/action/exception/{id}")
     @ResponseBody
-    public boolean finish(@PathVariable Integer id, @RequestBody List<InRepertoryDetail> inRepertoryDetail) throws IOException {
-//        List<InRepertoryDetail> inRepertoryDetail = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetail>>() {
-//        });
-        return inRepertoryService.actionException(id, inRepertoryDetail);
+    public boolean finish(@PathVariable Integer id, @RequestBody List<InRepertoryDetail> list) {
+        return inRepertoryService.actionException(id, list);
     }
 
     @PostMapping("/action/{status}")

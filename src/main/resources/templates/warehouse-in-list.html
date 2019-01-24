@@ -274,7 +274,8 @@
         el: '#goodsList',
         data: {
             id: '',
-            goodsList: []
+            goodsList: [],
+            oldList:[],
         },
         methods: {
             countDown(index) {
@@ -283,7 +284,9 @@
                 }
             },
             countUp(index) {
-                this.goodsList[index].goodsNum++
+                if (this.goodsList[index].goodsNum < this.oldList[index].goodsNum) {
+                    this.goodsList[index].goodsNum++
+                }
             },
             getGoodsList(e) {
                 var iii = this
@@ -291,7 +294,7 @@
                 axios.post('/inRepertory/detail/' + iii.id, {})
                     .then(function (response) {
                         iii.goodsList = response.data;
-                        console.log(response.data)
+                        iii.oldList=response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -299,10 +302,10 @@
             },
             push() {
                 var iii = this
-                var list = JSON.stringify(this.goodsList)
-                axios.post('/inRepertory/action/exception/' + iii.id, {
-                    'inRepertoryDetail': list
-                })
+                axios.post('/inRepertory/action/exception/' + iii.id, JSON.stringify(iii.goodsList), {
+                        headers: {'Content-Type': 'application/json'}
+                    },
+                )
                     .then(function (response) {
                         if (response.data) {
                             alert("操作成功")

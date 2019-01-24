@@ -164,10 +164,9 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Transactional(rollbackFor = Exception.class)
     public boolean actionException(int id, List<InRepertoryDetail> inRepertoryDetail) {
         boolean result = changeInRepertoryStatus(id, Constant.SUCCESS_STATUS);
-        InRepertory inRepertory = findOne(id);
+        inRepertoryDetail.forEach(inRepertoryDetailMapper::updateByPrimaryKey);
         if (result) {
-            inRepertory.setRepertoryDetails(inRepertoryDetail);
-            pushInRepertoryState(inRepertory);
+            pushInRepertoryState(findOne(id));
         }
         return true;
     }
