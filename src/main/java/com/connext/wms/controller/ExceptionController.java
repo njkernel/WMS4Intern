@@ -1,6 +1,7 @@
 package com.connext.wms.controller;
 
 
+import com.connext.wms.aop.OutRepoAnnotation;
 import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.service.ExceptionService;
 import com.connext.wms.service.OutRepertoryService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,9 @@ public class ExceptionController {
 
     //按关键字查找相关异常的订单
     @RequestMapping("/findByKey")
-    public String findByKey(Integer currPage,Model model,String key){
-        model.addAttribute("page",exceptionService.selectByExampleToKey(1,key));
+    public String findByKey(@RequestParam(required = false,defaultValue = "1")Integer currPage, Model model, String key){
+        model.addAttribute("page",exceptionService.selectByExampleToKey(currPage,key));
+        model.addAttribute("key",key);
         return "error-order-list";
     }
 
@@ -50,6 +53,7 @@ public class ExceptionController {
 
     //对异常订单进行再次发货
     @RequestMapping("/feedback")
+    @OutRepoAnnotation
     public String toDeliver(Integer outRepoId){
         //调用出库service中的反馈发货信息方法，对在异常列表的订单进行再次信息反馈
         List<Integer> list = new ArrayList<>();

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -32,8 +33,9 @@ public class ExpressCompanyController {
 
     //根据用户输入的关键字查找出符合的公司信息显示在页面
     @RequestMapping("/findByKey")
-    public String findByKey(Integer currPage,Model model,String key) {
-        model.addAttribute("page", expressCompanyService.selectByKey(1,key));
+    public String findByKey(@RequestParam(required = false,defaultValue = "1") Integer currPage, Model model, String key) {
+        model.addAttribute("page", expressCompanyService.selectByKey(currPage,key));
+        model.addAttribute("key",key);
         return "express-company";
     }
 

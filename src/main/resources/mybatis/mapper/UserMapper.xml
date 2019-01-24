@@ -59,7 +59,6 @@
     <update id="updateByPrimaryKey" parameterType="com.connext.wms.entity.User">
         update t_user
         set username  = #{username,jdbcType=VARCHAR},
-            password  = #{password,jdbcType=VARCHAR},
             telephone = #{telephone,jdbcType=VARCHAR},
             role=#{role,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
@@ -84,20 +83,12 @@
         where username like "%"#{username}"%"
     </select>
 
-    <!--修改用户权限-->
-    <update id="modifyRole" parameterType="com.connext.wms.entity.User">
-        update t_user
-        set role=#{role}
-        where id = #{id}
-    </update>
-
-    <!--忘记密码-->
+    <!--修改密码-->
     <update id="forget" parameterType="com.connext.wms.entity.User">
         update t_user
-        set password=#{password}
-        where telephone = #{telephone}
+        set password = #{password}
+        where id = #{id,jdbcType=INTEGER}
     </update>
-
 
     <sql id="Example_Where_Clause">
         <where>
