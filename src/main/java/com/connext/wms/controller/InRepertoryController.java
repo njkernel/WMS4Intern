@@ -2,10 +2,9 @@ package com.connext.wms.controller;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.util.EntityAndDto;
-import com.connext.wms.entity.InRepertory;
+import com.connext.wms.entity.InRepertoryDetail;
 import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.util.Constant;
-import com.connext.wms.util.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +37,11 @@ public class InRepertoryController {
     public String detail(@PathVariable Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
         return "specific/in-detail";
+    }
+    @PostMapping("detail/{id}")
+    @ResponseBody
+    public List<InRepertoryDetail> detailVue(@PathVariable Integer id, Model model) {
+        return inRepertoryService.findOne(id).getRepertoryDetails();
     }
 
     @GetMapping("page/{page}")

@@ -15,6 +15,7 @@ import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Version 1.0
  */
 @Service
+@Slf4j
 public class InRepertoryServiceImpl implements InRepertoryService {
     private final InRepertoryMapper inRepertoryMapper;
     private final InRepertoryDetailMapper inRepertoryDetailMapper;
@@ -134,8 +136,10 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(Constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
         try {
             restTemplate.postForObject(Constant.PUSH_URL, inputFeedback.toMap(), String.class);
+            log.info("超时入库单推送成功："+ inputFeedback.getOrderId());
             return true;
         } catch (Exception e) {
+            log.info("超时入库单推送失败："+ inputFeedback.getOrderId());
             return false;
         }
     }

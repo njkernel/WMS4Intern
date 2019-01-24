@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/popup/popup.js"></script>
+    <script src="/js/popup/orderpopup.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/pager.css">
     <script src="/js/pager.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script th:inline="javascript">
         $(function () {
             $('.action').on("click", function () {
@@ -62,7 +65,7 @@
 <div id="mask_shadow"></div>
 <!--/*@thymesVar id="status" type="java.lang.String"*/-->
 <!--/*@thymesVar id="page" type="com.github.pagehelper.PageInfo"*/-->
-<td><!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
+<div><!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
     <div class="btn-div">
         <button type="button" class="btn btn-primary" onclick="window.location.reload('${url}+/1')">刷新
         </button>
@@ -84,7 +87,7 @@
             </form>
         </div>
     </div>
-    <div>
+    <div id="goodsList">
         <table class="table table-condensed">
             <thead>
             <tr>
@@ -120,12 +123,110 @@
                     <!--<button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"-->
                     <!--class="btn btn-danger btn-xs cad" disabled>异常-->
                     <!--</button>-->
+                    <button type="button" id="exception" th:name="${obj.id}" @click="getGoodsList($event)"
+                            class="btn btn-danger btn-xs cad"
+                            data-toggle="modal" data-target="#demoModal">异常
+                    </button>
                 </td>
             </tr>
 
             </tbody>
         </table>
     </div>
+    <!--yonyong弹窗界面-->
+    <!--<div v-if="status=='exist'">-->
+    <div id="goodsList">
+        <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">收货管理</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal refund" role="form">
+                            <div class="form-group ">
+                                <!--<label for="fiarstnme" class="col-sm-2 control-label">订单号:</label>-->
+                                <div class="col-sm-10">
+                                    订单号:&nbsp;&nbsp;&nbsp;<input type="text" id="fiarstnme" style="border:0;"
+                                                                 readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th>商品编码</th>
+                                            <th>商品名称</th>
+                                            <th>退货数量</th>
+                                            <!--<th>商品总价</th>-->
+                                        </tr>
+                                        </thead>
+                                        <template v-for="(i,index) in goodsList">
+                                            <tr>
+                                                <td>{{i.id}}</td>
+                                                <td></td>
+                                                <td class="refund">
+                                                    <div class="control-btn">
+                                                        <div class="control-btn">
+                                                            <button type="button" class="subtract"
+                                                                    @click="countDown(index)">-
+                                                            </button>
+                                                            <input type="text" v-model="i.num" class="txtnum"
+                                                                   style="width: 22px;">
+                                                            <button type="button" class="plus" @click="countUp(index)">
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary save" data-dismiss="modal" id="save">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var model = new Vue({
+            el: '#goodsList',
+            data: {
+                id: '',
+                goodsList: []
+            },
+            methods: {
+                countDown(index) {
+                    this.goodsList[index].num--
+                },
+                countUp(index) {
+                    this.goodsList[index].num++
+                },
+                getGoodsList(e) {
+                    var iii = this
+                    this.id = $(e.srcElement).attr('name')
+                    axios.post('/inRepertory/detail/' + iii.id, {})
+                        .then(function (response) {
+                            iii.goodsList = response.data;
+                            console.log(response.data)
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            }
+        })
+    </script>
+
     <!-- 弹出框 -->
     <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -189,5 +290,6 @@
             // $("body").css("overflow-y", "hidden");
         });
     </script>
+</div>
 </body>
 </html>
