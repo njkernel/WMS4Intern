@@ -273,6 +273,7 @@ function checkReg() {
         url: "/user/checkReg",
         type: "post",
         dataType: "json",
+        async: false,
         data: phone_No,
         success: function (data) {
             if (data.flag) {
@@ -285,9 +286,10 @@ function checkReg() {
             }
         }
     })
-    if (result==true){
+
+    if (result == true) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -320,10 +322,10 @@ function checkPhone2() {
 
 //新增用户名
 function checkName1() {
-    var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
+    var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]|[ａ-ｚＡ-Ｚ０-９_]){2,20}$");
     if (!reg.test($("#username").val())) {
         document.getElementById("user_name1").style.display = "block";
-        $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误,2-20位中文数字、半角字母组合</font>");
+        $("#user_name1").html("<font style='color:red' size='1px'>用户名格式错误,2-20位中文、数字、字母组合</font>");
         return false;
     } else {
         document.getElementById("user_name1").style.display = "none";
@@ -333,10 +335,10 @@ function checkName1() {
 
 //修改用户名
 function checkName2() {
-    var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,20}$");
+    var reg = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]|[ａ-ｚＡ-Ｚ０-９_]){2,20}$");
     if (!reg.test($("#firstname-1").val())) {
         document.getElementById("user_name2").style.display = "block";
-        $("#user_name2").html("<font style='color:red' size='1px'>用户名格式错误,2-20位中文数字、半角字母组合</font>");
+        $("#user_name2").html("<font style='color:red' size='1px'>用户名格式错误,2-20位中文、数字、字母组合</font>");
         return false;
     } else {
         document.getElementById("user_name2").style.display = "none";
