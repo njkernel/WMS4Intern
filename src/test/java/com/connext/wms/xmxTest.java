@@ -3,13 +3,11 @@ package com.connext.wms;
 import com.connext.wms.api.dto.OutRepoOrderDetailDto;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
-import com.connext.wms.entity.OutRepertory;
-import com.connext.wms.entity.OutRepertoryDetail;
-import com.connext.wms.entity.OutRepertoryDetailExample;
-import com.connext.wms.entity.OutRepertoryExample;
+import com.connext.wms.entity.*;
 import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.OutRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
+import com.connext.wms.service.TokenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +41,8 @@ public class xmxTest {
     @Autowired
     private OutRepertoryService outRepertoryService;
 
+    @Autowired
+    private TokenService tokenService;
 
     @Test
     public void updateOutRepoOrderStatus() {
@@ -231,6 +231,13 @@ public class xmxTest {
     @Test
     public void getOneGoodDetail(){
         System.out.println(this.outRepertoryService.selectListByOutRepoId(354));
+    }
+
+    @Test
+    public void getTokenAccount(){
+        TokenManage tokenManage = new TokenManage();
+        tokenManage.setOmsname("123456");
+        System.out.println(this.tokenService.getTokenAccount(tokenManage.getOmsname()));
     }
 
 }
