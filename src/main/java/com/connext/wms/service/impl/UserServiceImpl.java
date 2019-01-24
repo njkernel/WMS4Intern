@@ -33,11 +33,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int checkRegisterByName(String username) {
-        return userMapper.checkRegisterByName(username);
-    }
-
-    @Override
     public User login(Map<String, String> map) {
         // TODO Auto-generated method stub
         return userMapper.login(map);
@@ -64,12 +59,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modifyRole(User user) {
-        this.userMapper.modifyRole(user);
-    }
-
-    @Override
     public void forget(User user) {
+        String password = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(password);
+        user.setId(user.getId());
         this.userMapper.forget(user);
     }
 

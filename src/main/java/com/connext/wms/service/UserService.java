@@ -13,7 +13,6 @@ public interface UserService {
     void register(User user);
     //注册验证
     int checkRegister(@Param("telephone") String telephone);
-    int checkRegisterByName(@Param("username") String username);
     //登陆
     User login(Map<String, String> map);
     //删除用户
@@ -23,8 +22,6 @@ public interface UserService {
     User updateById(int id);
     //用户列表
     List<User> queryAll();
-    //修改权限
-    void modifyRole(User user);
     //忘记密码
     void forget(User user);
 

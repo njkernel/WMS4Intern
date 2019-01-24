@@ -2,7 +2,9 @@ package com.connext.wms.api.dto;
 
 import com.connext.wms.util.ToMap;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -12,7 +14,9 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
+@Builder
 public class InRepertoryDTO extends ToMap {
     private String tokens;
     private String inRepoId;

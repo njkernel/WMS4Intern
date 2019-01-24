@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,19 +26,19 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 class InRepertoryServiceImplTest {
     @Autowired
-    InRepertoryMapper inRepertoryMapper;
-
-    @Autowired
     InRepertoryService inRepertoryService;
+    @Autowired
+    InRepertoryMapper inRepertoryMapper;
     @Autowired
     InRepertoryDetailMapper inRepertoryDetailMapper;
     @Autowired
     Constant constant;
 
     @Test
-    void init() {
+    void clean() {
         inRepertoryMapper.deleteByExample(new InRepertoryExample());
         inRepertoryDetailMapper.deleteByExample(new InRepertoryDetailExample());
     }
@@ -45,43 +46,52 @@ class InRepertoryServiceImplTest {
 
     @Test
     void initState() {
-        InRepertory inRepertory=new InRepertory();
+        InRepertory inRepertory = new InRepertory();
         inRepertory.setInRepoStatus(constant.INIT_STATUS);
         inRepertory.setSyncStatus(constant.SYNC_FALSE_STATES);
-        inRepertoryMapper.updateByExampleSelective(inRepertory,new InRepertoryExample());
+        inRepertoryMapper.updateByExampleSelective(inRepertory, new InRepertoryExample());
     }
 
     @Test
     void findAllWait() {
+        inRepertoryService.findAllWait().forEach(System.out::println);
     }
 
     @Test
     void findAllLike() {
-        inRepertoryService.findAllLike(null,"3",1,10).getList().forEach(System.out::println);
+        inRepertoryService.findAllLike(null, "3", 1, 10).getList().forEach(System.out::println);
     }
 
     @Test
     void findPage() {
+        inRepertoryService.findPage(1, 10).getList().forEach(System.out::println);
     }
 
     @Test
     void findPageBy() {
+        inRepertoryService.findPageBy("wait", 1, 10).getList().forEach(System.out::println);
     }
 
     @Test
     void findOne() {
+        inRepertoryService.findOne(17);
     }
 
     @Test
     void initInRepertory() {
+        inRepertoryService.initInRepertory(inRepertoryService.findOne(17));
     }
 
     @Test
     void checkInRepertoryExpired() {
+        inRepertoryService.checkInRepertoryExpired(inRepertoryService.findPage(1,10).getList());
     }
 
     @Test
     void changeInRepertoryStatus() {
+        inRepertoryService.changeInRepertoryStatus(17,"over");
+        InRepertory inRepertory=inRepertoryService.findOne(17);
+        assertEquals("over", inRepertory.getInRepoStatus());
     }
 
     @Test

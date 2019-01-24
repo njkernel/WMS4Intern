@@ -67,14 +67,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public PageInfo findPage(Integer start, Integer size) {
+        InRepertoryExample example = new InRepertoryExample();
+        example.setOrderByClause("revise_time DESC");
         PageHelper.startPage(start, size);
-        List<InRepertory> list = inRepertoryMapper.selectByExample(new InRepertoryExample());
+        List<InRepertory> list = inRepertoryMapper.selectByExample(example);
         return new PageInfo(list);
     }
 
     @Override
     public PageInfo findPageBy(String status, Integer start, Integer size) {
         InRepertoryExample example = new InRepertoryExample();
+        example.setOrderByClause("revise_time DESC");
         example.or().andInRepoStatusEqualTo(status);
         PageHelper.startPage(start, size);
         List<InRepertory> list = inRepertoryMapper.selectByExample(example);
@@ -112,11 +115,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean changeInRepertoryStatus(Integer id, String status) {
-        InRepertory inRepertory = new InRepertory();
-        inRepertory.setId(id);
-        inRepertory.setReviseTime(new Date());
-        inRepertory.setInRepoStatus(status);
-        inRepertory.setSyncStatus(constant.SYNC_TRUE_STATES);
+        InRepertory inRepertory = InRepertory.builder().id(id).reviseTime(new Date()).inRepoStatus(status).syncStatus(constant.SYNC_TRUE_STATES).build();
         if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
             if (status.equals(constant.SUCCESS_STATUS)) {

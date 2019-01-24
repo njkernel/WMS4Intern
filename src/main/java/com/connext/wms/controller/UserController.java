@@ -54,7 +54,7 @@ public class UserController {
             user.setRole(role);
             userService.register(user);
             return "success";
-        }else {
+        } else {
             return "false";
         }
     }
@@ -106,15 +106,10 @@ public class UserController {
 
     //修改用户
     @RequestMapping("/updateByPrimaryKey")
-    public String updateByPrimaryKey(@RequestParam Integer id, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "password", required = false) String password, @RequestParam(value = "telephone", required = false) String telephone, @RequestParam(value = "role", required = false) String role) {
+    public String updateByPrimaryKey(@RequestParam Integer id, @RequestParam String username, @RequestParam String telephone, @RequestParam String role) {
         final User user = new User();
         user.setId(id);
         user.setUsername(username);
-        if (password.length() < 20) {
-            user.setPassword(new BCryptPasswordEncoder().encode(password));
-        } else {
-            user.setPassword(password);
-        }
         user.setTelephone(telephone);
         user.setRole(role);
         userService.updateByPrimaryKey(user);
@@ -123,11 +118,11 @@ public class UserController {
 
     //忘记密码
     @RequestMapping("/forget")
-    public String forget(@RequestParam(value = "telephone", required = false) String telephone, @RequestParam(value = "password", required = false) String password) {
+    public String forget(@RequestParam Integer id, @RequestParam String password) {
         final User user = new User();
-        user.setTelephone(telephone);
+        user.setId(id);
         user.setPassword(password);
         userService.forget(user);
-        return "login";
+        return "redirect:/user/queryAll";
     }
 }
