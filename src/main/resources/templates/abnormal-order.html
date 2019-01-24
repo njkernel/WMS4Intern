@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>异常订单详情</title>
+    <title>发货异常订单详情</title>
     <link rel="stylesheet" type="text/css" href="/css/specific/abnormal-order.css"/>
 </head>
 <body style="overflow-x:hidden;">
@@ -25,7 +25,7 @@
                                                                                  th:value="${detail.expressId}"></div>
                                 </div>
                                 <div class="title-content3">
-                                    <div class="title-content1-top1">异常状态：<input th:value="${detail.outRepoStatus}" disabled="disabled"></div>
+                                    <div class="title-content1-top1">异常状态：<input th:value="#{''+${detail.outRepoStatus}}" disabled="disabled"></div>
                                     <div class="title-content1-top2">修改人：<input th:value="${detail.reviser}" disabled="disabled"></div>
                                     <div class="title-content1-top3">修改时间：<input th:value="${#dates.format(detail.reviseTime, 'YYYY/MM/DD HH:mm')}" disabled="disabled"></div>
                                 </div>
@@ -38,16 +38,12 @@
                                 <tr class="tr-title">
                                     <th>商品编码</th>
                                     <th>商品名称</th>
-                                    <th>商品单价</th>
                                     <th>商品数量</th>
-                                    <th>商品总价</th>
                                 </tr>
                                 <tr th:each="obj,i:${good}">
                                     <td th:text="${obj.goodsSku}"></td>
                                     <td th:text="${obj.goodsName}"></td>
-                                    <td th:text="${obj.price}"></td>
                                     <td th:text="${obj.num}"></td>
-                                    <td th:text="${obj.price*obj.num}"></td>
                                 </tr>
 
                             </table>
