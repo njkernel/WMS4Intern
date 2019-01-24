@@ -1,6 +1,7 @@
 package com.connext.wms.controller;
 
 
+import com.connext.wms.aop.OutRepoAnnotation;
 import com.connext.wms.entity.OutRepertory;
 import com.connext.wms.service.ExceptionService;
 import com.connext.wms.service.OutRepertoryService;
@@ -52,6 +53,7 @@ public class ExceptionController {
 
     //对异常订单进行再次发货
     @RequestMapping("/feedback")
+    @OutRepoAnnotation
     public String toDeliver(Integer outRepoId){
         //调用出库service中的反馈发货信息方法，对在异常列表的订单进行再次信息反馈
         List<Integer> list = new ArrayList<>();
