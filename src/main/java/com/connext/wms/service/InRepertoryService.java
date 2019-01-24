@@ -2,6 +2,7 @@ package com.connext.wms.service;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.entity.InRepertory;
+import com.connext.wms.entity.InRepertoryDetail;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -108,5 +109,5 @@ public interface InRepertoryService {
      * @param inRepertoryDetailDTOS DTO
      * @return true or false
      */
-    boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS);
+    boolean actionException(int id, List<InRepertoryDetail> inRepertoryDetailDTOS);
 }

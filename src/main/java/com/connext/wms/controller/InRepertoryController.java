@@ -2,10 +2,9 @@ package com.connext.wms.controller;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
 import com.connext.wms.api.util.EntityAndDto;
-import com.connext.wms.entity.InRepertory;
+import com.connext.wms.entity.InRepertoryDetail;
 import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.util.Constant;
-import com.connext.wms.util.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +37,12 @@ public class InRepertoryController {
     public String detail(@PathVariable Integer id, Model model) {
         model.addAttribute("one", inRepertoryService.findOne(id));
         return "specific/in-detail";
+    }
+
+    @PostMapping("detail/{id}")
+    @ResponseBody
+    public List<InRepertoryDetail> detailVue(@PathVariable Integer id, Model model) {
+        return inRepertoryService.findOne(id).getRepertoryDetails();
     }
 
     @GetMapping("page/{page}")
@@ -73,12 +78,10 @@ public class InRepertoryController {
         return "specific/in-detail-action";
     }
 
-    @PostMapping("/action/exception")
+    @PostMapping("/action/exception/{id}")
     @ResponseBody
-    public boolean finish(@RequestParam Integer id, @RequestParam String list) throws IOException {
-        List<InRepertoryDetailDTO> inRepertoryDetailDTOS = objectMapper.readValue(list, new TypeReference<List<InRepertoryDetailDTO>>() {
-        });
-        return inRepertoryService.actionException(id, inRepertoryDetailDTOS);
+    public boolean finish(@PathVariable Integer id, @RequestBody List<InRepertoryDetail> list) {
+        return inRepertoryService.actionException(id, list);
     }
 
     @PostMapping("/action/{status}")
