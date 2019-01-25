@@ -7,6 +7,7 @@ import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
 import com.connext.wms.entity.InRepertory;
+import com.connext.wms.entity.InRepertoryDetail;
 import com.connext.wms.entity.InRepertoryDetailExample;
 import com.connext.wms.entity.InRepertoryExample;
 import com.connext.wms.service.InRepertoryService;
@@ -15,6 +16,7 @@ import com.connext.wms.util.AES;
 import com.connext.wms.util.Constant;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,20 +33,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Version 1.0
  */
 @Service
+@Slf4j
 public class InRepertoryServiceImpl implements InRepertoryService {
     private final InRepertoryMapper inRepertoryMapper;
     private final InRepertoryDetailMapper inRepertoryDetailMapper;
-    private final Constant constant;
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
     private final RepertoryRegulationService regulationService;
 
 
     @Autowired
-    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, Constant constant, EntityAndDto entityAndDto, RestTemplate restTemplate, RepertoryRegulationService regulationService) {
+    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, EntityAndDto entityAndDto, RestTemplate restTemplate, RepertoryRegulationService regulationService) {
         this.inRepertoryMapper = inRepertoryMapper;
         this.inRepertoryDetailMapper = inRepertoryDetailMapper;
-        this.constant = constant;
         this.entityAndDto = entityAndDto;
         this.restTemplate = restTemplate;
         this.regulationService = regulationService;
@@ -53,7 +54,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     public List<InRepertory> findAllWait() {
         InRepertoryExample example = new InRepertoryExample();
-        example.or().andInRepoStatusEqualTo(constant.INIT_STATUS);
+        example.or().andInRepoStatusEqualTo(Constant.INIT_STATUS);
         return inRepertoryMapper.selectByExample(example);
     }
 
@@ -104,21 +105,21 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     public List<InRepertory> checkInRepertoryExpired(List<InRepertory> inRepertories) {
         List<InRepertory> expires = new ArrayList<>();
         inRepertories.forEach(i -> {
-            if (constant.INIT_STATUS.equals(i.getInRepoStatus()) && isExpired(i)) {
+            if (Constant.INIT_STATUS.equals(i.getInRepoStatus()) && isExpired(i)) {
                 expires.add(findOne(i.getId()));
             }
         });
-        expires.forEach(u -> changeInRepertoryStatus(u.getId(), constant.OVER_STATUS));
+        expires.forEach(u -> changeInRepertoryStatus(u.getId(), Constant.OVER_STATUS));
         return expires;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean changeInRepertoryStatus(Integer id, String status) {
-        InRepertory inRepertory = InRepertory.builder().id(id).reviseTime(new Date()).inRepoStatus(status).syncStatus(constant.SYNC_TRUE_STATES).build();
-        if (constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
+        InRepertory inRepertory = InRepertory.builder().id(id).reviseTime(new Date()).inRepoStatus(status).syncStatus(Constant.SYNC_TRUE_STATES).build();
+        if (Constant.INIT_STATUS.equals(inRepertoryMapper.selectByPrimaryKey(id).getInRepoStatus())) {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
-            if (status.equals(constant.SUCCESS_STATUS)) {
+            if (status.equals(Constant.SUCCESS_STATUS)) {
                 InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
                 detailExample.or().andInRepoIdEqualTo(id);
                 inRepertoryDetailMapper.selectByExample(detailExample).forEach(
@@ -133,11 +134,13 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     @Override
     public boolean pushInRepertoryState(InRepertory inRepertory) {
         List<InputFeedbackDetail> list = entityAndDto.toDTO(inRepertory);
-        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
+        InputFeedback inputFeedback = new InputFeedback(AES.AESEncode(Constant.TOKENS, inRepertory.getOrderId()), Integer.valueOf(inRepertory.getOrderId()), inRepertory.getInRepoStatus(), list);
         try {
-            restTemplate.postForObject(constant.PUSH_URL, inputFeedback.toMap(), String.class);
+            restTemplate.postForObject(Constant.PUSH_URL, inputFeedback.toMap(), String.class);
+            log.info("入库单返回状态推送成功：" + inputFeedback.getOrderId());
             return true;
         } catch (Exception e) {
+            log.info("入库单返回状态推送失败：" + inputFeedback.getOrderId());
             return false;
         }
     }
@@ -159,12 +162,20 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean actionException(int id, List<InRepertoryDetailDTO> inRepertoryDetailDTOS) {
-        boolean result = changeInRepertoryStatus(id, constant.SUCCESS_STATUS);
+    public boolean actionException(int id, List<InRepertoryDetail> inRepertoryDetail) {
+        InRepertory inRepertory = findOne(id);
+        for (int i = 0; i < inRepertoryDetail.size(); i++) {
+            if (0 <= inRepertoryDetail.get(i).getGoodsNum() && inRepertoryDetail.get(i).getGoodsNum() <= inRepertory.getRepertoryDetails().get(i).getGoodsNum()) {
+            } else {
+                return false;
+            }
+        }
+        boolean result = changeInRepertoryStatus(id, Constant.SUCCESS_STATUS);
+        inRepertoryDetail.forEach(inRepertoryDetailMapper::updateByPrimaryKey);
         if (result) {
-            InRepertory inRepertory = findOne(id);
-            inRepertory.setRepertoryDetails(entityAndDto.idToEntity(id, inRepertoryDetailDTOS));
-            return pushInRepertoryState(inRepertory);
+            inRepertory.setInRepoStatus(Constant.SUCCESS_STATUS);
+            pushInRepertoryState(inRepertory);
+            return true;
         }
         return false;
     }

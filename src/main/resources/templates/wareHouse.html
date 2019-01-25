@@ -18,7 +18,7 @@
     <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#demoModal-2">删除</button> -->
     <div class="search-box">
         <form action="/goodsRepertory/findByKey" method="get">
-            <input name="key" type="text" placeholder="请输入商品名称" maxlength="20">
+            <input name="key" type="text" placeholder="请输入商品名称" maxlength="20" autocomplete="off">
             <input type="hidden" id="currPage" name="currPage"/>
             <button type="submit" class="btn btn-success">搜索</button>
         </form>
@@ -47,6 +47,9 @@
             <td class="operation">
                 <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal"
                         class="btn btn-success btn-xs">补货
+                </button>
+                <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal2"
+                        class="btn btn-success btn-xs">同步
                 </button>
             </td>
         </tr>
@@ -86,6 +89,27 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary save" data-dismiss="modal" id="confirm"
                         th:onclick="'javascript:checkConfirmed()'">确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="demoModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">同步</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="goodsid">
+                <span>确认是否同步？</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary save" data-dismiss="modal" id="confirmSyn"
+                        th:onclick="'javascript:confirmSyn()'">确定
                 </button>
             </div>
         </div>
