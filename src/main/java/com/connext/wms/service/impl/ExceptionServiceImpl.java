@@ -3,11 +3,13 @@ package com.connext.wms.service.impl;
 import com.connext.wms.dao.OutRepertoryMapper;
 import com.connext.wms.entity.*;
 import com.connext.wms.service.ExceptionService;
+import com.connext.wms.service.OutRepertoryService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +21,8 @@ import java.util.List;
 public class ExceptionServiceImpl implements ExceptionService {
     @Autowired
     private OutRepertoryMapper outRepertoryMapper;
+    @Autowired
+    private OutRepertoryService outRepertoryService;
 
     //分页时每页的数据记录
     public static final Integer SIZE = 10;
@@ -45,6 +49,17 @@ public class ExceptionServiceImpl implements ExceptionService {
     @Override
     public OutRepertory selectByPrimaryKey(Integer id){
         return outRepertoryMapper.selectByPrimaryKey(id);
+    }
+
+    //调用出库模块中的发货方法，对异常的出库单进行再处理
+    @Override
+    public void deliver(Integer outRepoId){
+        //调用出库service中的反馈发货信息方法，对在异常列表的订单进行再次信息反馈
+        List<Integer> list = new ArrayList<>();
+        list.add(outRepoId);
+        OutRepertory outRepertory = new OutRepertory();
+        outRepertory.setOutRepoStatus("haveShipped");
+        outRepertoryService.updateOutRepoOrderStatus(outRepertory,list);
     }
 
 
