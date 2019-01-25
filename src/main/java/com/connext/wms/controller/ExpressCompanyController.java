@@ -34,8 +34,8 @@ public class ExpressCompanyController {
     //根据用户输入的关键字查找出符合的公司信息显示在页面
     @RequestMapping("/findByKey")
     public String findByKey(@RequestParam(required = false,defaultValue = "1") Integer currPage, Model model, String key) {
-        model.addAttribute("page", expressCompanyService.selectByKey(currPage,key));
-        model.addAttribute("key",key);
+        model.addAttribute("page", expressCompanyService.selectByKey(currPage,key))
+                .addAttribute("key", key);
         return "express-company";
     }
 
