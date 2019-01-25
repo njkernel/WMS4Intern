@@ -72,3 +72,28 @@ $("#secondname").on('blur', function () {
     //最后一位是小数点的话，移除
     $amountInput.val(($amountInput.val().replace(/\.$/g, "")));
 });
+
+//确认同步成功
+function confirmSyn() {
+    var id = $('.goodsid').val();
+    var url = '/goods/synGoodsById';
+    $.ajax({
+        url: url,
+        type: 'get',
+        data: {
+            "id": id
+        },
+        success: function (data) {
+            //console.log(data);
+            if (data == "success") {
+                alert("同步成功！");
+                window.location.href = "/goods/findAll?currPage=1";
+            } else if (data == "error") {
+                alert("已为最新数据，无需同步！");
+                window.location.href = "/goods/findAll?currPage=1";
+            }
+
+        }
+    })
+
+}
