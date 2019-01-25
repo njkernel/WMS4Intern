@@ -12,6 +12,7 @@ import com.connext.wms.util.PageSet;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -42,8 +43,8 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
 
     @Override
     public void updateGoodsRepertory() {
-        try {
-            List<RepertoryRegulation> list = repertoryRegulationMapper.summaryRepertory();
+        List<RepertoryRegulation> list = repertoryRegulationMapper.summaryRepertory();
+        if (!CollectionUtils.isEmpty(list)) {
             for (int i = 0; i < list.size(); i++) {
                 RepertoryRegulation repertoryRegulation = list.get(i);
                 Integer tNum = repertoryRegulation.getTotalResult();
@@ -52,20 +53,23 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
                 Integer id = repertoryRegulation.getGoodsRepertoryId();
                 goodsRepertoryMapper.updateGoodsRepertory(tNum, aNum, lNum, id);
             }
+        }
+
         /*
         清空原库存增减表
          */
-            repertoryRegulationMapper.emptyRepertoryRegulation();
+        repertoryRegulationMapper.emptyRepertoryRegulation();
         /*
         调用OMS接口，将总库存同步给OMS
          */
-            List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
+
+        List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
+        try {
             restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -79,8 +83,16 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
          * 更新商品库存表中该id的商品库存
          */
         String flag = "success";
-        try {
-            RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(id);
+        RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(id);
+        if (repertoryRegulation == null) {
+            //flag = "error";
+            try {
+                List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTOById(id);
+                restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
+            } catch (Exception e) {
+                flag = "fail";//todo
+            }
+        } else {
             Integer tNum = repertoryRegulation.getTotalResult();
             Integer aNum = repertoryRegulation.getAvailableResult();
             Integer lNum = repertoryRegulation.getLockedResult();
@@ -94,11 +106,14 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
             /**
              * 调用OMS接口,同步
              */
-            List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTOById(id);
-            restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
-        } catch (Exception e) {
-            flag = "error";
+            try {
+                List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTOById(id);
+                restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
+            } catch (Exception e) {
+                flag = "fail";//todo
+            }
         }
+
         return flag;
 
     }
