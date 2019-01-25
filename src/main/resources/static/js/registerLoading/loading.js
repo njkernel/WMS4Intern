@@ -41,13 +41,13 @@ $(document).ready(function () {
 
   function showPicture(a) {
     switch (a) {
-      case 1: $('.main').css({ "background": "url(../../assets/images/registerLoading/image1.png) no-repeat","background-size": "100%" });
+      case 1: $('.main').css({ "background": "url(/img/registerLoading/image1.png) no-repeat","background-size": "100%" });
         // $('.main-inner').css({ "background": "url(image1.jpg) no-repeat" });
         break;
-      case 2: $('.main').css({ "background": "url(../../assets/images/registerLoading/image2.png) no-repeat" ,"background-size": "100%"});
+      case 2: $('.main').css({ "background": "url(/img/registerLoading/image2.png) no-repeat" ,"background-size": "100%"});
         // $('.main-inner').css({ "background": "url(image2.jpg) no-repeat" });
         break;
-      case 3: $('.main').css({ "background": "url(../../assets/images/registerLoading/image3.png) no-repeat" ,"background-size": "100%"});
+      case 3: $('.main').css({ "background": "url(/img/registerLoading/image3.png) no-repeat" ,"background-size": "100%"});
         // $('.main-inner').css({ "background": "url(image3.jpg) no-repeat" });
         break;
     }

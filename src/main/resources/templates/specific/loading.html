@@ -61,13 +61,14 @@
                             {
                                 username: $("#username").val(),
                                 password: $("#password").val(),
-                                'remember-me':$("#remember-me").is(':checked'),
+                                'remember-me': $("#remember-me").is(':checked'),
                             },
                             function (res) {
                                 if (res.state == "Access") {
                                     window.location.replace("/");
+                                } else {
+                                    alert(res.state);
                                 }
-                                alert(res.state);
                             });
                     }
                 </script>
