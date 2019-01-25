@@ -3,6 +3,7 @@ package com.connext.wms.dao;
 import com.connext.wms.api.dto.CodeTotalStockDTO;
 import com.connext.wms.entity.GoodsRepertory;
 import com.connext.wms.entity.RealRepertoryVO;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -23,15 +24,24 @@ public interface GoodsRepertoryMapper {
 
     /**
      * 调用同步接口前查询商品对应的sku和库存
+     *
      * @return
      */
     List<CodeTotalStockDTO> getCodeTotalStockDTO();
 
     /**
-     * 查看商品库存表的所有信息
+     * 调用同步接口前查询商品对应的sku和库存
+     *
      * @return
      */
-    List<GoodsRepertory> getGoodsRepertory(Integer start,Integer size);
+    List<CodeTotalStockDTO> getCodeTotalStockDTOById(Integer id);
+
+    /**
+     * 查看商品库存表的所有信息
+     *
+     * @return
+     */
+    List<GoodsRepertory> getGoodsRepertory(Integer start, Integer size);
 
     /**
      * 返回商品库存表中商品库存的总数
@@ -45,14 +55,16 @@ public interface GoodsRepertoryMapper {
 
     /**
      * 根据商品名称的关键字查看商品库存表
+     *
      * @param start
      * @param size
      * @return
      */
-    List<GoodsRepertory> getGoodsRepertoryByGoodsName(Integer start,Integer size,String key);
+    List<GoodsRepertory> getGoodsRepertoryByGoodsName(Integer start, Integer size, String key);
 
     /**
      * 根据商品id获取商品库存id
+     *
      * @param goodsId
      * @return 商品库存id
      */
@@ -60,6 +72,7 @@ public interface GoodsRepertoryMapper {
 
     /**
      * 查看实时库存
+     *
      * @return
      */
     List<RealRepertoryVO> getRealVO(String key);

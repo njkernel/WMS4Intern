@@ -21,13 +21,15 @@ public interface RepertoryRegulationMapper {
      */
     /**
      * 增加可用库存
+     *
      * @param id
      * @param num
      */
-    void addAvailableRepertory(@Param("goodsRepertoryId") Integer id,@Param("availableNumRegulation") Integer num);
+    void addAvailableRepertory(@Param("goodsRepertoryId") Integer id, @Param("availableNumRegulation") Integer num);
 
     /**
      * 减少可用库存
+     *
      * @param id
      * @param num
      */
@@ -35,34 +37,39 @@ public interface RepertoryRegulationMapper {
 
     /**
      * 增加总库存
+     *
      * @param id
      * @param num
      */
-    void addTotalRepertory(@Param("goodsRepertoryId") Integer id,@Param("totalNumRegulation") Integer num);
+    void addTotalRepertory(@Param("goodsRepertoryId") Integer id, @Param("totalNumRegulation") Integer num);
 
     /**
      * 减少总库存
+     *
      * @param id
      * @param num
      */
-    void reduceTotalRepertory(@Param("goodsRepertoryId") Integer id,@Param("totalNumRegulation") Integer num);
+    void reduceTotalRepertory(@Param("goodsRepertoryId") Integer id, @Param("totalNumRegulation") Integer num);
 
     /**
      * 增加锁定库存
+     *
      * @param id
      * @param num
      */
-    void addLockedRepertory(@Param("goodsRepertoryId") Integer id,@Param("lockedNumRegulation") Integer num);
+    void addLockedRepertory(@Param("goodsRepertoryId") Integer id, @Param("lockedNumRegulation") Integer num);
 
     /**
      * 减少锁定库存
+     *
      * @param id
      * @param num
      */
-    void reduceLockedRepertory(@Param("goodsRepertoryId") Integer id,@Param("lockedNumRegulation") Integer num);
+    void reduceLockedRepertory(@Param("goodsRepertoryId") Integer id, @Param("lockedNumRegulation") Integer num);
 
     /**
      * 对库存增减表summary
+     *
      * @return
      */
     List<RepertoryRegulation> summaryRepertory();
@@ -74,8 +81,14 @@ public interface RepertoryRegulationMapper {
 
     /**
      * 根据商品库存id对库存增减表summary
+     *
      * @return
      */
     RepertoryRegulation summaryRepertoryByRepertoryId(Integer id);
+
+    /**
+     * 根据商品库存id对库存增减表的商品进行单个清空
+     */
+    void deleteRepertoryByRepertoryId(Integer id);
 
 }

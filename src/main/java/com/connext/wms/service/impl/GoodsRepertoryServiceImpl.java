@@ -42,24 +42,65 @@ public class GoodsRepertoryServiceImpl implements GoodsRepertoryService {
 
     @Override
     public void updateGoodsRepertory() {
-        List<RepertoryRegulation> list = repertoryRegulationMapper.summaryRepertory();
-        for (int i = 0; i < list.size(); i++) {
-            RepertoryRegulation repertoryRegulation = list.get(i);
-            Integer tNum = repertoryRegulation.getTotalResult();
-            Integer aNum = repertoryRegulation.getAvailableResult();
-            Integer lNum = repertoryRegulation.getLockedResult();
-            Integer id = repertoryRegulation.getGoodsRepertoryId();
-            goodsRepertoryMapper.updateGoodsRepertory(tNum, aNum, lNum, id);
-        }
+        try {
+            List<RepertoryRegulation> list = repertoryRegulationMapper.summaryRepertory();
+            for (int i = 0; i < list.size(); i++) {
+                RepertoryRegulation repertoryRegulation = list.get(i);
+                Integer tNum = repertoryRegulation.getTotalResult();
+                Integer aNum = repertoryRegulation.getAvailableResult();
+                Integer lNum = repertoryRegulation.getLockedResult();
+                Integer id = repertoryRegulation.getGoodsRepertoryId();
+                goodsRepertoryMapper.updateGoodsRepertory(tNum, aNum, lNum, id);
+            }
         /*
         清空原库存增减表
          */
-        repertoryRegulationMapper.emptyRepertoryRegulation();
+            repertoryRegulationMapper.emptyRepertoryRegulation();
         /*
         调用OMS接口，将总库存同步给OMS
          */
-        List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
-        restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
+            List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTO();
+            restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 调用OMS接口，将单个商品的总库存同步给OMS
+     *
+     * @return
+     */
+    @Override
+    public String synchronizeRepertory(Integer id) {
+        /**
+         * 更新商品库存表中该id的商品库存
+         */
+        String flag = "success";
+        try {
+            RepertoryRegulation repertoryRegulation = repertoryRegulationMapper.summaryRepertoryByRepertoryId(id);
+            Integer tNum = repertoryRegulation.getTotalResult();
+            Integer aNum = repertoryRegulation.getAvailableResult();
+            Integer lNum = repertoryRegulation.getLockedResult();
+            //System.out.println(tNum+","+aNum+","+lNum);
+            goodsRepertoryMapper.updateGoodsRepertory(tNum, aNum, lNum, id);
+            /**
+             * 删除增减表中该id的增减记录
+             */
+            repertoryRegulationMapper.deleteRepertoryByRepertoryId(id);
+
+            /**
+             * 调用OMS接口,同步
+             */
+            List<CodeTotalStockDTO> listCodeTotalStockDTO = goodsRepertoryMapper.getCodeTotalStockDTOById(id);
+            restTemplate.postForObject(constant.GOODS_TOTAL_URL, listCodeTotalStockDTO, String.class);
+        } catch (Exception e) {
+            flag = "error";
+        }
+        return flag;
+
     }
 
     @Override
