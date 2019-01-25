@@ -208,7 +208,7 @@ function modify() {
 
 function modifyPass() {
     var id = $('#pwd_id').val();
-    var password = $('#userpassword').val();
+    var password = $('#userpassword1').val();
     user1 = {
         "id": id,
         "password": password
