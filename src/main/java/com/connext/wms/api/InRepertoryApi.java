@@ -31,14 +31,12 @@ import java.util.Objects;
 @Slf4j
 public class InRepertoryApi {
     private final InRepertoryService inRepertoryService;
-    private final Constant constant;
     private ObjectMapper objectMapper;
     private final EntityAndDto entityAndDto;
 
     @Autowired
-    public InRepertoryApi(InRepertoryService inRepertoryService, Constant constant, ObjectMapper objectMapper, EntityAndDto entityAndDto) {
+    public InRepertoryApi(InRepertoryService inRepertoryService, ObjectMapper objectMapper, EntityAndDto entityAndDto) {
         this.inRepertoryService = inRepertoryService;
-        this.constant = constant;
         this.objectMapper = objectMapper;
         this.entityAndDto = entityAndDto;
     }
@@ -54,10 +52,10 @@ public class InRepertoryApi {
                                        @RequestParam String detailDTOS
     ) throws IOException {
         //token校验
-        if (Objects.equals(AES.AESDncode(constant.TOKENS, tokens), inRepoId)) {
+        if (!Objects.equals(AES.AESDncode(Constant.TOKENS, tokens), inRepoId)) {
             return HttpStatus.FORBIDDEN;
         }
-        if (validData(inRepoId, orderId, channelId, expressId, expressCompany, detailDTOS)) {
+        if (!validData(inRepoId, orderId, channelId, expressId, expressCompany, detailDTOS)) {
             return HttpStatus.BAD_REQUEST;
         }
         List<InRepertoryDetailDTO> repertoryDetailDTOS = objectMapper.readValue(detailDTOS, new TypeReference<List<InRepertoryDetailDTO>>() {
@@ -69,11 +67,11 @@ public class InRepertoryApi {
                 .channelId(channelId)
                 .expressId(expressId)
                 .expressCompany(expressCompany)
-                .inRepoStatus(constant.INIT_STATUS)
-                .syncStatus(constant.SYNC_FALSE_STATES)
-                .receivingRepo(constant.RECEIVING_REPERTORY)
+                .inRepoStatus(Constant.INIT_STATUS)
+                .syncStatus(Constant.SYNC_FALSE_STATES)
+                .receivingRepo(Constant.RECEIVING_REPERTORY)
                 .createTime(nowTime)
-                .reviser(constant.REVISER)
+                .reviser(Constant.REVISER)
                 .reviseTime(nowTime)
                 .repertoryDetails(entityAndDto.toEntity(inRepoId, repertoryDetailDTOS))
                 .build();

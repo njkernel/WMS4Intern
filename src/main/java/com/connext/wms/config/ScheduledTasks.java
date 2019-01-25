@@ -37,14 +37,12 @@ import org.springframework.stereotype.Component;
 public class ScheduledTasks {
     private final InRepertoryService inRepertoryService;
     private final GoodsRepertoryService goodsRepertoryService;
-    private final Constant constant;
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
-    public ScheduledTasks(InRepertoryService inRepertoryService, GoodsRepertoryService goodsRepertoryService, Constant constant) {
+    public ScheduledTasks(InRepertoryService inRepertoryService, GoodsRepertoryService goodsRepertoryService) {
         this.inRepertoryService = inRepertoryService;
         this.goodsRepertoryService = goodsRepertoryService;
-        this.constant = constant;
     }
 
     /**
@@ -56,7 +54,8 @@ public class ScheduledTasks {
         //推送通知
         log.info("收货超时：" + inRepertories.size() + "条");
         inRepertories.forEach(u -> {
-            inRepertoryService.changeInRepertoryStatus(u.getId(), constant.OVER_STATUS);
+            inRepertoryService.changeInRepertoryStatus(u.getId(), Constant.OVER_STATUS);
+            u.setInRepoStatus(Constant.OVER_STATUS);
             inRepertoryService.pushInRepertoryState(u);
         });
     }
