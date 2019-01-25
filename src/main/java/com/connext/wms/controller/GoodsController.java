@@ -26,9 +26,9 @@ public class GoodsController {
 
     //关键字查询
     @RequestMapping("/byKey")
-    public String Key(Model model, String key,Integer currPage) {
-        model.addAttribute("key",key);
-        model.addAttribute("page", goodsService.selectByExample(key,currPage));
+    public String Key(Model model, String key, Integer currPage) {
+        model.addAttribute("key", key);
+        model.addAttribute("page", goodsService.selectByExample(key, currPage));
         return "goods-list";
     }
 
@@ -53,5 +53,15 @@ public class GoodsController {
         return goods;
     }
 
+    /**
+     * 同步单个商品信息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/synGoodsById")
+    public String synchronizeGoodsById(Integer id) {
+        return goodsService.synchronizeGoodsById(id);
+    }
 
 }

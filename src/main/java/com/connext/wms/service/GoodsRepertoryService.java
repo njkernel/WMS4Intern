@@ -18,6 +18,11 @@ public interface GoodsRepertoryService {
     void updateGoodsRepertory();
 
     /**
+     * 同步库存
+     */
+    String synchronizeRepertory(Integer id);
+
+    /**
      * 显示实时库存
      *
      * @return 库存视图对象

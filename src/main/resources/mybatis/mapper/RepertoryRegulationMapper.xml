@@ -48,4 +48,7 @@
         select goods_repertory_id,SUM(available_num_regulation) as availableResult,SUM(locked_num_regulation) as lockedResult,SUM(total_num_regulation) as totalResult from t_repertory_regulation group by goods_repertory_id having goods_repertory_id=#{goodsRepertoryId}
     </select>
 
+    <delete id="deleteRepertoryByRepertoryId" parameterType="Integer">
+        delete from t_repertory_regulation where goods_repertory_id=#{goodsRepertoryId}
+    </delete>
 </mapper>

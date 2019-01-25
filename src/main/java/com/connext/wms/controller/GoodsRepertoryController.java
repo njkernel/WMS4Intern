@@ -3,6 +3,7 @@ package com.connext.wms.controller;
 import com.connext.wms.entity.RealRepertoryVO;
 import com.connext.wms.service.GoodsRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,19 +42,35 @@ public class GoodsRepertoryController {
     }
 
     /**
+     * 同步库存
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/synchronizeRepertory")
+    public String synchronizeRepertory(Integer id) {
+        return goodsRepertoryService.synchronizeRepertory(id);
+    }
+
+    /**
      * 补货操作
      */
     @ResponseBody
     @RequestMapping("/replenishRepertory")
     public String replenishRepertory(Integer id, Integer num) {
-        return repertoryRegulationService.replenishRepertory(id, num);
+        String result = repertoryRegulationService.replenishRepertory(id, num);
+        goodsRepertoryService.synchronizeRepertory(id);
+        return result;
     }
 
     /*  *根据输入的商品名称的关键字查询商品库存
      *
      * @param model
      * @param key
-     * @return*/
+     * @return
+     *
+     */
 
     @RequestMapping("/findByKey")
     public String findByKey(Model model, String key, Integer currPage) {

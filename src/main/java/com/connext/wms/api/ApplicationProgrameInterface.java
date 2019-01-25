@@ -40,7 +40,18 @@ public class ApplicationProgrameInterface {
     @Resource
     private TokenService tokenService;
 
-    //oms推送出库单进入wms
+    /**
+     * oms推送出库单进入wms
+     * @param outRepoId
+     * @param orderId
+     * @param channelId
+     * @param receiverName
+     * @param receiverAddress
+     * @param expressCompany
+     * @param outRepoOrderDetailDto
+     * @return
+     * @throws IOException
+     */
     @PostMapping(value = "/pushOutRepoOrder", produces = "text/json;charset=UTF-8")
     @ResponseBody
     @NeedToken
@@ -87,7 +98,11 @@ public class ApplicationProgrameInterface {
         return "200";
     }
 
-    //oms取消出库单查询出库单信息
+    /**
+     * oms取消出库单查询出库单信息
+     * @param outRepoOrderNo
+     * @return
+     */
     @PostMapping(value = "/getOutRepoOrderStatus", produces = "text/json;charset=UTF-8")
     @ResponseBody
     public String getOutRepoOrderStatus(@RequestParam(required = true) String outRepoOrderNo) {
@@ -122,23 +137,41 @@ public class ApplicationProgrameInterface {
     }
 
 
-    //oms取消wms出库单，wms告知oms出库单是否取消成功
+    /**
+     * oms取消wms出库单，wms告知oms出库单是否取消成功
+     * @param outRepoOrderNoArray
+     * @return
+     */
     @PostMapping("/cancelResult")
     @ResponseBody
-    @NeedToken
-    public String cancelResult(@RequestParam(required = true) String outRepoOrderNo) {
+    public String cancelResult(@RequestParam(required = true) String outRepoOrderNoArray) {
         try {
-            System.out.println(outRepoOrderNo);
-            String[] str = outRepoOrderNo.split(",");
-            List<String> integerList = Arrays.asList(str);
+            String[] str = outRepoOrderNoArray.split(",");
+            List<String> stringList = new ArrayList<String>(Arrays.asList(str));
+            //防止重复取消出库单导致库存不正常的变化
+            Iterator<String> outRepoOrderNo = stringList.iterator();
+            while(outRepoOrderNo.hasNext()){
+                String outRepoNo = outRepoOrderNo.next();
+                String outRepoStatus = this.outRepertoryService.outRepoOrderInfo(outRepoNo).getOutRepoStatus();
+                if(("haveCanceled").equals(outRepoStatus) || ("haveShipped").equals(outRepoStatus)){
+                    outRepoOrderNo.remove();
+                }else{
+                    //根据出库单号更新商品库存
+                    Integer outRepoId = this.outRepertoryService.outRepoOrderInfo(outRepoNo).getId();
+                    for (OutRepertoryDetail outRepertoryDetail : this.outRepertoryDetailMapper.selectListByOutRepoId(outRepoId)) {
+                        this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(), outRepertoryDetail.getGoodsNum());
+                    }
+                }
+            }
             OutRepertory outRepertory=new OutRepertory();
             outRepertory.setOutRepoStatus("haveCanceled");
             outRepertory.setSyncStatus("haveSync");
-            this.outRepertoryService.omsUpdateOutRepoOrderStatus(outRepertory, integerList);
+            this.outRepertoryService.omsUpdateOutRepoOrderStatus(outRepertory, stringList);
         } catch (Exception e) {
             return "201";
         }
         return "200";
     }
+
 
 }

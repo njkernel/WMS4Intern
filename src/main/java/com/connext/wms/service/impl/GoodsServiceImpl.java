@@ -151,4 +151,22 @@ public class GoodsServiceImpl implements GoodsService {
         return page;
         //return PageSet.setPage(list, currPage, (long) goodsMapper.countByExample(example));
     }
+
+    /**
+     * 同步商品信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public String synchronizeGoodsById(Integer id) {
+        List<GoodsDTO> goodsDTOSList = new ArrayList<>();
+        String sku = goodsMapper.selectByPrimaryKey(id).getSku();
+        goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
+        // System.out.println(goodsDTOSList.toString());
+        restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+        //System.out.println(goods.getGoodsPrice().intValue());
+        //System.out.println(goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)));
+        return "success";
+    }
 }
