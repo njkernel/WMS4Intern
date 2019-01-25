@@ -21,16 +21,13 @@ public interface UserMapper {
     User login(Map<String, String> map);
     //用户列表
     List<User> queryAll();
-    //修改权限
-    void modifyRole(User user);
     //修改用户信息
     void updateByPrimaryKey(User record);
     User updateById(int id);
-    //忘记密码
+    //修改密码
     void forget(User user);
     //重复注册
     int checkRegister(@Param("telephone") String telephone);
-    int checkRegisterByName(@Param("username") String username);
 
     long countByExample(UserExample example);
 

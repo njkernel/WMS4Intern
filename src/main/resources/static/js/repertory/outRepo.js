@@ -34,10 +34,13 @@ function changeStatus() {
                 "status": receiveButtonIdValue,
                 "outRepoOrderIdArray": JSON.stringify(checkedArray)
             }, function (data) {
-                if (data == "20190107") {
-                    alert("操作失败！");
-                } else {
+                if (data == "202") {
+                    alert("wms端出现异常无法获取oms服务，检货失败！");
+                } else if(data == "200"){
+                    alert("检货成功！")
                     location.href = "../outRepoOrderController/outRepoOrderList";
+                } else {
+                    alert("oms端出现异常！")
                 }
             })
         }
@@ -55,15 +58,17 @@ function changeStatus() {
                 "status": receiveButtonIdValue,
                 "outRepoOrderIdArray": JSON.stringify(checkedArray)
             }, function (data) {
-                if (data == "20190107") {
-                    alert("操作失败！");
-                } else {
+                if (data == "202") {
+                    alert("wms端出现异常无法获取oms服务，包装失败！");
+                }else if(data == "200"){
+                    alert("包装成功！")
                     location.href = "../outRepoOrderController/outRepoOrderList";
+                }else {
+                    alert("oms端出现异常！");
                 }
             })
         }
     } else if (receiveButtonIdValue == "haveShipped") {
-        console.log(checkedExpressId+"000000"+checkedExpressCompany);
         if(checkedArray.length!=1){
             alert("请选择一条出库单进行操作！");
         }else if(checkedStatusArray[0] != "待发货"){
@@ -75,10 +80,13 @@ function changeStatus() {
                 "status": receiveButtonIdValue,
                 "outRepoOrderIdArray": JSON.stringify(checkedArray)
             }, function (data) {
-                if (data == "20190107") {
-                    alert("操作失败！");
-                } else {
+                if (data == "202") {
+                    alert("wms端出现异常无法获取oms服务，发货失败！");
+                }else if(data == "200"){
+                    alert("发货成功！")
                     location.href = "../outRepoOrderController/outRepoOrderList";
+                }else {
+                    alert("oms端出现异常！");
                 }
             })
         }
@@ -93,10 +101,13 @@ function changeStatus() {
         }
         if(flag==true){
             $.getJSON("../outRepoOrderController/cancelOutRepoOrder", {"outRepoOrderNoArray": JSON.stringify(checkedOutRepoNoArray)}, function (data) {
-                if (data == "20190107") {
-                    alert("操作失败！");
-                } else {
+                if (data == "202") {
+                    alert("wms端出现异常无法获取oms服务，取消失败！");
+                }else if(data == "200"){
+                    alert("取消成功！")
                     location.href = "../outRepoOrderController/outRepoOrderList";
+                } else {
+                    alert("oms端出现异常！");
                 }
             })
         }
@@ -150,5 +161,6 @@ function go(currPage) {
     $('#currPage').val(currPage);
     document.frm.submit();
 }
+
 
 

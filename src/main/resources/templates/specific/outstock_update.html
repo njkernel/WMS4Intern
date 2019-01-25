@@ -42,12 +42,13 @@
                         <div class="title-content1-top2">快递公司：
                             <select name="expressCompany">
                                 <a th:each="company:${expressCompany}">
-                                    <option th:value="${company.getExpressCompanyName()}" th:text="${company.getExpressCompanyName()}"></option>
+                                    <option th:value="${company.getExpressCompanyName()}"
+                                            th:text="${company.getExpressCompanyName()}"></option>
                                 </a>
                             </select>
                         </div>
-                        <div class="title-content1-top3">快递单号：<input name="expressId"
-                                                                     style="display:inline-block"/></div>
+                        <div class="title-content1-top3">快递单号：<input name="expressId" id="expressId" onblur="testQualified()"
+                                                                   placeholder="请输入十位以上快递单号"  style="display:inline-block"/></div>
                     </div>
                     <div class="title-content3">
                         <div class="title-content1-top1">出库单状态：<input disabled="disabled" style="display:inline-block"
@@ -55,7 +56,8 @@
                         </div>
                         <div class="title-content1-top2">收货地址：<input disabled="disabled" style="display:inline-block"
                                                                      th:value="${outRepoOrder.receiverAddress}"></div>
-                        <div class="title-content1-top3">发货时间：<input style="display:inline-block" type="date" name="reviseTime" >
+                        <div class="title-content1-top3">发货时间：<input style="display:inline-block" type="date"
+                                                                     name="reviseTime">
                         </div>
                     </div>
                 </div>
@@ -95,10 +97,39 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        $("#close").click(function () {
-            parent.closeIFrame();
-        })
+        // $("#close").click(function () {
+        //     parent.closeIFrame();
+        // });
+
+
+        $('#close').click(function (){
+
+            var pattern = /[0-9a-zA-Z]{11,}$/;
+            var expressId = $('#expressId').val();
+            if (pattern.test(expressId) == false){
+                alert("请按照正确格式填写快递单号！");
+                return false;
+            }
+                parent.closeIFrame();
+
+
+        });
+
+
+
+
+
     });
+
+
+        // console.log(expressId);
+        // if(pattern.test(expressId) == false){
+        //     alert("请按照正确格式填写快递单号！");
+        //     closeButton.setAttribute("disabled", true);
+        // }else{
+        //     closeButton.removeAttribute("disabled");
+        // }
+
 </script>
 </body>
 </html>

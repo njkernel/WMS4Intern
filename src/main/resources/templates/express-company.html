@@ -15,8 +15,9 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal">添加公司</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoModal1">修改公司信息</button>
         <div class="search-box">
-            <form action="/expressCompany/findByKey" method="get">
-                <input  name="key" type="text" placeholder="请输入公司名称">
+            <form action="/expressCompany/findByKey" method="get" name="frm">
+                <input  name="key" type="text" th:value="${key}" placeholder="请输入公司名称">
+                <input name="currPage" type="hidden" id="currPage"/>
                 <button type="submit"  class="btn btn-success">搜索</button>
             </form>
         </div>
@@ -32,7 +33,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="obj,i:${page.getData()}">
+            <!--/*@thymesVar id="page" type="com.github.pagehelper.PageInfo;"*/-->
+                <tr th:each="obj,i:${page.getList()}">
                     <td th:text="${i.count}"></td>
                     <td id="expressCompanyName" th:text="${obj.expressCompanyName}"></td>
                     <td id="contactWay" th:text="${obj.contactWay}"></td>
@@ -114,19 +116,21 @@
             </div>
         </div>
     </div>
-    <form name="frm" action="" >
-        <input name="currPage" type="hidden" id="currPage"/>
-    </form>
     <div class="footer-pager">
-        <span>共<span th:text="${page.totalPage}"></span>页，当前第<span th:text="${page.currPage}"></span>页</span>
+        <span>共<span th:text="${page.pages}"></span>页，当前第<span th:text="${page.pageNum}"></span>页</span>
         <ul class="pagination">
-            <li><a th:if="${page.currPage}>1" th:href="'javascript:go('+${page.currPage-1}+');'">&laquo;</a></li>
-            <!--<li class="active"><a href="#">1</a></li>
-            <li class="disabled"><a href="#">2</a></li>-->
-            <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'" th:text="${page.currPage-1}"></a></li>
-            <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-            <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'" th:text="${page.currPage+1}"></a></li>
-            <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
+            <li>
+                <a th:href="'javascript:go('+${page.pageNum+(-1)}+');'">&laquo;</a>
+            </li>
+            <li><a th:if="${page.pageNum}>1" th:href="'javascript:go('+${page.pageNum+(-1)}+');'"
+                   th:text="${page.pageNum}-1"></a></li>
+            <li class="active"><a th:href="'javascript:go('+${page.pageNum}+');'" th:text="${page.pageNum}"></a></li>
+            <li><a th:if="${page.pageNum+1}<=${page.pages}" th:href="'javascript:go('+${page.pageNum+1}+');'"
+                   th:text="${page.pageNum+1}"></a></li>
+            <li th:if="${page.pageNum}==1"><a th:if="${page.pageNum+2}<=${page.pages}"
+                                              th:href="'javascript:go('+${page.pageNum+1}+');'"
+                                              th:text="${page.pageNum+2}"></a></li>
+            <li><a th:href="'javascript:go('+${page.pageNum+1}+');'">
                 &raquo;</a>
             </li>
         </ul>
@@ -134,10 +138,4 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="/js/expressCompany/add-update.js"></script>
-<script type="text/javascript">
-    function go(currPage) {
-        $('#currPage').val(currPage)
-        document.frm.submit();
-    }
-</script>
 </html>
