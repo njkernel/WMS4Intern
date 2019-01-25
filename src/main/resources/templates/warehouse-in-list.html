@@ -60,6 +60,9 @@
             })
         }
     </script>
+    <style>
+
+    </style>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow"></div>
@@ -115,15 +118,17 @@
                     <td th:text="#{''+${obj.inRepoStatus}}"></td>
                     <td th:text="#{''+${obj.syncStatus}}"></td>
                     <td th:text="#{''+${obj.receivingRepo}}"></td>
-                    <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
+                    <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/dd HH:mm')}"></td>
                     <td>
                         <button type="button" id="detail" th:name="${obj.id}" class="btn btn-default btn-xs cab">详情
                         </button>
-                        <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}" @click="getGoodsList($event)"
+                        <button th:if="${obj.inRepoStatus}=='wait'" type="button" id="exception" th:name="${obj.id}"
+                                @click="getGoodsList($event)"
                                 class="btn btn-danger btn-xs cad"
                                 data-toggle="modal" data-target="#demoModal1">异常
                         </button>
-                        <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}" @click="getGoodsList($event)"
+                        <button th:if="${obj.inRepoStatus}!='wait'" type="button" id="exception" th:name="${obj.id}"
+                                @click="getGoodsList($event)"
                                 class="btn btn-danger btn-xs cad"
                                 data-toggle="modal" data-target="#demoModal1" disabled>异常
                         </button>
@@ -141,14 +146,14 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">收货管理</h4>
+                            <h4 class="modal-title" id="myModalLabel" >收货管理</h4>
                         </div>
                         <div class="modal-body">
                             <form class="form-horizontal refund" role="form">
                                 <div class="form-group ">
                                     <!--<label for="fiarstnme" class="col-sm-2 control-label">订单号:</label>-->
                                     <div class="col-sm-10">
-                                        订单号:&nbsp;&nbsp;&nbsp;<input type="text" id="fiarstnme" style="border:0;"
+                                        <input type="text" id="fiarstnme" style="border:0;"
                                                                      readonly="readonly">
                                     </div>
                                 </div>
@@ -165,9 +170,9 @@
                                             </thead>
                                             <template v-for="(i,index) in goodsList">
                                                 <tr>
-                                                    <td>{{i.goodsId}}</td>
-                                                    <td>{{i.goodsName}}</td>
-                                                    <td class="refund">
+                                                    <td style="text-align: center;">{{i.goodsId}}</td>
+                                                    <td style="text-align: center;">{{i.goodsName}}</td>
+                                                    <td class="refund" style="text-align: center;">
                                                         <div class="control-btn">
                                                             <div class="control-btn">
                                                                 <button type="button" class="subtract"
@@ -273,7 +278,7 @@
         data: {
             id: '',
             goodsList: [],
-            oldList:[],
+            oldList: [],
         },
         methods: {
             countDown(index) {
@@ -282,9 +287,7 @@
                 }
             },
             countUp(index) {
-                if (this.goodsList[index].goodsNum < this.oldList[index].goodsNum) {
-                    this.goodsList[index].goodsNum++
-                }
+                this.goodsList[index].goodsNum++
             },
             getGoodsList(e) {
                 var iii = this
@@ -292,7 +295,7 @@
                 axios.post('/inRepertory/detail/' + iii.id, {})
                     .then(function (response) {
                         iii.goodsList = response.data;
-                        iii.oldList=response.data;
+                        iii.oldList = response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
