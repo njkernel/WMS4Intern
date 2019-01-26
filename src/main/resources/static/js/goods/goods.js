@@ -22,7 +22,7 @@ function saveData() {
         success: function (data) {
             console.log(data);
             if (data == "success") {
-                alert("修改成功！");
+                alert("修改成功，同步成功！");
                 window.location.href = "/goods/findAll?currPage=1";
             } else if (data == "error") {
                 alert("修改失败,请输入正确的商品价格！");
@@ -32,6 +32,9 @@ function saveData() {
                 window.location.href = "/goods/findAll?currPage=1";
             } else if (data == "sorry") {
                 alert("修改失败，商品价格应小于1000000！");
+                window.location.href = "/goods/findAll?currPage=1";
+            } else if (data == "noSyn") {
+                alert("修改成功，未同步成功，请重新同步！");
                 window.location.href = "/goods/findAll?currPage=1";
             }
 
@@ -72,3 +75,29 @@ $("#secondname").on('blur', function () {
     //最后一位是小数点的话，移除
     $amountInput.val(($amountInput.val().replace(/\.$/g, "")));
 });
+
+//确认同步成功
+function confirmSyn() {
+    var id = $('.goodsid').val();
+    var url = '/goods/synGoodsById';
+    $.ajax({
+        url: url,
+        type: 'get',
+        data: {
+            "id": id
+        },
+        success: function (data) {
+            //console.log(data);
+            if (data == "success") {
+                alert("同步成功！");
+                window.location.href = "/goods/findAll?currPage=1";
+            } else if (data == "error") {
+                alert("同步失败！请重新同步！");
+                window.location.href = "/goods/findAll?currPage=1";
+            }
+
+
+        }
+    })
+
+}

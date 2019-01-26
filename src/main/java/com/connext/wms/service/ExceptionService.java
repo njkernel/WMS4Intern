@@ -21,4 +21,7 @@ public interface ExceptionService {
     //分页查询所有异常订单信息返回列表
     PageInfo selectByPage(Integer currPage);
 
+    //调用出库模块中的发货方法，对异常的出库单进行再处理
+    void deliver(Integer outRepoId);
+
 }

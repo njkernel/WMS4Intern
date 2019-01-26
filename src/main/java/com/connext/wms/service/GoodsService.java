@@ -26,6 +26,7 @@ public interface GoodsService {
 
     /**
      * 根据商品id返回商品对象
+     *
      * @param id
      * @return 商品对象
      */
@@ -33,6 +34,7 @@ public interface GoodsService {
 
     /**
      * 根据多个sku批量查询多个商品
+     *
      * @param skuList
      * @return 商品对象list
      */
@@ -41,6 +43,7 @@ public interface GoodsService {
     /**
      * 根据商品id改变商品价格和名称
      * 并且调用同步接口对OMS进行更新
+     *
      * @param goods
      */
     String updateGoodsNameAndPrice(Goods goods);
@@ -48,6 +51,14 @@ public interface GoodsService {
     /**
      * 根据关键字查询相关的商品信息
      */
-    Page selectByExample(String key,Integer currPage);
+    Page selectByExample(String key, Integer currPage);
+
+    /**
+     * 根据商品id同步商品信息
+     *
+     * @param id
+     * @return
+     */
+    String synchronizeGoodsById(Integer id);
 
 }
