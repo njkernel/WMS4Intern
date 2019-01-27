@@ -71,25 +71,25 @@ public class ApplicationProgrameInterface {
 
             List<OutRepoOrderDetailDto> outRepoOrderDetailDtoList = objectMapper.readValue(outRepoOrderDetailDto,
                     new TypeReference<List<OutRepoOrderDetailDto>>() {
-            });
+                    });
 
             //根据接收到的goodsCode查询goods
             OutRepertoryDetail outRepertoryDetail=new OutRepertoryDetail();
             List<String> skuList = new ArrayList<String>();
+            List<Integer> GoodNumList = new ArrayList<>();
             System.out.println("^^^^^^^^^^^^^^"+outRepoOrderDetailDtoList);
             for (OutRepoOrderDetailDto outRepoOrderDetailDto1 : outRepoOrderDetailDtoList) {
                 skuList.add(outRepoOrderDetailDto1.getGoodsCode());
                 //调用 商品库存更改 方法
                 Integer goodId=this.goodsService.getGoodsBySku(outRepoOrderDetailDto1.getGoodsCode()).getId();
-
+                System.out.println("商品数量为："+outRepoOrderDetailDto1.getNum());
                 this.repertoryRegulationService.deliveryGoodsBeforeDelivery(goodId,outRepoOrderDetailDto1.getNum());
+                //将商品详情插到出库单详情表中
+                Goods goods = this.goodsService.getGoodsBySku(outRepoOrderDetailDto1.getGoodsCode());
                 outRepertoryDetail.setGoodsNum(outRepoOrderDetailDto1.getNum());
-            }
-            for(Goods good:this.goodsService.getGoodsBySkuList(skuList)){
-
-                outRepertoryDetail.setGoodsName(good.getGoodsName());
-                outRepertoryDetail.setGoodsId(good.getId());
                 outRepertoryDetail.setOutRepoId(outRepertory.getId());
+                outRepertoryDetail.setGoodsId(goodId);
+                outRepertoryDetail.setGoodsName(goods.getGoodsName());
                 this.outRepertoryDetailMapper.insertSelective(outRepertoryDetail);
             }
         } catch (IOException e) {

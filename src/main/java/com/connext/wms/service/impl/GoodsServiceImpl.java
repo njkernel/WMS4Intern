@@ -89,7 +89,7 @@ public class GoodsServiceImpl implements GoodsService {
         /*
         根据商品id更改商品名称和价格
          */
-        if (!goods.getGoodsName().isEmpty() && goods.getGoodsName() != null && !goods.getGoodsName().equals("")) {
+        if (!goods.getGoodsName().isEmpty() && goods.getGoodsName() != null && !goods.getGoodsName().equals("")) {//TODO
                 /*
                     -1,表示价格小于0.0
                     0,表示价格等于0.0
@@ -97,13 +97,13 @@ public class GoodsServiceImpl implements GoodsService {
                  */
             if (goods.getGoodsPrice() == null || goods.getGoodsPrice().compareTo(BigDecimal.valueOf(0.0)) <= 0) {
                 //提示商品价格不能为负数或0
-                return "error";
+                return "error";//TODO 定义一个枚举
                 /*
                     -1,表示价格小于1000000.0
                     0,表示价格等于1000000.0
                     1,表示价格大于1000000.0
                  */
-            } else if (goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)) >= 0) {
+            } else if (goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)) >= 0) {//toDO
                 //提示商品价格不能超过1000000
                 return "sorry";
             } else {
@@ -111,14 +111,22 @@ public class GoodsServiceImpl implements GoodsService {
               /*
                 调用同步接口传给OMS
               */
+                String flag = "success";
                 List<GoodsDTO> goodsDTOSList = new ArrayList<>();
                 String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
                 goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
                 // System.out.println(goodsDTOSList.toString());
-                restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+                try {
+                    restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+                } catch (Exception e) {
+                    //提示未同步成功
+                    flag = "noSyn";
+                    e.printStackTrace();//TODO
+                }
+
                 //System.out.println(goods.getGoodsPrice().intValue());
                 //System.out.println(goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)));
-                return "success";
+                return flag;
             }
         } else {
             //提示商品名称不能为空
@@ -164,9 +172,14 @@ public class GoodsServiceImpl implements GoodsService {
         String sku = goodsMapper.selectByPrimaryKey(id).getSku();
         goodsDTOSList.add(goodsMapper.selectGoodsDTOBySku(sku));
         // System.out.println(goodsDTOSList.toString());
-        restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+        String flag = "success";
+        try {
+            restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
+        } catch (Exception e) {
+            flag = "error";
+        }
         //System.out.println(goods.getGoodsPrice().intValue());
         //System.out.println(goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)));
-        return "success";
+        return flag;
     }
 }
