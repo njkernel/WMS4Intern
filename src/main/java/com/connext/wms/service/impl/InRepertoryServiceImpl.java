@@ -150,10 +150,9 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         AtomicInteger rows = new AtomicInteger();
         ids.forEach(
                 u -> {
-                    if (changeInRepertoryStatus(u, status)) {
+                    if (changeInRepertoryStatus(u, status) && pushInRepertoryState(findOne(u))) {
                         rows.addAndGet(1);
                     }
-                    pushInRepertoryState(findOne(u));
                 }
         );
         return rows.get();
