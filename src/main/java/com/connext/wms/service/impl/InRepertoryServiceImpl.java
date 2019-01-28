@@ -6,10 +6,8 @@ import com.connext.wms.api.dto.InputFeedbackDetail;
 import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.dao.InRepertoryDetailMapper;
 import com.connext.wms.dao.InRepertoryMapper;
-import com.connext.wms.entity.InRepertory;
-import com.connext.wms.entity.InRepertoryDetail;
-import com.connext.wms.entity.InRepertoryDetailExample;
-import com.connext.wms.entity.InRepertoryExample;
+import com.connext.wms.entity.*;
+import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.InRepertoryService;
 import com.connext.wms.service.RepertoryRegulationService;
 import com.connext.wms.util.AES;
@@ -40,15 +38,17 @@ public class InRepertoryServiceImpl implements InRepertoryService {
     private final EntityAndDto entityAndDto;
     private final RestTemplate restTemplate;
     private final RepertoryRegulationService regulationService;
+    private final GoodsService goodsService;
 
 
     @Autowired
-    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, EntityAndDto entityAndDto, RestTemplate restTemplate, RepertoryRegulationService regulationService) {
+    public InRepertoryServiceImpl(InRepertoryMapper inRepertoryMapper, InRepertoryDetailMapper inRepertoryDetailMapper, EntityAndDto entityAndDto, RestTemplate restTemplate, RepertoryRegulationService regulationService, GoodsService goodsService) {
         this.inRepertoryMapper = inRepertoryMapper;
         this.inRepertoryDetailMapper = inRepertoryDetailMapper;
         this.entityAndDto = entityAndDto;
         this.restTemplate = restTemplate;
         this.regulationService = regulationService;
+        this.goodsService = goodsService;
     }
 
     @Override
@@ -90,9 +90,14 @@ public class InRepertoryServiceImpl implements InRepertoryService {
         InRepertory inRepertory = inRepertoryMapper.selectByPrimaryKey(id);
         InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
         detailExample.or().andInRepoIdEqualTo(Integer.valueOf(inRepertory.getInRepoId()));
-        inRepertory.setRepertoryDetails(inRepertoryDetailMapper.selectByExample(detailExample));
+        List<InRepertoryDetail> details = inRepertoryDetailMapper.selectByExample(detailExample);
+        details.forEach(u -> u.setSKU(
+                goodsService.getGoodsById(u.getGoodsId()).getSku()
+        ));
+        inRepertory.setRepertoryDetails(details);
         return inRepertory;
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
