@@ -9,6 +9,8 @@ import com.connext.wms.util.Constant;
 import com.connext.wms.util.Page;
 import com.connext.wms.util.PageSet;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,10 +19,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * @Author: Yogurt7_
  * @Date: 2019/1/8 10:47
  */
+@Slf4j
 @Service
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
@@ -86,31 +90,29 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public String updateGoodsNameAndPrice(Goods goods) {
-        /*
-        根据商品id更改商品名称和价格
-         */
-        if (!goods.getGoodsName().isEmpty() && goods.getGoodsName() != null && !goods.getGoodsName().equals("")) {//TODO
-                /*
-                    -1,表示价格小于0.0
-                    0,表示价格等于0.0
-                    1,表示价格大于0.0
-                 */
+
+        // 根据商品id更改商品名称和价格
+        if (StringUtils.isNotBlank(goods.getGoodsName())) {
+            //if (!goods.getGoodsName().isEmpty() && goods.getGoodsName() != null && !goods.getGoodsName().equals("")) {
+
+            //   -1,表示价格小于0.0
+            //   0,表示价格等于0.0
+            //   1,表示价格大于0.0
+
             if (goods.getGoodsPrice() == null || goods.getGoodsPrice().compareTo(BigDecimal.valueOf(0.0)) <= 0) {
                 //提示商品价格不能为负数或0
                 return "error";//TODO 定义一个枚举
-                /*
-                    -1,表示价格小于1000000.0
-                    0,表示价格等于1000000.0
-                    1,表示价格大于1000000.0
-                 */
-            } else if (goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)) >= 0) {//toDO
+
+                // -1,表示价格小于1000000.0
+                //  0,表示价格等于1000000.0
+                //  1,表示价格大于1000000.0
+                //upperLimit是价格校验的上限
+            } else if (goods.getGoodsPrice().compareTo(BigDecimal.valueOf(constant.upperLimit)) >= 0) {
                 //提示商品价格不能超过1000000
                 return "sorry";
             } else {
                 goodsMapper.updateByPrimaryKeySelective(goods);
-              /*
-                调用同步接口传给OMS
-              */
+                //  调用同步接口传给OMS
                 String flag = "success";
                 List<GoodsDTO> goodsDTOSList = new ArrayList<>();
                 String sku = goodsMapper.selectByPrimaryKey(goods.getId()).getSku();
@@ -121,7 +123,8 @@ public class GoodsServiceImpl implements GoodsService {
                 } catch (Exception e) {
                     //提示未同步成功
                     flag = "noSyn";
-                    e.printStackTrace();//TODO
+                    log.info("商品信息同步接口调用失败");
+                    e.printStackTrace();
                 }
 
                 //System.out.println(goods.getGoodsPrice().intValue());
@@ -177,6 +180,7 @@ public class GoodsServiceImpl implements GoodsService {
             restTemplate.postForObject(constant.GOODS_UPDATE_URL, goodsDTOSList, String.class);
         } catch (Exception e) {
             flag = "error";
+            log.info("商品信息同步接口调用未成功");
         }
         //System.out.println(goods.getGoodsPrice().intValue());
         //System.out.println(goods.getGoodsPrice().compareTo(BigDecimal.valueOf(1000000.0)));
