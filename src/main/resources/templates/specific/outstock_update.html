@@ -49,7 +49,7 @@
                         </div>
                         <div class="title-content1-top3">快递单号：<input name="expressId" id="expressId"
                                                                      maxlength="15"
-                                                                     placeholder="请输入十位以上快递单号"
+                                                                     placeholder="输入十位以上快递单号(半角)"
                                                                      style="display:inline-block"/></div>
                     </div>
                     <div class="title-content3">
@@ -102,11 +102,15 @@
         // $("#close").click(function () {
         //     parent.closeIFrame();
         // });
+        $("#expressId").on("keydown",function(event){
+
+        });
+
 
 
         $('#close').click(function () {
 
-            var pattern = /[0-9a-zA-Z]{11,}$/;
+            var pattern = /^[0-9a-zA-Z]{11,}$/;
             var expressId = $('#expressId').val();
             var reviseTime = $('#reviseTime').val();
             console.log(reviseTime);
