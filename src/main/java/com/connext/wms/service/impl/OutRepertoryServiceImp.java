@@ -104,14 +104,6 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
                 shippingInfo[2] = outRepertory1.getReviseTime().toString();
             }
             map.put("shippingInfo", shippingInfo);
-            for (OutRepertory outRepertory1 : this.outRepertoryMapper.selectByExample(outRepertoryExample)) {
-                OutRepertoryDetailExample outRepertoryDetailExample = new OutRepertoryDetailExample();
-                outRepertoryDetailExample.or().andOutRepoIdEqualTo(outRepertory1.getId());
-                for (OutRepertoryDetail outRepertoryDetail : this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample)) {
-                    this.repertoryRegulationService.deliveryGoodsAfterDelivery(outRepertoryDetail.getGoodsId(), outRepertoryDetail.getGoodsNum());
-                }
-            }
-
         }
         String s = "202";
         try {
@@ -120,6 +112,16 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
                 outRepertory.setReviseTime(new Date());
                 outRepertory.setSyncStatus("haveSync");
                 this.outRepertoryMapper.updateByExampleSelective(outRepertory, outRepertoryExample);
+                if (outRepertory.getOutRepoStatus().equals("haveShipped")) {
+                    for (OutRepertory outRepertory1 : this.outRepertoryMapper.selectByExample(outRepertoryExample)) {
+                        OutRepertoryDetailExample outRepertoryDetailExample = new OutRepertoryDetailExample();
+                        outRepertoryDetailExample.or().andOutRepoIdEqualTo(outRepertory1.getId());
+                        for (OutRepertoryDetail outRepertoryDetail : this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample)) {
+                            this.repertoryRegulationService.deliveryGoodsAfterDelivery(outRepertoryDetail.getGoodsId(), outRepertoryDetail.getGoodsNum());
+                        }
+                    }
+
+                }
             }
             return s;
         } catch (RestClientException e) {
