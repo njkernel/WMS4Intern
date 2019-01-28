@@ -203,11 +203,6 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
                     for (OutRepertoryDetail outRepertoryDetail : this.outRepertoryDetailMapper.selectByExample(outRepertoryDetailExample)) {
                         this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(), outRepertoryDetail.getGoodsNum());
                     }
-                    //根据某个出库单号获取某一个出库单id
-                    Integer outRepoId = this.outRepertoryMapper.selectByOutRepoOrderNo(outRepoNo).getId();
-                    for (OutRepertoryDetail outRepertoryDetail : this.outRepertoryDetailMapper.selectListByOutRepoId(outRepoId)) {
-                        this.repertoryRegulationService.cancelDelivery(outRepertoryDetail.getGoodsId(), outRepertoryDetail.getGoodsNum());
-                    }
                 }
             }
             return s;
