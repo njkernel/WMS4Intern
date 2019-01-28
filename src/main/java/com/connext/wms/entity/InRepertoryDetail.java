@@ -20,6 +20,8 @@ public class InRepertoryDetail {
     private String goodsName;
 
     private Integer goodsNum;
+
+    private String SKU;
     public InRepertoryDetail(Integer inRepoId, Integer goodsId, String goodsName, Integer goodsNum) {
         this.inRepoId = inRepoId;
         this.goodsId = goodsId;
@@ -32,6 +34,14 @@ public class InRepertoryDetail {
         this.goodsId = goodsId;
         this.goodsName = goodsName;
         this.goodsNum = goodsNum;
+    }
+
+    public String getSKU() {
+        return SKU;
+    }
+
+    public void setSKU(String SKU) {
+        this.SKU = SKU;
     }
 
     public InRepertoryDetail() {
