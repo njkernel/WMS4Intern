@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/popup/inpopup.js"></script>
-    <script src="/js/popup/orderpopup.js"></script>
+    <!--<script src="/js/popup/orderpopup.js"></script>-->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/pager.css">
-    <script src="/js/pager.js"></script>
+    <!--<script src="/js/pager.js"></script>-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script th:inline="javascript">
         $(function () {
@@ -60,9 +60,6 @@
             })
         }
     </script>
-    <style>
-
-    </style>
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow"></div>
@@ -146,7 +143,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel" >收货管理</h4>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 16px">收货管理</h4>
                         </div>
                         <div class="modal-body">
                             <form class="form-horizontal refund" role="form">
@@ -245,7 +242,6 @@
     </div>
     <script th:inline="javascript">
         function go(currPage) {
-            var like
             if ([[${like}]] != null && [[${like}]] != 'null') {
                 window.location.replace([[${url}]] + "/" + currPage + "?like=" + [[${like}]])
             } else {
@@ -266,7 +262,7 @@
     <script>
         $(function () {
             $('#popup').popup();
-            // $("body").css("overflow-y", "hidden");
+            $("body").css("overflow-y", "hidden");
         });
     </script>
 </div>

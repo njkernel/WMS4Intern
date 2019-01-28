@@ -60,7 +60,10 @@ public class GoodsRepertoryController {
     @RequestMapping("/replenishRepertory")
     public String replenishRepertory(Integer id, Integer num) {
         String result = repertoryRegulationService.replenishRepertory(id, num);
-        goodsRepertoryService.synchronizeRepertory(id);
+        if (goodsRepertoryService.synchronizeRepertory(id) == "fail") {
+            result = "fail";
+        }
+
         return result;
     }
 

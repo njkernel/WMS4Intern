@@ -71,25 +71,25 @@ public class ApplicationProgrameInterface {
 
             List<OutRepoOrderDetailDto> outRepoOrderDetailDtoList = objectMapper.readValue(outRepoOrderDetailDto,
                     new TypeReference<List<OutRepoOrderDetailDto>>() {
-            });
+                    });
 
             //根据接收到的goodsCode查询goods
             OutRepertoryDetail outRepertoryDetail=new OutRepertoryDetail();
             List<String> skuList = new ArrayList<String>();
+            List<Integer> GoodNumList = new ArrayList<>();
             System.out.println("^^^^^^^^^^^^^^"+outRepoOrderDetailDtoList);
             for (OutRepoOrderDetailDto outRepoOrderDetailDto1 : outRepoOrderDetailDtoList) {
                 skuList.add(outRepoOrderDetailDto1.getGoodsCode());
                 //调用 商品库存更改 方法
                 Integer goodId=this.goodsService.getGoodsBySku(outRepoOrderDetailDto1.getGoodsCode()).getId();
-
+                System.out.println("商品数量为："+outRepoOrderDetailDto1.getNum());
                 this.repertoryRegulationService.deliveryGoodsBeforeDelivery(goodId,outRepoOrderDetailDto1.getNum());
+                //将商品详情插到出库单详情表中
+                Goods goods = this.goodsService.getGoodsBySku(outRepoOrderDetailDto1.getGoodsCode());
                 outRepertoryDetail.setGoodsNum(outRepoOrderDetailDto1.getNum());
-            }
-            for(Goods good:this.goodsService.getGoodsBySkuList(skuList)){
-
-                outRepertoryDetail.setGoodsName(good.getGoodsName());
-                outRepertoryDetail.setGoodsId(good.getId());
                 outRepertoryDetail.setOutRepoId(outRepertory.getId());
+                outRepertoryDetail.setGoodsId(goodId);
+                outRepertoryDetail.setGoodsName(goods.getGoodsName());
                 this.outRepertoryDetailMapper.insertSelective(outRepertoryDetail);
             }
         } catch (IOException e) {
@@ -139,22 +139,22 @@ public class ApplicationProgrameInterface {
 
     /**
      * oms取消wms出库单，wms告知oms出库单是否取消成功
-     * @param outRepoOrderNoArray
+     * @param outRepoOrderNo
      * @return
      */
     @PostMapping("/cancelResult")
     @ResponseBody
-    public String cancelResult(@RequestParam(required = true) String outRepoOrderNoArray) {
+    public String cancelResult(@RequestParam(required = true) String outRepoOrderNo) {
         try {
-            String[] str = outRepoOrderNoArray.split(",");
+            String[] str = outRepoOrderNo.split(",");
             List<String> stringList = new ArrayList<String>(Arrays.asList(str));
             //防止重复取消出库单导致库存不正常的变化
-            Iterator<String> outRepoOrderNo = stringList.iterator();
-            while(outRepoOrderNo.hasNext()){
-                String outRepoNo = outRepoOrderNo.next();
+            Iterator<String> outRepoOrderNo1 = stringList.iterator();
+            while(outRepoOrderNo1.hasNext()){
+                String outRepoNo = outRepoOrderNo1.next();
                 String outRepoStatus = this.outRepertoryService.outRepoOrderInfo(outRepoNo).getOutRepoStatus();
                 if(("haveCanceled").equals(outRepoStatus) || ("haveShipped").equals(outRepoStatus)){
-                    outRepoOrderNo.remove();
+                    outRepoOrderNo1.remove();
                 }else{
                     //根据出库单号更新商品库存
                     Integer outRepoId = this.outRepertoryService.outRepoOrderInfo(outRepoNo).getId();
