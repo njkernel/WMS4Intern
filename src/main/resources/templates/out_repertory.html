@@ -121,7 +121,7 @@
         <li><a th:if="${page.currPage-1}>0" th:href="'javascript:go('+${page.currPage-1}+');'"
                th:text="${page.currPage-1}"></a></li>
         <li><a th:href="'javascript:go('+${page.currPage}+');'" th:text="${page.currPage}"></a></li>
-        <li><a th:if="${page.currPage+1}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'"
+        <li><a th:if="${page.currPage+1}<${page.totalPage+1}" th:href="'javascript:go('+${page.currPage+1}+');'"
                th:text="${page.currPage+1}"></a></li>
         <li><a th:if="${page.currPage}<${page.totalPage}" th:href="'javascript:go('+${page.currPage+1}+');'">
             &raquo;</a>

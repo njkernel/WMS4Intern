@@ -139,22 +139,22 @@ public class ApplicationProgrameInterface {
 
     /**
      * oms取消wms出库单，wms告知oms出库单是否取消成功
-     * @param outRepoOrderNoArray
+     * @param outRepoOrderNo
      * @return
      */
     @PostMapping("/cancelResult")
     @ResponseBody
-    public String cancelResult(@RequestParam(required = true) String outRepoOrderNoArray) {
+    public String cancelResult(@RequestParam(required = true) String outRepoOrderNo) {
         try {
-            String[] str = outRepoOrderNoArray.split(",");
+            String[] str = outRepoOrderNo.split(",");
             List<String> stringList = new ArrayList<String>(Arrays.asList(str));
             //防止重复取消出库单导致库存不正常的变化
-            Iterator<String> outRepoOrderNo = stringList.iterator();
-            while(outRepoOrderNo.hasNext()){
-                String outRepoNo = outRepoOrderNo.next();
+            Iterator<String> outRepoOrderNo1 = stringList.iterator();
+            while(outRepoOrderNo1.hasNext()){
+                String outRepoNo = outRepoOrderNo1.next();
                 String outRepoStatus = this.outRepertoryService.outRepoOrderInfo(outRepoNo).getOutRepoStatus();
                 if(("haveCanceled").equals(outRepoStatus) || ("haveShipped").equals(outRepoStatus)){
-                    outRepoOrderNo.remove();
+                    outRepoOrderNo1.remove();
                 }else{
                     //根据出库单号更新商品库存
                     Integer outRepoId = this.outRepertoryService.outRepoOrderInfo(outRepoNo).getId();
