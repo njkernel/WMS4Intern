@@ -121,7 +121,7 @@ public class InRepertoryServiceImpl implements InRepertoryService {
             inRepertoryMapper.updateByPrimaryKeySelective(inRepertory);
             if (status.equals(Constant.SUCCESS_STATUS)) {
                 InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
-                detailExample.or().andInRepoIdEqualTo(id);
+                detailExample.or().andInRepoIdEqualTo(Integer.valueOf(inRepertoryMapper.selectByPrimaryKey(id).getInRepoId()));
                 inRepertoryDetailMapper.selectByExample(detailExample).forEach(
                         u -> regulationService.rejectedGoodsSuccess(u.getGoodsId(), u.getGoodsNum())
                 );
