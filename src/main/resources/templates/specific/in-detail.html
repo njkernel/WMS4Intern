@@ -61,30 +61,16 @@
                 <thead>
                 <tr>
                     <th>入库单号</th>
-                    <th>商品编码</th>
                     <th>商品名称</th>
-                    <th>单价</th>
                     <th>数量</th>
-                    <th>金额</th>
                 </tr>
                 </thead>
                 <tr th:each="orod:${one.getRepertoryDetails()}">
                     <td th:text="${orod.inRepoId}"></td>
-                    <td></td>
                     <td th:text="${orod.goodsName}"></td>
-                    <td></td>
                     <td th:text="${orod.goodsNum}"></td>
-                    <td></td>
                 </tr>
 
-                <tr>
-                    <td style="font-size: 15px;"><strong>总计</strong></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
             </table>
         </div>
 
