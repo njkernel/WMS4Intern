@@ -17,7 +17,24 @@
             $('#popup').css("display", "none");
             $('#mask_shadow').css("display", "none");
             var page=[[${page}]];
-            window.location.replace("../outRepoOrderController/toLoad?currPage=" + page.currPage);
+            var child = document.getElementById("iframeId").contentWindow.document.getElementsByName("id");
+            var checkedArray = new Array();
+            checkedArray.push(child[0].defaultValue);
+            $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus", {
+                "status": "haveShipped",
+                "outRepoOrderIdArray": JSON.stringify(checkedArray)
+            }, function (data) {
+                if (data == "202") {
+                    alert("wms端出现异常无法获取oms服务，发货失败！");
+                }else if(data == "200"){
+                    alert("发货成功！");
+                    window.location.replace("../outRepoOrderController/toLoad?currPage=" + page.currPage);
+                    //location.href = "../outRepoOrderController/outRepoOrderList";
+                }else {
+                    alert("oms端出现异常！");
+                }
+            })
+
         }
     </script>
 </head>
@@ -27,7 +44,7 @@
 <div class="btn-div">
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
-    <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
+    <!--<button type="button" class="btn btn-primary action" id="haveShipped">发货</button>-->
     <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
     <div class="search-box">
         <form th:action="@{/outRepoOrderController/unclearSelect}" method="post" name="frm">
@@ -80,10 +97,10 @@
             <td>
                 <button type="button" class="btn btn-default btn-xs" th:id="${p.id}">查看</button>
                 <t th:if="${p.outRepoStatus!='waittingShipped'}">
-                    <button type="button" class="btn btn-danger btn-xs" disabled="disabled" th:id="${p.id}">操作</button>
+                    <button type="button" class="btn btn-danger btn-xs" disabled="disabled" th:id="${p.id}">发货</button>
                 </t>
                 <t th:if="${p.outRepoStatus=='waittingShipped'}">
-                    <button type="button" class="btn btn-danger btn-xs" th:id="${p.id}">操作</button>
+                    <button type="button" class="btn btn-danger btn-xs" th:id="${p.id}">发货</button>
                 </t>
 
             </td>
@@ -135,7 +152,7 @@
         <span>x</span>
     </div>
     <div class="cont">
-        <iframe src="" scrolling="auto" id="iframeId"
+        <iframe src="" scrolling="auto" id="iframeId" name="iframeId"
                 style="width:100%;height:100%;border:0px;"></iframe>
     </div>
 </div>

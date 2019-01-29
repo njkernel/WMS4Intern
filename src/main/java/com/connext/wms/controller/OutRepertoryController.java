@@ -134,6 +134,7 @@ public class OutRepertoryController {
     @RequestMapping("/updateOutRepoOrder")
     @OutRepoAnnotation(value = "填写发货信息")
     public String updateOutRepoOrder(OutRepertory outRepertory) {
+        System.out.println("填写的发货信息有："+outRepertory.toString());
         this.outRepertoryService.updateOutRepoOrder(outRepertory);
         return "redirect:/outRepoOrderController/outRepoOrderList";
     }

@@ -153,6 +153,7 @@ $(function () {
 $(function () {
     $('.btn-danger').on("click", function () {
         var id = $(this).attr('id');
+        console.log(id);
         document.getElementById('iframeId').src = "../outRepoOrderController/preUpdateOutRepoOrder?outRepoOrderId=" + id + "&xmx=" + Math.random();
     });
 });
