@@ -306,10 +306,10 @@
                     .then(function (response) {
                         if (response.data) {
                             alert("操作成功")
+                            window.location.reload(true)
                         } else {
                             alert("操作失败")
                         }
-                        window.location.reload(true)
                     })
                     .catch(function (error) {
                         console.log(error);
