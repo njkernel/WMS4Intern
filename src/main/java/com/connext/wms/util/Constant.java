@@ -24,4 +24,5 @@ public class Constant {
     public static final String GOODS_UPDATE_URL = "http://127.0.0.1:8502/updateGoods";
     public static final String OUT_UPDATE_URL = "http://127.0.0.1:8502/synchronizeState";
     public static final String CANCEL_OUT_URL = "http://127.0.0.1:8502/cancelOrderOfWms";
+    public static final Integer upperLimit = 1000000;
 }
