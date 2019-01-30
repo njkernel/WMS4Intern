@@ -98,6 +98,19 @@ public class WmsApplicationTests {
     System.out.println(expressCompanyService.findAll());
   }
 
+  @Test
+  public  void test5(){
+    System.out.println(expressCompanyService.findById(64));
+  }
+
+  @Test
+  public void test6(){
+    Integer id = 64;
+    String name = "告诉你啊";
+    String phone = "15951618988";
+    expressCompanyService.updateByExample(id,name,phone);
+  }
+
 
 }
 

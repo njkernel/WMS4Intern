@@ -40,7 +40,7 @@
             <tbody>
                 <tr th:each="obj,i:${page.getList()}">
                     <td th:text="${i.count}"></td>
-                    <td th:text="${obj.outRepoId}"></td>
+                    <td th:text="${obj.orderId}"></td>
                     <td th:text="#{''+${obj.outRepoStatus}}"></td>
                     <td th:text="${obj.expressCompany}"></td>
                     <td th:text="${#dates.format(obj.createTime, 'YYYY/MM/DD HH:mm')}"></td>
