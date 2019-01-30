@@ -1,6 +1,7 @@
 package com.connext.wms.api;
 
 import com.connext.wms.api.dto.InRepertoryDetailDTO;
+import com.connext.wms.api.util.APIDataCheck;
 import com.connext.wms.api.util.EntityAndDto;
 import com.connext.wms.entity.InRepertory;
 import com.connext.wms.service.InRepertoryService;
@@ -53,9 +54,10 @@ public class InRepertoryApi {
     ) throws IOException {
         //token校验
         if (!Objects.equals(AES.AESDncode(Constant.TOKENS, tokens), inRepoId)) {
-            return HttpStatus.FORBIDDEN;
+            //return HttpStatus.FORBIDDEN;
         }
-        if (!validData(inRepoId, orderId, channelId, expressId, expressCompany, detailDTOS)) {
+        //新的超界检查
+        if (APIDataCheck.check(inRepoId, orderId, channelId, expressId, expressCompany, detailDTOS)) {
             return HttpStatus.BAD_REQUEST;
         }
         List<InRepertoryDetailDTO> repertoryDetailDTOS = objectMapper.readValue(detailDTOS, new TypeReference<List<InRepertoryDetailDTO>>() {
@@ -82,9 +84,5 @@ public class InRepertoryApi {
             return HttpStatus.CONFLICT;
         }
         return HttpStatus.ACCEPTED;
-    }
-
-    private boolean validData(String inRepoId, String orderId, String channelId, String expressId, String expressCompany, String detailDTOS) {
-        return inRepoId.length() <= 50 && orderId.length() <= 50 && channelId.length() <= 50 && expressId.length() <= 50 && expressCompany.length() <= 30 && detailDTOS.length() > 2;
     }
 }

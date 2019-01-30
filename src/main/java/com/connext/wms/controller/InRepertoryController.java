@@ -62,15 +62,6 @@ public class InRepertoryController {
         return "warehouse-in-list";
     }
 
-    @GetMapping("/search/{status}/{page}")
-    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String like, Model model) {
-        model
-                .addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE))
-                .addAttribute("status", status)
-                .addAttribute("like", like)
-                .addAttribute("url", "/inRepertory/search/" + status);
-        return "warehouse-in-list";
-    }
 
     @GetMapping("/action/exception")
     public String detailAction(@RequestParam Integer id, Model model) {
@@ -90,5 +81,14 @@ public class InRepertoryController {
         List<Integer> ids = objectMapper.readValue(list, new TypeReference<List<Integer>>() {
         });
         return inRepertoryService.changeStatusAndPush(ids, status);
+    }
+    @GetMapping("/search/{status}/{page}")
+    public String search(@PathVariable String status, @PathVariable Integer page, @RequestParam(required = false, defaultValue = "") String like, Model model) {
+        model
+                .addAttribute("page", inRepertoryService.findAllLike(status, like, page, SIZE))
+                .addAttribute("status", status)
+                .addAttribute("like", like)
+                .addAttribute("url", "/inRepertory/search/" + status);
+        return "warehouse-in-list";
     }
 }

@@ -87,14 +87,10 @@ public class InRepertoryServiceImpl implements InRepertoryService {
 
     @Override
     public InRepertory findOne(Integer id) {
-        InRepertory inRepertory = inRepertoryMapper.selectByPrimaryKey(id);
-        InRepertoryDetailExample detailExample = new InRepertoryDetailExample();
-        detailExample.or().andInRepoIdEqualTo(Integer.valueOf(inRepertory.getInRepoId()));
-        List<InRepertoryDetail> details = inRepertoryDetailMapper.selectByExample(detailExample);
-        details.forEach(u -> u.setSKU(
+        InRepertory inRepertory = inRepertoryMapper.getOne(id);
+        inRepertory.getRepertoryDetails().forEach(u -> u.setSKU(
                 goodsService.getGoodsById(u.getGoodsId()).getSku()
         ));
-        inRepertory.setRepertoryDetails(details);
         return inRepertory;
     }
 
