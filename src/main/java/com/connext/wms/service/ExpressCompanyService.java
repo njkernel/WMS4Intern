@@ -28,9 +28,12 @@ public interface ExpressCompanyService {
     void deleteByExample(String expressCompanyName);
 
     //修改快递公司信息
-    Integer updateByExample(String newName,String expressCompanyName,String contactWay);
+    Integer updateByExample(Integer id,String expressCompanyName,String contactWay);
 
     //提供给出库模块使用的查询所有快递公司的方法
     List<ExpressCompany> findAll();
+
+    //通过id查询快递公司信息
+    ExpressCompany findById(Integer id);
 
 }
