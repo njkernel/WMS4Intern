@@ -3,7 +3,6 @@ package com.connext.wms.controller;
 import com.connext.wms.dao.ExpressCompanyMapper;
 import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.service.ExpressCompanyService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

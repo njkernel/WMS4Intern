@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.connext.wms.util.Validate.checkName;
-import static com.connext.wms.util.Validate.checkPhone;
 
 /**
  * @Author: Chao.Sun
