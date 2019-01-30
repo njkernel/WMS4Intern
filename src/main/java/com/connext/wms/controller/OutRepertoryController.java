@@ -37,7 +37,6 @@ public class OutRepertoryController {
      * @return String
      */
     @RequestMapping("/outRepoOrderList")
-    @OutRepoAnnotation(value = "出库单列表初始化时分页查看")
     public String outRepoOrderList(Integer currPage, Model model) {
         model.addAttribute("page", this.outRepertoryService.outRepoOrderList(currPage));
         return "out_repertory";
@@ -53,7 +52,6 @@ public class OutRepertoryController {
      * @return String
      */
     @RequestMapping("/unclearSelect")
-    @OutRepoAnnotation(value = "模糊查询即关键字搜索")
     public String unclearSelect(Integer currPage, String selectStatus, String outRepoOrderId, Model model) {
         model.addAttribute("selectStatus", selectStatus);
         model.addAttribute("outRepoOrderId", outRepoOrderId);
@@ -83,7 +81,6 @@ public class OutRepertoryController {
      * @return String
      * @throws IOException
      */
-    @OutRepoAnnotation(value = "检货包装发货操作")
     @RequestMapping("/updateOutRepoOrderStatus")
     @ResponseBody
     public String updateOutRepoOrderStatus(String status, String outRepoOrderIdArray) throws IOException {
@@ -103,7 +100,6 @@ public class OutRepertoryController {
      * @return String
      */
     @RequestMapping("/toOutRepoDetail")
-    @OutRepoAnnotation(value = "查看出库单详情")
     public String outRepoOrderDetail(String outRepoOrderId, Model model) {
         model.addAttribute("outRepoOrder", this.outRepertoryService.selectByOutRepoId(Integer.parseInt(outRepoOrderId)));
         model.addAttribute("outRepoOrderDetail", this.outRepertoryService.selectListByOutRepoId(Integer.parseInt(outRepoOrderId)));
@@ -132,7 +128,6 @@ public class OutRepertoryController {
      * @return String
      */
     @RequestMapping("/updateOutRepoOrder")
-    @OutRepoAnnotation(value = "填写发货信息")
     public String updateOutRepoOrder(OutRepertory outRepertory) {
         System.out.println("填写的发货信息有："+outRepertory.toString());
         this.outRepertoryService.updateOutRepoOrder(outRepertory);
@@ -149,7 +144,6 @@ public class OutRepertoryController {
      */
     @RequestMapping("/cancelOutRepoOrder")
     @ResponseBody
-    @OutRepoAnnotation(value = "取消操作")
     public String cancelOutRepoOrder(String outRepoOrderNoArray) throws IOException {
         JavaType javaType = objectMapper.getTypeFactory().constructParametricType(
                 List.class, String.class);

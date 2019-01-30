@@ -10,33 +10,11 @@
     <script th:src="@{/js/popup/popup.js}"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/search.css}">
-    <script th:src="@{/js/repertory/outRepo.js}"></script>
-    <script type="text/javascript" th:inline="javascript">
-
-        function closeIFrame() {
-            $('#popup').css("display", "none");
-            $('#mask_shadow').css("display", "none");
-            var page=[[${page}]];
-            var child = document.getElementById("iframeId").contentWindow.document.getElementsByName("id");
-            var checkedArray = new Array();
-            checkedArray.push(child[0].defaultValue);
-            $.getJSON("../outRepoOrderController/updateOutRepoOrderStatus", {
-                "status": "haveShipped",
-                "outRepoOrderIdArray": JSON.stringify(checkedArray)
-            }, function (data) {
-                if (data == "202") {
-                    alert("wms端出现异常无法获取oms服务，发货失败！");
-                }else if(data == "200"){
-                    alert("发货成功！");
-                    window.location.replace("../outRepoOrderController/toLoad?currPage=" + page.currPage);
-                    //location.href = "../outRepoOrderController/outRepoOrderList";
-                }else {
-                    alert("oms端出现异常！");
-                }
-            })
-
-        }
+    <script th:inline="javascript">
+        var page=[[${page}]];
     </script>
+    <script th:src="@{/js/repertory/outRepo.js}"></script>
+
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow">
@@ -49,7 +27,7 @@
     <div class="search-box">
         <form th:action="@{/outRepoOrderController/unclearSelect}" method="post" name="frm">
             <select name="selectStatus" id="selectStatus">
-                <option></option>
+                <option value="">库单状态</option>
                 <option value="waittingChecked">待检货</option>
                 <option value="waittingPackaged">待包装</option>
                 <option value="waittingShipped">待发货</option>
@@ -57,7 +35,7 @@
                 <option value="haveCanceled">已取消</option>
             </select>
             <input type="text" id="outRepoOrderId" name="outRepoOrderId" autocomplete="off" th:value="${outRepoOrderId}" placeholder="请输入出库单号" />
-            <input type="hidden" id="saveStatusFromBack" th:value="${selectStatus}">
+            <input id="saveStatusFromBack" type="hidden" th:value="${selectStatus}">
             <input id="currPage" name="currPage" type="hidden" />
             <button type="submit" class="btn btn-success">搜索</button>
         </form>
