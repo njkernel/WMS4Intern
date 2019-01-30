@@ -74,7 +74,7 @@ class InRepertoryServiceImplTest {
 
     @Test
     void findOne() {
-        inRepertoryService.findOne(17);
+        log.info(inRepertoryMapper.getOne(135).toString());
     }
 
     @Test
