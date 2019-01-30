@@ -1,5 +1,6 @@
 package com.connext.wms.service.impl;
 
+import com.connext.wms.aop.MethodRunTime;
 import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
 import com.connext.wms.dao.OutRepertoryMapper;
@@ -83,6 +84,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
      * @return String
      */
     @Override
+    @MethodRunTime
     public String updateOutRepoOrderStatus(OutRepertory outRepertory, List<Integer> outRepoOrderId) {
         OutRepertoryExample outRepertoryExample = new OutRepertoryExample();
         outRepertoryExample.createCriteria().andIdIn(outRepoOrderId);
@@ -143,6 +145,7 @@ public class OutRepertoryServiceImp implements OutRepertoryService {
      * @param outRepoOrderNo
      */
     @Override
+    @MethodRunTime
     public void omsUpdateOutRepoOrderStatus(OutRepertory outRepertory, List<String> outRepoOrderNo) {
         OutRepertoryExample outRepertoryExample = new OutRepertoryExample();
         outRepertoryExample.createCriteria().andOutRepoIdIn(outRepoOrderNo);

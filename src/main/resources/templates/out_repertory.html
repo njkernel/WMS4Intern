@@ -10,16 +10,11 @@
     <script th:src="@{/js/popup/popup.js}"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/search.css}">
-    <script th:src="@{/js/repertory/outRepo.js}"></script>
-    <script type="text/javascript" th:inline="javascript">
-
-        function closeIFrame() {
-            $('#popup').css("display", "none");
-            $('#mask_shadow').css("display", "none");
-            var page=[[${page}]];
-            window.location.replace("../outRepoOrderController/toLoad?currPage=" + page.currPage);
-        }
+    <script th:inline="javascript">
+        var page=[[${page}]];
     </script>
+    <script th:src="@{/js/repertory/outRepo.js}"></script>
+
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow">
@@ -27,12 +22,12 @@
 <div class="btn-div">
     <button type="button" class="btn btn-primary action" id="waittingPackaged">检货</button>
     <button type="button" class="btn btn-primary action" id="waittingShipped">包装</button>
-    <button type="button" class="btn btn-primary action" id="haveShipped">发货</button>
+    <!--<button type="button" class="btn btn-primary action" id="haveShipped">发货</button>-->
     <button type="button" class="btn btn-primary cancel" id="haveCanceled">取消</button>
     <div class="search-box">
         <form th:action="@{/outRepoOrderController/unclearSelect}" method="post" name="frm">
             <select name="selectStatus" id="selectStatus">
-                <option></option>
+                <option value="">库单状态</option>
                 <option value="waittingChecked">待检货</option>
                 <option value="waittingPackaged">待包装</option>
                 <option value="waittingShipped">待发货</option>
@@ -40,7 +35,7 @@
                 <option value="haveCanceled">已取消</option>
             </select>
             <input type="text" id="outRepoOrderId" name="outRepoOrderId" autocomplete="off" th:value="${outRepoOrderId}" placeholder="请输入出库单号" />
-            <input type="hidden" id="saveStatusFromBack" th:value="${selectStatus}">
+            <input id="saveStatusFromBack" type="hidden" th:value="${selectStatus}">
             <input id="currPage" name="currPage" type="hidden" />
             <button type="submit" class="btn btn-success">搜索</button>
         </form>
@@ -80,10 +75,10 @@
             <td>
                 <button type="button" class="btn btn-default btn-xs" th:id="${p.id}">查看</button>
                 <t th:if="${p.outRepoStatus!='waittingShipped'}">
-                    <button type="button" class="btn btn-danger btn-xs" disabled="disabled" th:id="${p.id}">操作</button>
+                    <button type="button" class="btn btn-danger btn-xs" disabled="disabled" th:id="${p.id}">发货</button>
                 </t>
                 <t th:if="${p.outRepoStatus=='waittingShipped'}">
-                    <button type="button" class="btn btn-danger btn-xs" th:id="${p.id}">操作</button>
+                    <button type="button" class="btn btn-danger btn-xs" th:id="${p.id}">发货</button>
                 </t>
 
             </td>
@@ -135,7 +130,7 @@
         <span>x</span>
     </div>
     <div class="cont">
-        <iframe src="" scrolling="auto" id="iframeId"
+        <iframe src="" scrolling="auto" id="iframeId" name="iframeId"
                 style="width:100%;height:100%;border:0px;"></iframe>
     </div>
 </div>

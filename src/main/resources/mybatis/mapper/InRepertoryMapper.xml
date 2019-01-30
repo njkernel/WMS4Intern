@@ -17,6 +17,30 @@
             <arg column="revise_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
         </constructor>
     </resultMap>
+    <resultMap id="get_one_detail" type="com.connext.wms.entity.InRepertory">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="in_repo_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="channel_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="express_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="express_company" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="in_repo_status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="sync_status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="receiving_repo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="reviser" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="revise_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+        <collection property="repertoryDetails" ofType="com.connext.wms.entity.InRepertoryDetail" resultMap="detail" columnPrefix="detail_" />
+    </resultMap>
+    <resultMap id="detail" type="com.connext.wms.entity.InRepertoryDetail">
+        <id property="id" column="id"/>
+        <result property="inRepoId" column="in_repo_id"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="goodsNum" column="goods_num"/>
+    </resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -91,6 +115,29 @@
         reviser,
         revise_time
     </sql>
+    <select id="getOne" parameterType="java.lang.Integer" resultMap="get_one_detail">
+        SELECT t_in_repo.id,
+               t_in_repo.in_repo_id,
+               t_in_repo.order_id,
+               t_in_repo.channel_id,
+               t_in_repo.express_id,
+               t_in_repo.express_company,
+               t_in_repo.in_repo_status,
+               t_in_repo.sync_status,
+               t_in_repo.receiving_repo,
+               t_in_repo.create_time,
+               t_in_repo.reviser,
+               t_in_repo.revise_time,
+               t_in_repo_items.id as detail_id,
+               t_in_repo_items.in_repo_id as detail_in_repo_id,
+               t_in_repo_items.goods_id as detail_goods_id,
+               t_in_repo_items.goods_name as detail_goods_name,
+               t_in_repo_items.goods_num as detail_goods_num
+        FROM t_in_repo
+                 INNER JOIN t_in_repo_items ON t_in_repo.in_repo_id = t_in_repo_items.in_repo_id
+        WHERE t_in_repo.id = #{id}
+
+    </select>
     <select id="selectByExample" parameterType="com.connext.wms.entity.InRepertoryExample" resultMap="BaseResultMap">
         select
         <if test="distinct">

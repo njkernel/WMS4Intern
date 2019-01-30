@@ -63,6 +63,12 @@
 </head>
 <body style="overflow-x:hidden;background:#f3f3f3;">
 <div id="mask_shadow"></div>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        var now = [[${status}]]
+        $('#my_selcet').val(now)
+    });
+</script>
 <!--/*@thymesVar id="status" type="java.lang.String"*/-->
 <!--/*@thymesVar id="page" type="com.github.pagehelper.PageInfo"*/-->
 <div><!--/*@thymesVar id="obj" type="com.connext.wms.entity.InRepertory"*/-->
@@ -74,11 +80,9 @@
             <button type="button" value="fail" id="fail" class="btn btn-primary action">收货失败</button>
             <div class="search-box">
                 <form th:action="|/inRepertory/search/${status}/1|" method="get">
-                    <select name="" id="" onchange="list(this.options[this.selectedIndex].value)">
-                        <option value="" th:if="${status}==null"></option>
-                        <option value="" th:if="${status}!=null" th:text="#{''+${status}}"></option>
+                    <select name="my_selcet" id="my_selcet" onchange="list(this.options[this.selectedIndex].value)">
                         <option value="all">全部</option>
-                        <option value="wait">等待收货</option>
+                        <option value="wait">待收货</option>
                         <option value="success">收货成功</option>
                         <option value="fail">收货失败</option>
                         <option value="over">超15天未收货</option>
@@ -306,10 +310,10 @@
                     .then(function (response) {
                         if (response.data) {
                             alert("操作成功")
+                            window.location.reload(true)
                         } else {
                             alert("操作失败")
                         }
-                        window.location.reload(true)
                     })
                     .catch(function (error) {
                         console.log(error);
