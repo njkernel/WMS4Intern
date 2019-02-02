@@ -1,7 +1,9 @@
 package com.connext.wms.controller;
 
+import com.connext.wms.entity.Goods;
 import com.connext.wms.entity.RealRepertoryVO;
 import com.connext.wms.service.GoodsRepertoryService;
+import com.connext.wms.service.GoodsService;
 import com.connext.wms.service.RepertoryRegulationService;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class GoodsRepertoryController {
     @Autowired
     private RepertoryRegulationService repertoryRegulationService;
 
+    @Autowired
+    private GoodsService goodsService;
+
     /**
      * 分页查询商品库存
      *
@@ -51,6 +56,13 @@ public class GoodsRepertoryController {
     @RequestMapping("/synchronizeRepertory")
     public String synchronizeRepertory(Integer id) {
         return goodsRepertoryService.synchronizeRepertory(id);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getGoodsById")
+    public Goods getGoodsById(Integer id) {
+        Goods goods = goodsService.getGoodsById(id);
+        return goods;
     }
 
     /**
