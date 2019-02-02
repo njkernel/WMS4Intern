@@ -18,7 +18,7 @@ function checkConfirmed() {
             } else if (data == "error") {
                 alert("补货失败，补货数量应为正整数！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
-            }else if (data=="fail"){
+            } else if (data == "fail") {
                 alert("补货成功，同步失败，请手动同步！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
             }
@@ -41,6 +41,18 @@ $(function () {
     })
 })
 
+//显示需要编辑的商品的信息
+function getData(id) {
+    $.ajax({
+        url: "/goodsRepertory/getGoodsById?id=" + id,
+        type: "get",
+        dataType: "json",
+        success: function (goods) {
+            $('#firstname2').val(goods.goodsName);
+        }
+    })
+}
+
 //确认同步成功
 function confirmSyn() {
     var id = $('.goodsid').val();
@@ -59,7 +71,7 @@ function confirmSyn() {
             } else if (data == "error") {
                 alert("已为最新数据，无需同步！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
-            }else if (data =="fail"){
+            } else if (data == "fail") {
                 alert("同步失败！");
                 window.location.href = "/goodsRepertory/showRealRepertory?currPage=1";
             }
