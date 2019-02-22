@@ -48,7 +48,7 @@ public class ScheduledTasks {
     /**
      * 定时检查入库超时，每日凌晨4点，每10分钟检查一次
      */
-    @Scheduled(cron = "0 0/10 4 ? * *")
+    @Scheduled(cron = "0 0 4 ? * *")
     public void checkInRepertoryExpired() {
         List<InRepertory> inRepertories = inRepertoryService.checkInRepertoryExpired(inRepertoryService.findAllWait());
         //推送通知

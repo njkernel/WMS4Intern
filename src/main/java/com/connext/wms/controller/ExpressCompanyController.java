@@ -1,6 +1,7 @@
 package com.connext.wms.controller;
 
 import com.connext.wms.dao.ExpressCompanyMapper;
+import com.connext.wms.entity.ExpressCompany;
 import com.connext.wms.service.ExpressCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,8 +50,8 @@ public class ExpressCompanyController {
     //修改公司信息
     @RequestMapping("/Update")
     @ResponseBody
-    public Integer toUpdate(String newName,String expressCompanyName,String contactWay){
-        return expressCompanyService.updateByExample(newName, expressCompanyName, contactWay);
+    public Integer toUpdate(Integer id,String expressCompanyName,String contactWay){
+        return expressCompanyService.updateByExample(id,expressCompanyName,contactWay);
     }
 
     //添加一家公司
@@ -58,6 +59,14 @@ public class ExpressCompanyController {
     @ResponseBody
     public Integer toAdd(String expressCompanyName,String contactWay){
         return expressCompanyService.insert(expressCompanyName,contactWay);
+    }
+
+    //通过id查询对应的快递公司信息
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ExpressCompany findById(Integer id){
+        ExpressCompany expressCompany = expressCompanyService.findById(id);
+        return expressCompany;
     }
 
 

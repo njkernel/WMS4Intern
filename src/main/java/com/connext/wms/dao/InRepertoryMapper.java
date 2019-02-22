@@ -119,4 +119,12 @@ public interface InRepertoryMapper {
      */
     List<InRepertory> findAllLike(String status, String like);
 
+    /**
+     * get one
+     *
+     * @param id id
+     * @return one
+     */
+    InRepertory getOne(Integer id);
+
 }

@@ -17,5 +17,9 @@ pagehelper:
   rowBoundsWithCount: true
 
 
-
-
+logging:
+  level:
+    com:
+      connext:
+        wms:
+          dao: debug

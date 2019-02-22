@@ -50,7 +50,7 @@ public class TestYogurt {
 //    goodsMapper.insert(new Goods(2, "2", "2", 1F));
         // GoodsExample goodsExample = new GoodsExample();
         //System.out.println(goodsMapper.countByExample(goodsExample));
-         //repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
+        //repertoryRegulationService.deliveryGoodsBeforeDelivery(2,4);
         //repertoryRegulationService.cancelDelivery(1,2);
         //  repertoryRegulationService.deliveryGoodsAfterDelivery(1,1);
         //repertoryRegulationService.rejectedGoodsSuccess(1,1);
@@ -67,14 +67,14 @@ public class TestYogurt {
         }*/
         //goodsRepertoryService.updateGoodsRepertory();
         //System.out.println();
-        System.out.println(goodsMapper.selectByPrimaryKey(1).getGoodsName()+"01");
+        System.out.println(goodsMapper.selectByPrimaryKey(1).getGoodsName() + "01");
         //repertoryRegulationService.deliveryGoodsBeforeDelivery(9,40);
     }
 
     @Test
     public void getOne() {
         //System.out.println(goodsMapper.selectByExample(new GoodsExample()));
-        System.out.println(new Double(Math.ceil(15/(double)PAGE_SIZE)).longValue());
+        System.out.println(new Double(Math.ceil(15 / (double) PAGE_SIZE)).longValue());
         //System.out.println(goodsService.getGoodsBySku("00001"));
         //List<CodeTotalStockDTO> list = goodsRepertoryMapper.getCodeTotalStockDTO();
         //System.out.println(list.toString());
@@ -94,11 +94,11 @@ public class TestYogurt {
             Integer realTotalRepertory = goodsRepertoryList.get(i).getTotalNum() + repertoryRegulation.getTotalResult();
             System.out.println(realTotalRepertory);
         }*/
-      //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
+        //  repertoryRegulationService.deliveryGoodsBeforeDelivery(2,50);
 
-       // repertoryRegulationService.replenishRepertory(2,100);
+        // repertoryRegulationService.replenishRepertory(2,100);
         //List<RealRepertoryVO> list = goodsRepertoryService.getGoodsRepertoryByGoodsName(0,2,"王中王");
-       // System.out.println(list.toString());
+        // System.out.println(list.toString());
         GoodsExample example = new GoodsExample();
         System.out.println(goodsMapper.countByExample(example));
 

@@ -46,7 +46,7 @@
             <td th:text="${p.realTotalRepertory}"></td>
             <td class="operation">
                 <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal"
-                        class="btn btn-success btn-xs">补货
+                        class="btn btn-success btn-xs" th:onclick="|getData(${p.id})|">补货
                 </button>
                 <button type="button" data-toggle="modal" th:id="${p.id}" data-target="#demoModal2"
                         class="btn btn-success btn-xs">同步
@@ -70,9 +70,15 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">补货</h4>
             </div>
+            <form class="form-horizontal add" role="form">
+                <div class="modal-body">
 
-            <div class="modal-body">
-                <form class="form-horizontal add" role="form">
+                    <div class="form-group ">
+                        <label for="firstname2" class="col-sm-2 control-label">商品名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="firstname2" class="form-control" id="firstname2" readonly>
+                        </div>
+                    </div>
                     <div class="form-group ">
                         <label for="firstname" class="col-sm-2 control-label">补货数量</label>
                         <div class="col-sm-10">
@@ -83,16 +89,16 @@
                                    placeholder="请输入补货数量"/>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary save" data-dismiss="modal" id="confirm"
-                        th:onclick="'javascript:checkConfirmed()'">确定
-                </button>
-            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary save" data-dismiss="modal" id="confirm"
+                    th:onclick="'javascript:checkConfirmed()'">确定
+            </button>
         </div>
     </div>
+</div>
 </div>
 <div class="modal fade" id="demoModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
      aria-hidden="true">
