@@ -1,5 +1,6 @@
 package com.connext.wms.api;
 
+import com.connext.wms.aop.MethodRunTime;
 import com.connext.wms.api.dto.OutRepoOrderDetailDto;
 import com.connext.wms.dao.GoodsMapper;
 import com.connext.wms.dao.OutRepertoryDetailMapper;
@@ -56,6 +57,7 @@ public class ApplicationProgrameInterface {
     @PostMapping(value = "/pushOutRepoOrder", produces = "text/json;charset=UTF-8")
     @ResponseBody
     @NeedToken
+    @MethodRunTime
     public String pushOutRepoOrder(
             @RequestParam(required = true) String outRepoId,
             @RequestParam(required = true) String orderId,
@@ -111,12 +113,12 @@ public class ApplicationProgrameInterface {
         return this.outRepertoryService.outRepoOrderInfo(outRepoOrderNo).getOutRepoStatus();
     }
 
-    @PostMapping(value = "/test")
+    /*@PostMapping(value = "/test")
     @ResponseBody
     public String test(@RequestBody Map map) {
         System.out.println(map);
         return "200";
-    }
+    }*/
 
 
     /**
@@ -125,19 +127,14 @@ public class ApplicationProgrameInterface {
      * @param map
      * @return
      */
-    @PostMapping("/getToken")
+    @PostMapping(value = "/getToken")
     @ResponseBody
+    @MethodRunTime
     public String getToken(@RequestBody Map map) {
         String token = tokenService.getToken((String) map.get("omsname"), (String) map.get("password"));
         return token;
     }
 
-    @NeedToken
-    @RequestMapping("/testToken")
-    @ResponseBody
-    public String testToken(String param) {
-        return "ojbk";
-    }
 
 
     /**
